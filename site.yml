@@ -1,0 +1,27 @@
+- name: Handson As a Service Playbook
+  hosts: localhost
+  gather_facts: no
+
+  become: true
+  become_user: root
+
+  pre_tasks:
+    - name: Pre task ... Set IP address
+      replace: dest={{ item }}
+        regexp='HOSTADDR|([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})'
+        replace="{{ ip }}"
+      with_items:
+        - "/root/ansible_lesson/roles/lesson1/files/dockerfile/create_proxy.sh"
+        - "/root/ansible_lesson/roles/lesson2/files/dockerfile/create_proxy.sh"
+        - "/root/ansible_lesson/roles/lesson1/files/lesson1_files/tools/setup.sh"
+        - "/root/ansible_lesson/roles/lesson2/files/lesson2_files/tools/setup.sh"
+      when: ip is defined
+
+  # when "web_console" is true(default false) ,
+  # this playbook run the wetty container for each user.
+
+  roles: 
+    - { role: ansible-1, when: "lesson == 'ansible-1'" }
+#    - { role: ansible-2, when: "lesson == 'ansible-2'" }
+    - { role: destroy, when: "lesson == 'destroy'" }
+#    - { role: serverspec-1, when: "lesson == 'serverspec-1'" }
