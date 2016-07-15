@@ -1,0 +1,50 @@
+ http://www.ark-web.jp/sandbox/wiki/178.html
+ http://d.hatena.ne.jp/higepon/20050816/1124188529
+ http://detail.chiebukuro.yahoo.co.jp/qa/question_detail/q1249406967
+ http://oshiete.goo.ne.jp/qa/3433494.html
+
+画面はjQuery で作って置いて、スクリプトとしてPerlを走らせて、非同期でテーブルを表示させればok！？
+
+- 管理者ページを別途作っておく（READオンリー）
+
+- GUIから入力
+  name , lesson type
+  Top ページには使われているユーザIDが出てくる（なん分まで使われているか）
+  <Table>
+  |Name    | Lesson   | Start          | End           |
+  |Takeshi<LINKになっていてOutput情報に飛ぶ> | Ansible1 | 2017/1/1/17:00 | 2017/1/1/18:00|
+ 
+  利用者カウント 
+
+  - CGIにて
+    if 既に情報が登録されていれば、エラー画面（そのユーザは使われている旨） で終了
+    else 使われていなかったら
+      port , htty , ttty をGenerate
+      DBに登録
+      その情報をもってAnsibleを実行
+        -----------------
+        ansible -i hosts(localhost) site.yml -e "username=$name , type=$lesson , port=$port , htty=$htty , ttty=$tty"
+        # username = < username >
+        # type = ansible1 , ansible2 , serverspec1 , ...
+        -----------------
+      CGI中にそのユーザ用の情報ページを作成する
+
+      実行の後はOutput画面に繊維
+
+	- Output
+  
+	  http://< Handson's IP Address >:< Host Port >/wetty/ssh/root
+	  http://< Handson's IP Address >:< Target Port >/wetty/ssh/root
+	  After 30min , this equipment is destroyed
+	  # Ansible Playbook の at moduleでそれを定義するので消える
+	  Reference: *****
+
+at daemon により Perlスクリプトが 
+   環境削除 Ansible (コンテナsの削除）
+   個別にできたHTMLは削除 Ansible file absent
+   事前にHashDB保存 Perl cp db.dat savedb.dat(どのくらい参加してるかなどはこっちのDBを利用してをみる）
+   DBからの削除 Perl 
+
+
+
+
