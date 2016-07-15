@@ -1,0 +1,7 @@
+- include: users.yml
+  vars:
+    user: "{{ userid }}"
+    port: "{{ blog }}"
+    htty: "{{ htty }}"
+    ttty: "{{ ttty }}"
+
