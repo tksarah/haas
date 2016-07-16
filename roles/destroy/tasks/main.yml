@@ -1,3 +1,5 @@
+- at: command="curl -F \'name={{ userid }}\' \"http://192.168.0.154/cgi-bin/delete.cgi?\" >& /dev/null" state="absent"
+
 - include: del.yml
   with_items:
     - "{{ t1name }}"
@@ -8,4 +10,3 @@
     - "{{ st1name }}"
     - "{{ wettyhost }}"
   
-- at: command="curl -F \'name={{ userid }}\' \"http://192.168.0.154/cgi-bin/delete.cgi?\" >& /dev/null" state="absent"
