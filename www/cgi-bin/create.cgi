@@ -8,6 +8,7 @@ use vars qw( %h $k $v );
 
 
 # Get values
+my $url = get_value('url');
 my $form = CGI->new;
 my $id = $form->param('name');
 my $type = $form->param('type');
@@ -61,11 +62,6 @@ my $port = "$blog,$htty,$ttty";
 # Make string
 my $string = "$type,$btime,$atime,$port";
 
-## Run ansible
-# ansible-playbook -i hosts -e "lesson=ansible-1 userid=tie304410 port=8080 htty=3001 ttty=3002" site.yml
-## Crear
-# ansible-playbook -i hosts -e "lesson=destroy userid=tie304410" site.yml
-
 # Run Playbook
 system("ansible-playbook -i $playhome/hosts -e \"lesson=$type userid=$id port=$blog htty=$htty ttty=$ttty\" $playhome/site.yml >& /dev/null &");
 
@@ -73,47 +69,20 @@ system("ansible-playbook -i $playhome/hosts -e \"lesson=$type userid=$id port=$b
 $h{"$id"} = $string;
 
 # Main
-print <<HEADER;
-Content-type: text/html
+header("$url");
+print "ハンズオン環境を作成しました。<p>\n";
+print "以下の情報を元にハンズオンを始めてください。なお、この環境は<font color=\"red\"><b>６０分後に自動的に削除</b></font>されますのでそれまでに実施してください。\n";
 
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="html://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
- <head>
-  <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8"/>
-  <title>Handson as a Service</title>
-  <base href="http://192.168.166.210/"/>
-  <link rel="stylesheet" type="text/css" href="default.css"/>
- </head>
+handsref($url,$type,$blog,$htty,$ttty,$atime);
 
-<body>
+print "<br>完了したら以下の「 終了 」ボタンを押してください。環境がクリアされます。<br>";
+print "<form action=\"./cgi-bin/delete.cgi\" method=\"post\"><input type=\"hidden\" name=\"name\" value=\"$id\"><input type=\"submit\" value=\"終了\"></form>\n";
+print "<p><font color=\"red\">（※）</font>ご自身のハンズオン環境の情報はTopページの「 <b>現在の利用状況</b>  」テーブルから自身の社員番号をクリックすることでも確認できます。";
+print "<a href=\"http://$url/cgi-bin/index.cgi\"><b>[ Top ]</b></a>\n";
 
-<div id="header">
-  <h2>Handson as a Service</h2>
-</div>
 
-<div id="content">
-HEADER
-
-print "Create\n";
-userlist(%h);
 untie %h;
+footer();
 
-print <<FOOTER;
-</div>
-
-<div id="footer">
-  <em>
-  <font size="2" color="#508090">
-  COPYRIGHT(C) 2016 「Hands on as a Service」 version 0.1<BR>
-  ALL RIGHTS RESERVED<BR>
-  Author:TK<BR>
-  </FONT>
-  </em>
-</div>
-
-</body>
-</html>
-FOOTER
 
 exit (0);

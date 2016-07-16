@@ -1,31 +1,6 @@
-- name:  remove ansible target container "{{ t1name }}"
+- name:  remove ansible target container "{{ item }}"
   docker_container:
-    name: "{{ t1name }}"
-    image: tksarah/lesson_ansible_target_pkged
-    state: absent
-
-- name: remove ansible host container "{{ h1name }}"
-  docker_container:
-    name: "{{ h1name }}"
-    image: "tksarah/lesson1_ansible_host"
-    state: absent
-
-- name:  remove ansible target container "{{ t2name }}"
-  docker_container:
-    name: "{{ t2name }}"
-    image: tksarah/lesson_ansible_target_pkged
-    state: absent
-
-- name: remove ansible host container "{{ h2name }}"
-  docker_container:
-    name: "{{ h2name }}"
-    image: "tksarah/lesson2_ansible_host"
-    state: absent
-
-- name: remove wetty container for "{{ user }}"
-  docker_container:
-    name: "{{ wettyhost }}"
-    image: "tksarah/lesson_wetty"
+    name: "{{ item }}"
     state: absent
 
 - name: Delete "{{ user }}" user

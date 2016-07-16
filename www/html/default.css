@@ -248,9 +248,11 @@ dl#globalnav dt{
  font-family:AmerType Md BT,Times New Roman,Comic Sans MS,ARIAL;
 }
 dl#globalnav dd{ 
- font-size:10pt;
+ font-size:14pt;
+ font-weight:bold;
  margin:2px 5px;
- padding-left:20px;
- background: url(./img/midomaru.jpg) no-repeat top left;
+ padding-bottom:10px;
+ padding-left:10px;
+ /*background: url(./img/midomaru.jpg) no-repeat top left;*/
 }
 

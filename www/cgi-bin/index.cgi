@@ -7,7 +7,7 @@ use BerkeleyDB;
 use vars qw( %h $k $v );
 
 my $filename = "db.dat";
-my @list;
+my $url = get_value('url');
 
 # DB Initialize file
 tie %h, "BerkeleyDB::Hash",
@@ -17,28 +17,14 @@ tie %h, "BerkeleyDB::Hash",
 
 
 # Main
-print <<HEADER;
-Content-type: text/html
+header("$url");
 
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="html://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
- <head>
-  <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8"/>
-  <title>Handson as a Service</title>
-  <base href="http://192.168.166.210/"/>
-  <link rel="stylesheet" type="text/css" href="default.css"/>
- </head>
+# Registration List
+userlist(%h);
 
-<body>
 
-<div id="header">
-  <h2>Handson as a Service</h2>
-</div>
-
-<div id="content">
-HEADER
-
+print "<br>\n";
+print "<div id=\"content\">\n";
 print "<h3>利用方法</h3>";
 print "<ul id=\"list\">\n";
 print "<li>■ <b>社員番号を入力</b>します</li>\n";
@@ -48,37 +34,26 @@ print "<li>■ ハンズオンの環境の情報ページに沿って<b>環境�
 print "<li>■ ハンズオン実施の工数は<u>各部の教育工数としてカウント</u>されるようトレースされます</li>\n";
 print "</ul>\n";
 
+print "<h4>前提および、保持スキル</h4>";
+print "<ul id=\"list\">\n";
+print "<li>■ 社内で開催している<b>「 Ansible or Serverspec の概要編 」</b>を受講済み、または同等の知識を保持</li>\n";
+print "<li>■ Unix/Linuxオペレーション1年以上の経験、またはLPIC Level 1 同等以上の知識を保持</li>\n";
+print "<li>■ 最低限、viによるファイル編集、基本的なUnix/Linuxオペレーション、公開鍵認証の基本を保持</li>\n";
+print "</ul>\n";
+
 print "<h4>注意と制限</h4>";
 print "<ul id=\"list\">\n";
 print "<li>■ ハンズオンの環境は<font color=red><b>60分</b></font>で自動的に削除されます</li>\n";
 print "<li>■ 同じ社員が同時に2つ以上のハンズオンを実行できません</li>\n";
 print "<li>■ <font color=red>10社員</font>までが同時に本サービスを利用可能です</li>\n";
 print "</ul>\n";
+print "</div>\n";
 
-if (keys %h == 10){
-	userlist(%h);
-}else{
-	input_form();
-	userlist(%h);
-}
+# Registration
+if (keys %h < 10){ input_form(); }
 
 untie %h;
 
-print <<FOOTER;
-</div>
-
-<div id="footer">
-  <em>
-  <font size="2" color="#508090">
-  COPYRIGHT(C) 2016 「Hands on as a Service」 version 0.1<BR>
-  ALL RIGHTS RESERVED<BR>
-  Author:TK<BR>
-  </FONT>
-  </em>
-</div>
-
-</body>
-</html>
-FOOTER
+footer();
 
 exit(0);
