@@ -1,0 +1,7 @@
+- name:  remove ansible target container "{{ item }}"
+  docker_container:
+    name: "{{ item }}"
+    state: absent
+
+- name: Delete "{{ user }}" user
+  user: name="{{ user }}" state=absent remove=yes
