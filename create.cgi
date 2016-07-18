@@ -13,7 +13,7 @@ my $id = $form->param('name');
 my $type = $form->param('type');
 
 # Get values
-my $url = get_value('url');
+my $host = get_value('host');
 my $playhome = get_value('playhome');
 my $inventory = get_value('inventory');
 my $inventoryfile = "$playhome/$inventory";
@@ -31,13 +31,13 @@ tie %h, "BerkeleyDB::Hash",
 #$id =~ s/[\s]+//g;
 # Check name,type exists/name duplicated
 if( $id eq "" || $id !~ /^[\w]+$/ ){
-	error_page(1);
+	error_page(1,$host);
         exit(0);
 }elsif($type eq ""){
-	error_page(2);
+	error_page(2,$host);
         exit(0);
 }elsif($h{$id}){
-	error_page(3);
+	error_page(3,$host);
         exit(0);
 }
 
@@ -76,17 +76,17 @@ $h{"$id"} = $string;
 untie %h;
 
 ### OUTPUT HTML ###
-header("$url");
+header("$host");
 print "ハンズオン環境を作成しました。<p>\n";
 print "以下の情報を元にハンズオンを始めてください。なお、この環境は<font color=\"red\"><b>６０分後に自動的に削除</b></font>されますのでそれまでに実施してください。\n";
 
-handsref($url,$type,$blog,$htty,$ttty,$atime,$id);
+handsref($host,$type,$blog,$htty,$ttty,$atime,$id);
 
 print "<br>完了したら以下の「 終了 」ボタンを押してください。環境がクリアされます。<br>";
 print "<form action=\"./cgi-bin/delete.cgi\" method=\"post\"><input type=\"hidden\" name=\"name\" value=\"$id\"><input id=\"button\" type=\"submit\" value=\"終了\"></form>\n";
 print "<br><br>\n";
 print "<font color=\"red\">（※ </font>>ご自身のハンズオン環境の情報はTopページの”<b>現在の利用状況”</b>テーブルから自身の社員番号をクリックすることでも確認できます。";
-print "<a href=\"http://$url/cgi-bin/index.cgi\"><b>[ Top ]</b></a>\n";
+print "<a href=\"http://$host/cgi-bin/index.cgi\"><b>[ Top ]</b></a>\n";
 footer();
 
 

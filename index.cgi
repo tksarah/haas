@@ -7,7 +7,7 @@ use BerkeleyDB;
 use vars qw( %h $k $v );
 
 # Get values
-my $url = get_value('url');
+my $host = get_value('host');
 my $dbfilename = get_value('dbfilename');
 
 # DB Initialize file
@@ -18,7 +18,7 @@ tie %h, "BerkeleyDB::Hash",
 
 
 ### OUTPUT HTML ###
-header("$url");
+header("$host");
 
 # Output usage
 usage();

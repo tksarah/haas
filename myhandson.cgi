@@ -11,7 +11,7 @@ my $form = CGI->new;
 my $id = $form->param('name');
 
 # Get values
-my $url = get_value('url');
+my $host = get_value('host');
 my $dbfilename = get_value('dbfilename');
 my @list;
 
@@ -25,8 +25,8 @@ tie %h, "BerkeleyDB::Hash",
 untie %h;
 
 ### OUTPUT HTML ###
-header("$url");
-handsref($url,$list[0],$list[3],$list[4],$list[5],$list[2],$id);
+header("$host");
+handsref($host,$list[0],$list[3],$list[4],$list[5],$list[2],$id);
 print "<br>完了したら以下の「 終了 」ボタンを押してください。環境がクリアされます。";
 print "<center><form action=\"./cgi-bin/delete.cgi\" method=\"post\"><input type=\"hidden\" name=\"name\" value=\"$id\"><input id=\"button\" type=\"submit\" value=\"終了\"></form></center>\n";
 footer();

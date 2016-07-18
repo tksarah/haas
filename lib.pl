@@ -250,8 +250,9 @@ sub logging{
 sub error_page{
 	
 	my $flag = shift;
+	my $host = shift;
 	my $msg;
-	my $url = "http://192.168.0.154/cgi-bin/index.cgi";
+	my $url = "http://$host/cgi-bin/index.cgi";
 
 # Login Fail
 if($flag == '1'){

@@ -11,7 +11,7 @@ my $form = CGI->new;
 my $id = $form->param('name');
 
 # Get values
-my $url = get_value('url');
+my $host = get_value('host');
 my $playhome = get_value('playhome');
 my $inventory = get_value('inventory');
 my $inventoryfile = "$playhome/$inventory";
@@ -29,7 +29,7 @@ tie %h, "BerkeleyDB::Hash",
 
 # Check HTTP
 my @list = split(/,/,$h{$id});
-my $status = check_http($url,$list[3]);
+my $status = check_http($host,$list[3]);
 # Logging
 logging($id,@list,$status,$logfile);
 
@@ -41,7 +41,7 @@ destroy($id,$inventoryfile,$playbookfile);
 untie %h;
 
 ### OUTPUT HTML ###
-header("$url");
+header("$host");
 print "お疲れ様でした。\n";
 footer();
 
