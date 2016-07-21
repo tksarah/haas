@@ -35,7 +35,6 @@ Expires: Thu, 01 Dec 1994 16:00:00 GMT
 <center>
 <hr>
 <font color="red">=== 試験稼働中 ===</font></p>
-不具合はこちらまで <b>IT推倉持（kuramochi.takeshi\@tis.co.jp）</b><p>
 <hr>
 </center>
 HEADER
