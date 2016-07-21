@@ -7,12 +7,19 @@ sub header{
 
 print <<HEADER;
 Content-type: text/html
+Pragma: no-cache
+Cache-Control: no-cache
+Cache-Control: post-check=0, pre-check=0
+Expires: Thu, 01 Dec 1994 16:00:00 GMT
+
 
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="html://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
  <head>
   <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8"/>
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <title>Handson as a Service</title>
   <base href="http://$hostaddr/"/>
   <link rel="stylesheet" type="text/css" href="default.css"/>
@@ -25,6 +32,12 @@ Content-type: text/html
 </div>
 
 <div id="content">
+<center>
+<hr>
+<font color="red">=== 試験稼働中 ===</font></p>
+不具合はこちらまで <b>IT推倉持（kuramochi.takeshi\@tis.co.jp）</b><p>
+<hr>
+</center>
 HEADER
 
 }
@@ -55,6 +68,16 @@ FOOTER
 sub usage{
 
 print <<USAGE;
+<b>Update</b>
+<ul style="list-style:none;">
+ <li><b>（2016/7/21）</b> Serverspec ハンズオンのテキストを更新しました。</li>
+ <li><b>（2016/7/19）</b> 試験稼働版リリース</li>
+</ul>
+<b>Known Issues</b>
+<ul style="list-style:none;">
+ <li><b>（2016/7/19）</b>はじめのWebConsoleの表示に時間がかかる場合があります、プロンプトが戻るまで数十秒程度待ってください。</li>
+</ul>
+<hr>
 <div id="content">
 こちらは、社員が自らのタイミングでセルフスタディできるようにしたハンズオンサービスです。現在は、AnsibleやServerspecの基礎を学べます。<p>
 <p><font color="red">良く読んでから実施してください。</font>
@@ -347,6 +370,56 @@ sub check_http{
         }
 
 }
+
+### Log Page
+sub log_page{
+	
+	my $logfile = get_value('logfile');
+	my $log = `cat $logfile`;
+	my $rec;
+	my $ucnt;
+	my $urec;
+	my $id;
+	my @ids;
+	my $type;
+	my @types;
+
+        open(R,"<$logfile");
+	while (<R>) {
+		$id = (split/,/,$_)[0];
+		$type = (split/,/,$_)[1];
+		$rec = "$id:$type";
+		push(@ids,$id);
+		push(@id_type,$rec);
+	}
+	close(R);
+	
+	$ucnt = uniq_func(@ids);
+	$urec = uniq_func(@id_type);
+
+
+print <<OUTPUT;
+
+<h3>簡易集計</h3><br>
+ユニークユーザ数・・・<b>$ucnt</b><br>
+ユニークトレーニング数・・・<b>$urec</b></p>
+
+<h3>ログ</h3><br>
+<pre>
+$log
+</pre>
+
+OUTPUT
+}
+
+sub uniq_func{
+	my @src = @_;
+	my %hash;
+
+	@hash{@src} = ();
+	return keys %hash;
+}
+
 1;
 
 
