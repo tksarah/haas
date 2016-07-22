@@ -26,12 +26,14 @@ tie %h, "BerkeleyDB::Hash",
         -Flags    => DB_CREATE
     or die "Cannot open file $dbfilename: $! $BerkeleyDB::Error\n";
 
+# Get time
+my $time = `TIMEZONE=Tokyo/Asia /bin/date '+%Y/%m/%d %H:%M:%S'`; chomp $time;
 
 # Check HTTP
 my @list = split(/,/,$h{$id});
 my $status = check_http($host,$list[3]);
 # Logging
-logging($id,@list,$status,$logfile);
+logging($id,@list,$status,$time,$logfile);
 
 # K/V Delete 
 delete $h{$id};
