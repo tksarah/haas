@@ -397,18 +397,31 @@ sub log_page{
 	$urec = uniq_func(@id_type);
 
 
-print <<OUTPUT;
+# OUTPUT
+print "<h3>簡易集計</h3><br>\n";
+print "ユニークユーザ数・・・<b>$ucnt</b><br>\n";
+print "ユニークトレーニング数・・・<b>$urec</b></p>\n";
 
-<h3>簡易集計</h3><br>
-ユニークユーザ数・・・<b>$ucnt</b><br>
-ユニークトレーニング数・・・<b>$urec</b></p>
+print "<h3>ログ</h3><br>\n";
+print "<table>\n";
+print "<tr><th>ID</th><th>Type</th><th>Start</th><th>End</th><th>Blog</th><th>Htty</th><th>Ttty</th><th>Status</th><th>Finish</th></tr>\n";
 
-<h3>ログ</h3><br>
-<pre>
-$log
-</pre>
+open(R,"<$logfile");
+while (<R>) {
+	print "<tr>";
 
-OUTPUT
+	my @cols = split(/,/,$_);
+	foreach $x (@cols){
+		print "<td>$x</td>";
+	}
+
+	print "</tr>\n";
+}
+close(R);
+
+print "</table>\n";
+print "</p>\n";
+
 }
 
 sub uniq_func{

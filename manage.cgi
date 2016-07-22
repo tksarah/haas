@@ -16,13 +16,28 @@ tie %h, "BerkeleyDB::Hash",
         -Flags    => DB_CREATE
     or die "Cannot open file $dbfilename: $! $BerkeleyDB::Error\n";
 
-untie %h;
-
 ### OUTPUT HTML ###
 header("$host");
 
 # Registration List
-userlist(%h);
+print "<h3>利用状況</h3><br>";
+print "<table>\n";
+print "<tr><th>User name</th><th>Lesson</th><th>Start time</th><th>End time</th><th>Destroy</th></tr>\n";
+
+while (($k, $v) = each %h) {
+	my @list = split(/,/,$v);
+	print "<tr>";
+	print "<td><a href=\"./cgi-bin/myhandson.cgi?name=$k\">$k</a></td>";
+	print "<td>$list[0]</td>";
+	print "<td>$list[1]</td>";
+	print "<td>$list[2]</td>";
+	print "<td><form action=\"./cgi-bin/delete.cgi\" method=\"post\"><input type=\"hidden\" name=\"name\" value=\"$k\"><input type=\"submit\" value=\"Destroy\"></form></td>";
+	print "</tr>\n";
+	}
+
+print "</table>\n";
+print "</p>\n";
+untie %h;
 
 # out logfile
 log_page();
