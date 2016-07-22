@@ -418,7 +418,6 @@ while (<R>) {
 	print "</tr>\n";
 }
 close(R);
-
 print "</table>\n";
 print "</p>\n";
 
