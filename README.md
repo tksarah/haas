@@ -2,6 +2,7 @@
 
 ## Setup Memo
 * CentOS 7.X x86_64
+* Install git screen 
 * Install Ansible( 2.1< ) , Docker( 1.11< ) , Zeppelin( 0.6< )
 * Perl
   * perl-berkeleydb perl-CGI httpd perl-DateTime-Format-Strptime perl-DateTime
