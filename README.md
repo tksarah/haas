@@ -4,7 +4,7 @@
 * CentOS 7.X x86_64
 * Install Ansible( 2.1< ) , Docker( 1.11< ) , Zeppelin( 0.6< )
 * Perl
-** perl-berkeleydb perl-CGI httpd perl-DateTime-Format-Strptime perl-DateTime
+  * perl-berkeleydb perl-CGI httpd perl-DateTime-Format-Strptime perl-DateTime
 * Disable SELinux
 * Set Timezone Asia/Tokyo
 * Useradd apache
@@ -14,7 +14,7 @@
 %apache ALL=(ALL)       NOPASSWD: ALL
 Defaults:apache !requiretty
 ```
-* git clone <this repository>
+* git clone "this repo"
 * put /var/www/{cgi-bin,html}
 * chown -R apache.apache /var/www/
 
