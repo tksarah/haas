@@ -2,7 +2,9 @@
 
 require './lib.pl';
 # yum install perl-DateTime
-use DateTime;
+# yum install perl-DateTime-Format-Strptime
+#use DateTime;
+#use DateTime::Format::Strptime;
 use strict ;
 use CGI;
 use BerkeleyDB;
@@ -55,7 +57,7 @@ print "$atq_out";
 
 # out docker
 my $docker_out = `docker ps -a`;
-print "<h3>docker list</h3><br>";
+print "<h3>container list</h3><br>";
 print "$docker_out";
 
 footer();

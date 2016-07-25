@@ -3,6 +3,8 @@
 require './lib.pl';
 use strict ;
 use CGI;
+use DateTime;
+use DateTime::Format::Strptime;
 use BerkeleyDB;
 use vars qw( %h $k $v );
 
@@ -26,14 +28,20 @@ tie %h, "BerkeleyDB::Hash",
         -Flags    => DB_CREATE
     or die "Cannot open file $dbfilename: $! $BerkeleyDB::Error\n";
 
-# Get time
-my $time = `TIMEZONE=Tokyo/Asia /bin/date '+%Y/%m/%d %H:%M:%S'`; chomp $time;
+my @list = split(/,/,$h{$id});
+
+# Get Delete time
+my $now = DateTime->now(time_zone => 'Asia/Tokyo');
+# Get Start time from db
+my $strp = DateTime::Format::Strptime->new( pattern => '%Y-%m-%dT%H:%M:%S' );
+my $dts = $strp->parse_datetime($list[1]);
+# Start time - Delete time
+my $dur = $dts->delta_ms($now);
 
 # Check HTTP
-my @list = split(/,/,$h{$id});
 my $status = check_http($host,$list[3]);
 # Logging
-logging($id,@list,$status,$time,$logfile);
+logging($id,@list,$status,$now,$dur->in_units('minutes'),$logfile);
 
 # K/V Delete 
 delete $h{$id};

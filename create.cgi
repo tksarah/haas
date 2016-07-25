@@ -3,6 +3,7 @@
 require './lib.pl';
 use strict ;
 use CGI;
+use DateTime;
 use BerkeleyDB;
 use vars qw( %h $k $v );
 
@@ -13,6 +14,7 @@ my $id = $form->param('name');
 my $type = $form->param('type');
 
 # Get values
+my $limit = get_value('limit');
 my $host = get_value('host');
 my $playhome = get_value('playhome');
 my $inventory = get_value('inventory');
@@ -42,8 +44,9 @@ if( $id eq "" || $id !~ /^[\w]+$/ ){
 }
 
 # Get time
-my $btime = `TIMEZONE=Tokyo/Asia /bin/date '+%Y/%m/%d %H:%M:%S'`; chomp $btime;
-my $atime = `TIMEZONE=Tokyo/Asia /bin/date '+%Y/%m/%d %H:%M:%S' -d '60 min'`; chomp $atime;
+my $dts = DateTime->now(time_zone => 'Asia/Tokyo');
+my $dte = $dts->clone;
+$dte->add(minutes => $limit);
 
 # Create ports
 my $num = keys %h;
@@ -64,7 +67,7 @@ if(!$ret){
 my $port = "$blog,$htty,$ttty";
 
 # Make string
-my $string = "$type,$btime,$atime,$port";
+my $string = "$type,$dts,$dte,$port";
 
 # Run Playbook
 create($id,$type,$blog,$htty,$ttty,$inventoryfile,$playbookfile);
@@ -80,7 +83,7 @@ header("$host");
 print "ハンズオン環境を作成しました。<p>\n";
 print "以下の情報を元にハンズオンを始めてください。なお、この環境は<font color=\"red\"><b>６０分後に自動的に削除</b></font>されますのでそれまでに実施してください。\n";
 
-handsref($host,$type,$blog,$htty,$ttty,$atime,$id);
+handsref($host,$type,$blog,$htty,$ttty,$dte,$id);
 
 print "<br>完了したら以下の「 終了 」ボタンを押してください。環境がクリアされます。<br>";
 print "<form action=\"./cgi-bin/delete.cgi\" method=\"post\"><input type=\"hidden\" name=\"name\" value=\"$id\"><input id=\"button\" type=\"submit\" value=\"終了\"></form>\n";

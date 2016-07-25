@@ -1,0 +1,26 @@
+
+# yum install perl-DateTime
+# yum install perl-DateTime-Format-Strptime
+use DateTime;
+use DateTime::Format::Strptime;
+
+
+
+#### Test
+print "<h3>Test</h3><br>";
+#my $dts = DateTime->now(time_zone => 'Asia/Tokyo');
+#my $dte = $dts->clone;
+#$dte->add(minutes => 49);
+my $dts = "2016-07-25T14:40:19";
+my $dte = "2016-07-25T14:42:19";
+
+my $strp = DateTime::Format::Strptime->new( pattern => '%Y-%m-%dT%H:%M:%S' );
+$dts = $strp->parse_datetime($dts);
+$dte = $strp->parse_datetime($dte);
+
+print "dt-before = $dts<br>\n";
+print "dt-after = $dte<br>\n";
+
+my $dur = $dts->delta_ms($dte);
+print $dur->in_units('minutes');
+
