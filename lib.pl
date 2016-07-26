@@ -193,13 +193,13 @@ sub destroy{
 sub input_form{
         print "<h3>利用開始</h3>";
         print "<form action=\"./cgi-bin/create.cgi\" method=\"post\"><p>";
-        print "<b>社員番号を入力してください。（例：tie123456）</b><p>\n";
+        print "<b>社員番号を入力してください。（例：123456）</b><p>\n";
         print "<input type=\"text\" name=\"name\" size=\"10\"><p>\n";
         print "<b>ハンズオンの種類を選択してください。</b>";
-	print "<ol>\n";
-        print "<li><input type=\"radio\" name=\"type\" value=\"ansible-1\">Ansible 初級編</li>\n";
-        print "<li><input type=\"radio\" name=\"type\" value=\"ansible-2\">Ansible 中級編</li>\n";
-        print "<li><input type=\"radio\" name=\"type\" value=\"serverspec-1\">Serverspec 初級編</li>\n";
+	print "<ol style=\"list-style:none;\">\n";
+        print "<li><input type=\"radio\" name=\"type\" value=\"ansible-1\"><b><font color=\"blue\"> Ansible 初級編</font></li>\n";
+        print "<li><input type=\"radio\" name=\"type\" value=\"ansible-2\"><b><font color=\"blue\"> Ansible 中級編</font></li>\n";
+        print "<li><input type=\"radio\" name=\"type\" value=\"serverspec-1\"><b><font color=\"blue\"> Serverspec 初級編</font></li>\n";
 	print "</ol>\n";
         print "<p>\n";
         print "<b>以下のボタンを押してハンズオン環境を構築します。</b><p>\n";

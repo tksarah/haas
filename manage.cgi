@@ -51,14 +51,14 @@ my $atl_out = `sudo at -l`;
 my $atq_out = `sudo atq`;
 print "<h3>at list</h3><br>";
 print "<h4>at -l</h4><br>";
-print "$atl_out";
+print "<pre style=\"padding-left: 20px\">$atl_out</pre>";
 print "<h4>atq</h4><br>";
-print "$atq_out";
+print "<pre style=\"padding-left: 20px\">$atq_out</pre>";
 
 # out docker
 my $docker_out = `docker ps -a`;
 print "<h3>container list</h3><br>";
-print "$docker_out";
+print "<pre style=\"padding-left: 20px\">$docker_out</pre>";
 
 footer();
 
