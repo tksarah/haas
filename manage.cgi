@@ -49,15 +49,15 @@ log_page();
 # out at
 my $atl_out = `sudo at -l`;
 my $atq_out = `sudo atq`;
-print "<h3>at list</h3><br>";
-print "<h4>at -l</h4><br>";
+print "<h3>at list</h3>";
+print "<h4>at -l</h4>";
 print "<pre style=\"padding-left: 20px\">$atl_out</pre>";
-print "<h4>atq</h4><br>";
+print "<h4>atq</h4>";
 print "<pre style=\"padding-left: 20px\">$atq_out</pre>";
 
 # out docker
 my $docker_out = `docker ps -a`;
-print "<h3>container list</h3><br>";
+print "<h3>container list</h3>";
 print "<pre style=\"padding-left: 20px\">$docker_out</pre>";
 
 footer();
