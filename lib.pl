@@ -370,59 +370,6 @@ sub check_http{
 
 }
 
-### Log Page
-sub log_page{
-	
-	my $logfile = get_value('logfile');
-	my $log = `cat $logfile`;
-	my $rec;
-	my $ucnt;
-	my $urec;
-	my $id;
-	my @ids;
-	my $type;
-	my @types;
-
-        open(R,"<$logfile");
-	while (<R>) {
-		$id = (split/,/,$_)[0];
-		$type = (split/,/,$_)[1];
-		$rec = "$id:$type";
-		push(@ids,$id);
-		push(@id_type,$rec);
-	}
-	close(R);
-	
-	$ucnt = uniq_func(@ids);
-	$urec = uniq_func(@id_type);
-
-
-# OUTPUT
-print "<h3>簡易集計</h3><br>\n";
-print "ユニークユーザ数・・・<b>$ucnt</b><br>\n";
-print "ユニークトレーニング数・・・<b>$urec</b></p>\n";
-
-print "<h3>ログ</h3><br>\n";
-print "<table>\n";
-print "<tr><th>ID</th><th>Type</th><th>Start</th><th>End</th><th>Blog</th><th>Htty</th><th>Ttty</th><th>Status</th><th>Finish</th><th>Duration(min)</th></tr>\n";
-
-open(R,"<$logfile");
-while (<R>) {
-	print "<tr>";
-
-	my @cols = split(/,/,$_);
-	foreach $x (@cols){
-		print "<td>$x</td>";
-	}
-
-	print "</tr>\n";
-}
-close(R);
-print "</table>\n";
-print "</p>\n";
-
-}
-
 sub uniq_func{
 	my @src = @_;
 	my %hash;

@@ -28,6 +28,32 @@ td{
  background-color: #dbd9f9;
 }
 
+.simple{
+ width: 100%;
+ border-collapse: collapse;
+}
+.simple th{
+ width: 25%;
+ padding: 6px;
+ text-align: center;
+ vertical-align: top;
+ color: #333;
+ background-color: #eee;
+ border: 1px solid #b9b9b9;
+}
+.simple td{
+ padding: 6px;
+ background-color: #fff;
+ border: 1px solid #b9b9b9;
+}
+
+.simple td#r{
+padding: 6px;
+background-color: #fff;
+border: 1px solid #b9b9b9;
+text-align: right;
+}
+
 div#top {
  margin: 5px;
  font-size:10pt;
