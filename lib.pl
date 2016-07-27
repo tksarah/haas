@@ -32,11 +32,6 @@ Expires: Thu, 01 Dec 1994 16:00:00 GMT
 </div>
 
 <div id="content">
-<center>
-<hr>
-<font color="red">=== 試験稼働中 ===</font></p>
-<hr>
-</center>
 HEADER
 
 }
@@ -69,12 +64,11 @@ sub usage{
 print <<USAGE;
 <b>Update</b>
 <ul style="list-style:none;">
- <li><b>（2016/7/21）</b> Serverspec ハンズオンのテキストを更新しました。</li>
- <li><b>（2016/7/19）</b> 試験稼働版リリース</li>
+ <li><b>（2016/7/25）</b> 正式リリース </li>
 </ul>
 <b>Known Issues</b>
 <ul style="list-style:none;">
- <li><b>（2016/7/19）</b>はじめのWebConsoleの表示に時間がかかる場合があります、プロンプトが戻るまで数十秒程度待ってください。</li>
+ <li><b>（2016/7/25）</b>...</li>
 </ul>
 <hr>
 <div id="content">
@@ -117,6 +111,12 @@ print <<USAGE;
 <li>■ <b>Ansible 初級ハンズオンズ</b>・・・たった２つのファイルから自動化を行う簡単なハンズオン</li>
 <li>■ <b>Ansible 中級ハンズオンズ</b>・・・実践的な形で自動化を行うハンズオン（Roleの利用）</li>
 <li>■ <b>Serverspec 初級ハンズオンズ</b>・・・テストを始める準備から簡単なテストコードを使ったハンズオン</li>
+</ul>
+<h4>Web Console のTips</h4>
+<ul id="list">
+<li>■ <b>Copy & Paste </b>は Ctrl+C , Ctrl+V</li>
+<li>■ ブラウザのページ単位が1つのSSHセッション</li>
+<li>■ コンソールが乱れたらブラウザの「更新」か新たにページを開く</li>
 </ul>
 </div>
 USAGE
