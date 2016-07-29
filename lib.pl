@@ -64,14 +64,13 @@ sub usage{
 print <<USAGE;
 <b>Update</b>
 <ul style="list-style:none;">
- <li><b>（2016/7/25）</b> 正式リリース </li>
+ <li><b>（2016/8/1）</b> 正式リリース </li>
 </ul>
 <b>Known Issues</b>
 <ul style="list-style:none;">
- <li><b>（2016/7/25）</b>...</li>
+ <li><b>（2016/8/1）</b>...</li>
 </ul>
 <hr>
-<div id="content">
 こちらは、社員が自らのタイミングでセルフスタディできるようにしたハンズオンサービスです。現在は、AnsibleやServerspecの基礎を学べます。<p>
 <p><font color="red">良く読んでから実施してください。</font>
 
@@ -112,15 +111,23 @@ print <<USAGE;
 <li>■ <b>Ansible 中級ハンズオンズ</b>・・・実践的な形で自動化を行うハンズオン（Roleの利用）</li>
 <li>■ <b>Serverspec 初級ハンズオンズ</b>・・・テストを始める準備から簡単なテストコードを使ったハンズオン</li>
 </ul>
-<h4>Web Console のTips</h4>
-<ul id="list">
-<li>■ <b>Copy & Paste </b>は Ctrl+C , Ctrl+V</li>
-<li>■ ブラウザのページ単位が1つのSSHセッション</li>
-<li>■ コンソールが乱れたらブラウザの「更新」か新たにページを開く</li>
-</ul>
-</div>
 USAGE
 
+}
+
+### Howto&Help
+sub howto{
+
+print <<HOWTO;
+<p>
+<h3>Web Console のTips</h3>
+<ul id="list">
+  <li>■ ブラウザのページ単位が1つのSSHセッション</li>
+  <li>■ <b>Copy & Paste</b>は、Ctrl+C , Ctrl+V で可能</li>
+  <li>■ <font color="red">コンソールが出てこない（ブラウザが黒いまま）の時</font>、ブラウザの「更新」を試みる</li>
+  <li>■ <font color="red">コンソールが乱れたら</font>、ブラウザの「更新」か新たにページを開く</li>
+</ul>
+HOWTO
 }
 
 ### Handson Ref Output
@@ -149,7 +156,7 @@ print <<START;
   <dt>WordPressへのアクセスURL</dt>
     <dd><a href="$wp" target="_blank">$wp</a></dd>
   <dt>ハンズオンテキスト</dt>
-    <dd><a href="http://$hostaddr/docs/$type.pdf" target="_blank">$str</a></dd>
+    <dd><a href="http://$hostaddr/docs/$type.pdf" target="_blank">$str</a><font size="2pt"> （"3章"から進めてください）</font></dd>
   <dt>終了時間</dt>
     <dd><font color="red"><b>$endtime</b></a></font></dd>
 </dl>
@@ -197,9 +204,9 @@ sub input_form{
         print "<input type=\"text\" name=\"name\" size=\"10\"><p>\n";
         print "<b>ハンズオンの種類を選択してください。</b>";
 	print "<ol style=\"list-style:none;\">\n";
-        print "<li><input type=\"radio\" name=\"type\" value=\"ansible-1\"><b><font color=\"blue\"> Ansible 初級編</font></li>\n";
-        print "<li><input type=\"radio\" name=\"type\" value=\"ansible-2\"><b><font color=\"blue\"> Ansible 中級編</font></li>\n";
-        print "<li><input type=\"radio\" name=\"type\" value=\"serverspec-1\"><b><font color=\"blue\"> Serverspec 初級編</font></li>\n";
+        print "<li><input type=\"radio\" name=\"type\" value=\"ansible-1\"><b><font color=\"blue\"> Ansible 初級編</font></b></li>\n";
+        print "<li><input type=\"radio\" name=\"type\" value=\"ansible-2\"><b><font color=\"blue\"> Ansible 中級編</font></b></li>\n";
+        print "<li><input type=\"radio\" name=\"type\" value=\"serverspec-1\"><b><font color=\"blue\"> Serverspec 初級編</font></b></li>\n";
 	print "</ol>\n";
         print "<p>\n";
         print "<b>以下のボタンを押してハンズオン環境を構築します。</b><p>\n";

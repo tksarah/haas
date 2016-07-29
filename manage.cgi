@@ -23,6 +23,8 @@ tie %h, "BerkeleyDB::Hash",
 ### OUTPUT HTML ###
 header("$host");
 
+print "<a href=\"http://192.168.175.198:8080/#/\" target=\"_blank\">Notebook</a><br>";
+
 # Registration List
 print "<h3>利用状況</h3><br>";
 print "<table>\n";
