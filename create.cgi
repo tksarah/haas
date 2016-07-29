@@ -88,7 +88,7 @@ handsref($host,$type,$blog,$htty,$ttty,$dte,$id);
 print "<br><br><br>完了したら以下の「 終了 」ボタンを押してください。環境がクリアされます。<br>";
 print "<form action=\"./cgi-bin/delete.cgi\" method=\"post\"><input type=\"hidden\" name=\"name\" value=\"$id\"><input id=\"button\" type=\"submit\" value=\"終了\"></form>\n";
 print "<br><br>\n";
-print "<font color=\"red\">（※ </font>>ご自身のハンズオン環境の情報はTopページの”<b>現在の利用状況”</b>テーブルから自身の社員番号をクリックすることでも確認できます。";
+print "ご自身のハンズオン環境の情報はTopページの<b>現在の利用状況</b>テーブルから自身の社員番号をクリックすることでも確認できます。";
 print "<a href=\"http://$host/cgi-bin/index.cgi\"><b>[ Top ]</b></a>\n";
 
 howto();
