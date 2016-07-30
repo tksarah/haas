@@ -28,7 +28,7 @@ Expires: Thu, 01 Dec 1994 16:00:00 GMT
 <body>
 
 <div id="header">
-  <h2><a href="http://$hostaddr/haas/index.cgi">Handson as a Service</a></h2>
+  <h2><a href="http://$hostaddr/haas/">Handson as a Service</a></h2>
 </div>
 
 <div id="content">
@@ -282,7 +282,7 @@ sub error_page{
 	my $flag = shift;
 	my $host = shift;
 	my $msg;
-	my $url = "http://$host/haas/index.cgi";
+	my $url = "http://$host/haas/";
 
 # Login Fail
 if($flag == '1'){
