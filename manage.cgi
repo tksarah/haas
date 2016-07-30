@@ -39,11 +39,11 @@ if(keys %h == 0){
         while (($k, $v) = each %h) {
                 my @list = split(/,/,$v);
                 print "<tr>";
-                print "<td><a href=\"./cgi-bin/myhandson.cgi?name=$k\">$k</a></td>";
+                print "<td><a href=\"./haas/myhandson.cgi?name=$k\">$k</a></td>";
                 print "<td>$list[0]</td>";
                 print "<td>$list[1]</td>";
                 print "<td>$list[2]</td>";
-		print "<td><form action=\"./cgi-bin/delete.cgi\" method=\"post\"><input type=\"hidden\" name=\"name\" value=\"$k\"><input type=\"submit\" value=\"Destroy\"></form></td>";
+		print "<td><form action=\"./haas/delete.cgi\" method=\"post\"><input type=\"hidden\" name=\"name\" value=\"$k\"><input type=\"submit\" value=\"Destroy\"></form></td>";
                 print "</tr>\n";
                 }
         print "</table>\n";
@@ -54,11 +54,11 @@ if(keys %h == 0){
         while (($k, $v) = each %h) {
                 my @list = split(/,/,$v);
                 print "<tr>";
-                print "<td><a href=\"./cgi-bin/myhandson.cgi?name=$k\">$k</a></td>";
+                print "<td><a href=\"./haas/myhandson.cgi?name=$k\">$k</a></td>";
                 print "<td>$list[0]</td>";
                 print "<td>$list[1]</td>";
                 print "<td>$list[2]</td>";
-		print "<td><form action=\"./cgi-bin/delete.cgi\" method=\"post\"><input type=\"hidden\" name=\"name\" value=\"$k\"><input type=\"submit\" value=\"Destroy\"></form></td>";
+		print "<td><form action=\"./haas/delete.cgi\" method=\"post\"><input type=\"hidden\" name=\"name\" value=\"$k\"><input type=\"submit\" value=\"Destroy\"></form></td>";
                 print "</tr>\n";
                 }
         print "</table>\n";

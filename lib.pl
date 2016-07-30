@@ -28,7 +28,7 @@ Expires: Thu, 01 Dec 1994 16:00:00 GMT
 <body>
 
 <div id="header">
-  <h2><a href="http://$hostaddr/cgi-bin/index.cgi">Handson as a Service</a></h2>
+  <h2><a href="http://$hostaddr/haas/index.cgi">Handson as a Service</a></h2>
 </div>
 
 <div id="content">
@@ -199,7 +199,7 @@ sub destroy{
 ### Start Input
 sub input_form{
         print "<h3>利用開始</h3>";
-        print "<form action=\"./cgi-bin/create.cgi\" method=\"post\"><p>";
+        print "<form action=\"./haas/create.cgi\" method=\"post\"><p>";
         print "<b>社員番号を入力してください。（例：123456）</b><p>\n";
         print "<input type=\"text\" name=\"name\" size=\"10\"><p>\n";
         print "<b>ハンズオンの種類を選択してください。</b>";
@@ -235,7 +235,7 @@ if(keys %data == 0){
 	while (($k, $v) = each %data) {
 		@list = split(/,/,$v);
 		print "<tr>";
-		print "<td><a href=\"./cgi-bin/myhandson.cgi?name=$k\">$k</a></td>";
+		print "<td><a href=\"./haas/myhandson.cgi?name=$k\">$k</a></td>";
 		print "<td>$list[0]</td>";
 		print "<td>$list[1]</td>";
 		print "<td>$list[2]</td>";
@@ -249,7 +249,7 @@ if(keys %data == 0){
 	while (($k, $v) = each %data) {
 		@list = split(/,/,$v);
 		print "<tr>";
-		print "<td><a href=\"./cgi-bin/myhandson.cgi?name=$k\">$k</a></td>";
+		print "<td><a href=\"./haas/myhandson.cgi?name=$k\">$k</a></td>";
 		print "<td>$list[0]</td>";
 		print "<td>$list[1]</td>";
 		print "<td>$list[2]</td>";
@@ -282,7 +282,7 @@ sub error_page{
 	my $flag = shift;
 	my $host = shift;
 	my $msg;
-	my $url = "http://$host/cgi-bin/index.cgi";
+	my $url = "http://$host/haas/index.cgi";
 
 # Login Fail
 if($flag == '1'){
