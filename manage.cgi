@@ -13,6 +13,7 @@ use vars qw( %h $k $v );
 # Get values
 my $host = get_value('host');
 my $dbfilename = get_value('dbfilename');
+my $max_emp = get_value('max_emp');
 
 # DB Initialize file
 tie %h, "BerkeleyDB::Hash",
@@ -27,22 +28,43 @@ print "<a href=\"http://192.168.175.198:8080/#/\" target=\"_blank\">Notebook</a>
 
 # Registration List
 print "<h3>利用状況</h3><br>";
-print "<table>\n";
-print "<tr><th>User name</th><th>Lesson</th><th>Start time</th><th>End time</th><th>Destroy</th></tr>\n";
 
-while (($k, $v) = each %h) {
-	my @list = split(/,/,$v);
-	print "<tr>";
-	print "<td><a href=\"./cgi-bin/myhandson.cgi?name=$k\">$k</a></td>";
-	print "<td>$list[0]</td>";
-	print "<td>$list[1]</td>";
-	print "<td>$list[2]</td>";
-	print "<td><form action=\"./cgi-bin/delete.cgi\" method=\"post\"><input type=\"hidden\" name=\"name\" value=\"$k\"><input type=\"submit\" value=\"Destroy\"></form></td>";
-	print "</tr>\n";
-	}
+if(keys %h == 0){
+        print "利用者がいません。<p>\n";
+}elsif(keys %h == $max_emp){
+        print "現在<font color=\"red\">フル稼働</font>です。1時間以上お待ち下さい。\n";
+        print "<table>\n";
+	print "<tr><th>User name</th><th>Lesson</th><th>Start time</th><th>End time</th><th>Destroy</th></tr>\n";
 
-print "</table>\n";
-print "</p>\n";
+        while (($k, $v) = each %h) {
+                my @list = split(/,/,$v);
+                print "<tr>";
+                print "<td><a href=\"./cgi-bin/myhandson.cgi?name=$k\">$k</a></td>";
+                print "<td>$list[0]</td>";
+                print "<td>$list[1]</td>";
+                print "<td>$list[2]</td>";
+		print "<td><form action=\"./cgi-bin/delete.cgi\" method=\"post\"><input type=\"hidden\" name=\"name\" value=\"$k\"><input type=\"submit\" value=\"Destroy\"></form></td>";
+                print "</tr>\n";
+                }
+        print "</table>\n";
+}else{
+        print "<table>\n";
+	print "<tr><th>User name</th><th>Lesson</th><th>Start time</th><th>End time</th><th>Destroy</th></tr>\n";
+
+        while (($k, $v) = each %h) {
+                my @list = split(/,/,$v);
+                print "<tr>";
+                print "<td><a href=\"./cgi-bin/myhandson.cgi?name=$k\">$k</a></td>";
+                print "<td>$list[0]</td>";
+                print "<td>$list[1]</td>";
+                print "<td>$list[2]</td>";
+		print "<td><form action=\"./cgi-bin/delete.cgi\" method=\"post\"><input type=\"hidden\" name=\"name\" value=\"$k\"><input type=\"submit\" value=\"Destroy\"></form></td>";
+                print "</tr>\n";
+                }
+        print "</table>\n";
+        print "</p>\n";
+}
+
 untie %h;
 
 # out logfile
