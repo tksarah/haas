@@ -1,11 +1,7 @@
 #!/usr/bin/perl
 
 require './lib.pl';
-# yum install perl-DateTime
-# yum install perl-DateTime-Format-Strptime
-#use DateTime;
-#use DateTime::Format::Strptime;
-use strict ;
+use strict;
 use CGI;
 use BerkeleyDB;
 use vars qw( %h $k $v );
