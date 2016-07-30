@@ -14,7 +14,7 @@ my $x;
 ### OUTPUT HTML ###
 header("$host");
 
-print "<h3>ログ</h3><br>\n";
+print "<h3>log</h3><br>\n";
 print "<table>\n";
 print "<tr><th>ID</th><th>Type</th><th>Start</th><th>End</th><th>Blog</th><th>Htty</th><th>Ttty</th><th>Status</th><th>Finish</th><th>Duration(min)</th></tr>\n";
 

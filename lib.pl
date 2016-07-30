@@ -222,7 +222,7 @@ print "<h3>現在の利用状況</h3><br>";
 if(keys %data == 0){
 	print "利用者がいません。<p>\n";
 }elsif(keys %data == $max_emp){
-	print "現在<font color=\"red\">フル稼働</font>です。1時間以上お待ち下さい。\n";
+	print "現在<font color=\"red\">フル稼働</font>です。空きがでるまで少し時間をおいてください。\n";
 	print "<table>\n";
 	print "<tr><th>User name</th><th>Lesson</th><th>Start time</th><th>End time</th></tr>\n";
 
