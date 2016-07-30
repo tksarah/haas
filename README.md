@@ -25,6 +25,18 @@ Defaults:apache !requiretty
 * move /var/www/html/docs/*.pdf
 * chown -R apache.apache /var/www/
 
+## httpd.conf Configuration
+```
+ScriptAlias /haas/ "/var/www/cgi-bin/"
+
+AddHandler cgi-script .cgi
+
+<IfModule dir_module>
+    DirectoryIndex index.html index.cgi
+</IfModule>
+
+```
+
 ### set ip address 
 
 * set.conf
