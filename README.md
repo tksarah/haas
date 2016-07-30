@@ -1,5 +1,6 @@
 # Haas
 * CentOS 7.X x86_64
+
 ## Install
 * Install git screen at wget 
 * Install Ansible( 2.1< ) , Docker( 1.11< )
@@ -21,6 +22,7 @@ Defaults:apache !requiretty
 * move /var/www/html/default.css
 * move /var/www/html/docs/*.pdf
 * chown -R apache.apache /var/www/
+
 ### set ip address 
 * set.conf
 * host_vars/localhost
