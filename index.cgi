@@ -30,7 +30,6 @@ userlist(%h);
 if (keys %h < 10){ input_form(); }
 untie %h;
 
-howto();
 footer();
 
 exit(0);

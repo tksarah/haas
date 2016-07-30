@@ -24,8 +24,6 @@ tie %h, "BerkeleyDB::Hash",
 ### OUTPUT HTML ###
 header("$host");
 
-print "<a href=\"http://192.168.175.198:8080/#/\" target=\"_blank\">Notebook</a><br>";
-
 # Registration List
 print "<h3>利用状況</h3><br>";
 
@@ -68,38 +66,41 @@ if(keys %h == 0){
 untie %h;
 
 # out logfile
-log_page();
+statistics();
 
-# out at
-my $atl_out = `sudo at -l`;
-my $atq_out = `sudo atq`;
-print "<h3>at list</h3>";
-print "<h4>at -l</h4>";
-print "<pre style=\"padding-left: 20px\">$atl_out</pre>";
-print "<h4>atq</h4>";
-print "<pre style=\"padding-left: 20px\">$atq_out</pre>";
+print <<FOOTER;
+<p>
+<a href="./haas/"  target="_blank">[ Top ]</a>
+<a href="./haas/log_check.cgi"  target="_blank">[ Log & Check ]</a>
+<a href="http://192.168.175.198:8080/#/"  target="_blank">[ Notebook ]</a>
+</div>
 
-# out docker
-my $docker_out = `docker ps -a`;
-print "<h3>container list</h3>";
-print "<pre style=\"padding-left: 20px\">$docker_out</pre>";
+<div id="footer">
+  <em>
+  <font size="2" color="#508090">
+  COPYRIGHT(C) 2016 「Hands on as a Service」<BR>
+  ALL RIGHTS RESERVED<BR>
+  Author:TK<BR>
+  </FONT>
+  </em>
+</div>
 
-footer();
+</body>
+</html>
+FOOTER
 
 exit (0);
 
 ### Log Page
-sub log_page{
+sub statistics{
 
         my $logfile = get_value('logfile');
-        my $log = `cat $logfile`;
         my $rec;
         my $ucnt;
         my $urec;
         my @ids;
         my @types;
 	my @id_type;
-	my $x;
 	my %counts;
 
         open(R,"<$logfile");
@@ -159,25 +160,6 @@ print "<tr><td>Ansible 中級ハンズオン数（未完了）</td><td id=\"r\">
 print "<tr><td>Serverspec 初級ハンズオン数（完了）</td><td id=\"r\"><font color=\"blue\">$counts{'serverspec-1-s'}</font></td></tr>\n";
 print "<tr><td>Serverspec 初級ハンズオン数（未完了）</td><td id=\"r\"><font color=\"red\">$counts{'serverspec-1-f'}</font></td></tr>\n";
 print "</table>\n";
-
-print "<h3>ログ</h3><br>\n";
-print "<table>\n";
-print "<tr><th>ID</th><th>Type</th><th>Start</th><th>End</th><th>Blog</th><th>Htty</th><th>Ttty</th><th>Status</th><th>Finish</th><th>Duration(min)</th></tr>\n";
-
-open(R,"<$logfile");
-while (<R>) {
-        print "<tr>";
-
-        my @cols = split(/,/,$_);
-        foreach $x (@cols){
-                print "<td>$x</td>";
-        }
-
-        print "</tr>\n";
-}
-close(R);
-print "</table>\n";
-print "</p>\n";
 
 }
 

@@ -27,6 +27,9 @@ Defaults:apache !requiretty
 
 ## httpd.conf Configuration
 ```
+<Directory /var/www/html>
+    Options -Indexes +FollowSymLinks
+
 ScriptAlias /haas/ "/var/www/cgi-bin/"
 
 AddHandler cgi-script .cgi

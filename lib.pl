@@ -47,7 +47,7 @@ print <<FOOTER;
   <font size="2" color="#508090">
   COPYRIGHT(C) 2016 「Hands on as a Service」 version 0.1<BR>
   ALL RIGHTS RESERVED<BR>
-  Author:TK<BR>
+  Author:<a href="./haas/manage.cgi"  target="_blank"><font color="#508090">TK</font></a><BR>
   </FONT>
   </em>
 </div>
@@ -58,30 +58,21 @@ FOOTER
 
 }
 
+
 ### Usage Output
 sub usage{
 
 print <<USAGE;
-<b>Update</b>
-<ul style="list-style:none;">
- <li><b>（2016/8/1）</b> 正式リリース </li>
-</ul>
-<b>Known Issues</b>
-<ul style="list-style:none;">
- <li><b>（2016/8/1）</b>...</li>
-</ul>
-<hr>
 こちらは、社員が自らのタイミングでセルフスタディできるようにしたハンズオンサービスです。現在は、AnsibleやServerspecの基礎を学べます。<p>
 <p><font color="red">良く読んでから実施してください。</font>
 
 <h3>利用方法</h3>
-<ul id="list">
+<ol id="list">
 <li><b>社員番号を入力</b>します</li>
 <li><b>ハンズオンの種類を選択</b>します</li>
 <li>「ハンズオンビルド」ボタンを押すと、ハンズオンの環境が作られます</li>
-<li>ハンズオンの環境の情報ページに沿って<b>環境にアクセスし実施</b>します</li>
-<li>ハンズオン実施の工数は<u>各部の教育工数としてカウント</u>されるようトレースされます</li>
-</ul>
+<li>ハンズオンの環境の情報を元にブラウザでアクセスし実施します</li>
+</ol>
 
 <h4>前提および、保持スキル</h4>
 <ul id="list">
@@ -99,18 +90,13 @@ print <<USAGE;
 
 <h4>注意と制限</h4>
 <ul id="list">
+<li>ハンズオン実施の工数は<u>各部の教育工数としてカウント</u>できるよう記録されます</li>
 <li>ブラウザでうまく表示されない場合、プロキシ設定を外してから実施してください</li>
 <li>ハンズオンの環境は<font color=red><b>60分</b></font>で自動的に削除されます</li>
-<li>同じ社員が同時に2つ以上のハンズオンを実行できません</li>
+<li><font color=red>同じ社員が”同時”に2つ以上のハンズオンを実行できません</font></li>
 <li><font color=red>10社員</font>までが同時に本サービスを利用可能です</li>
 </ul>
 
-<h4>メニュー</h4>
-<ul id="list">
-<li><b>Ansible 初級ハンズオンズ</b>・・・たった２つのファイルから自動化を行う簡単なハンズオン</li>
-<li><b>Ansible 中級ハンズオンズ</b>・・・実践的な形で自動化を行うハンズオン（Roleの利用）</li>
-<li><b>Serverspec 初級ハンズオンズ</b>・・・テストを始める準備から簡単なテストコードを使ったハンズオン</li>
-</ul>
 USAGE
 
 }
@@ -125,7 +111,7 @@ print <<HOWTO;
   <li>ラウザのページ単位が1つのSSHセッション</li>
   <li><b>Copy & Paste</b>は、Ctrl+C , Ctrl+V で可能</li>
   <li><font color="red">コンソールが出てこない（ブラウザが黒いまま）の時</font>、ブラウザの「更新」を試みる</li>
-  <li><font color="red">コンソールが乱れたら</font>、ブラウザの「更新」か新たにページを開く</li>
+  <li><font color="red">コンソールが乱れた時</font>、ブラウザの「更新」か、新たにページを開いてみる</li>
 </ul>
 HOWTO
 }
@@ -199,17 +185,25 @@ sub destroy{
 ### Start Input
 sub input_form{
         print "<h3>利用開始</h3>";
+	print "<h4>メニュー</h4>\n";
+	print "<ul id=\"list\">\n";
+	print "<li><b>Ansible 初級ハンズオンズ</b>・・・たった２つのファイルから自動化を行う簡単なハンズオン</li>\n";
+	print "<li><b>Ansible 中級ハンズオンズ</b>・・・実践的な形で自動化を行うハンズオン（Roleの利用）</li>\n";
+	print "<li><b>Serverspec 初級ハンズオンズ</b>・・・テストを始める準備から簡単なテストコードを使ったハンズオン</li>\n";
+	print "</ul>\n";
         print "<form action=\"./haas/create.cgi\" method=\"post\"><p>";
-        print "<b>社員番号を入力してください。（例：123456）</b><p>\n";
-        print "<input type=\"text\" name=\"name\" size=\"10\"><p>\n";
-        print "<b>ハンズオンの種類を選択してください。</b>";
+        print "<h4>社員番号を入力してください。（例：123456）</h4>\n";
+	print "<ol style=\"list-style:none;\">\n";
+        print "<li><input type=\"text\" name=\"name\" size=\"10\"</li>\n";
+	print "</ol>\n";
+        print "<h4>ハンズオンの種類を選択してください。</h4>";
 	print "<ol style=\"list-style:none;\">\n";
         print "<li><input type=\"radio\" name=\"type\" value=\"ansible-1\"><b><font color=\"blue\"> Ansible 初級編</font></b></li>\n";
         print "<li><input type=\"radio\" name=\"type\" value=\"ansible-2\"><b><font color=\"blue\"> Ansible 中級編</font></b></li>\n";
         print "<li><input type=\"radio\" name=\"type\" value=\"serverspec-1\"><b><font color=\"blue\"> Serverspec 初級編</font></b></li>\n";
 	print "</ol>\n";
-        print "<p>\n";
-        print "<b>以下のボタンを押してハンズオン環境を構築します。</b><p>\n";
+        print "<br><br>\n";
+        print "<b>以下のボタンを押してハンズオン環境を構築します。遷移したページの情報を元に実施してください。</b><p>\n";
         print "<input id=\"button\" type=\"submit\" value=\"ハンズオンビルド\">\n";
         print "</form>\n";
         print "<br>\n";
