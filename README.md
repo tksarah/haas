@@ -2,12 +2,14 @@
 * CentOS 7.X x86_64
 
 ## Install
+
 * Install git screen at wget 
 * Install Ansible( 2.1< ) , Docker( 1.11< )
 * Perl
   * perl-BerkeleyDB perl-CGI httpd perl-DateTime-Format-Strptime perl-DateTime
 
 ## Configuration
+
 * Disable SELinux
 * Set Timezone Asia/Tokyo
 * useradd -m apache
@@ -24,5 +26,6 @@ Defaults:apache !requiretty
 * chown -R apache.apache /var/www/
 
 ### set ip address 
+
 * set.conf
 * host_vars/localhost
