@@ -45,7 +45,7 @@ print <<FOOTER;
 <div id="footer">
   <em>
   <font size="2" color="#508090">
-  COPYRIGHT(C) 2016 「Hands on as a Service」 version 0.1<BR>
+  COPYRIGHT(C) 2016 「Hands on as a Service」 version 1.0<BR>
   ALL RIGHTS RESERVED<BR>
   Author:<a href="./haas/manage.cgi"  target="_blank"><font color="#508090">TK</font></a><BR>
   </FONT>
@@ -106,7 +106,7 @@ sub howto{
 
 print <<HOWTO;
 <p>
-<h3>Web Console のTips</h3>
+<h3>ハンズオンコンソール のTips</h3>
 <ul id="list">
   <li>ラウザのページ単位が1つのSSHセッション</li>
   <li><b>Copy & Paste</b>は、Ctrl+C , Ctrl+V で可能</li>
@@ -187,9 +187,9 @@ sub input_form{
         print "<h3>利用開始</h3>";
 	print "<h4>メニュー</h4>\n";
 	print "<ul id=\"list\">\n";
-	print "<li><b>Ansible 初級ハンズオンズ</b>・・・たった２つのファイルから自動化を行う簡単なハンズオン</li>\n";
-	print "<li><b>Ansible 中級ハンズオンズ</b>・・・実践的な形で自動化を行うハンズオン（Roleの利用）</li>\n";
-	print "<li><b>Serverspec 初級ハンズオンズ</b>・・・テストを始める準備から簡単なテストコードを使ったハンズオン</li>\n";
+	print "<li><b>Ansible 初級ハンズオン</b>・・・たった２つのファイルから自動化を行う簡単なハンズオン</li>\n";
+	print "<li><b>Ansible 中級ハンズオン</b>・・・実践的な形で自動化を行うハンズオン（Roleの利用）</li>\n";
+	print "<li><b>Serverspec 初級ハンズオン</b>・・・テストを始める準備から簡単なテストコードを使ったハンズオン</li>\n";
 	print "</ul>\n";
         print "<form action=\"./haas/create.cgi\" method=\"post\"><p>";
         print "<h4>社員番号を入力してください。（例：123456）</h4>\n";
@@ -198,9 +198,13 @@ sub input_form{
 	print "</ol>\n";
         print "<h4>ハンズオンの種類を選択してください。</h4>";
 	print "<ol style=\"list-style:none;\">\n";
-        print "<li><input type=\"radio\" name=\"type\" value=\"ansible-1\"><b><font color=\"blue\"> Ansible 初級編</font></b></li>\n";
-        print "<li><input type=\"radio\" name=\"type\" value=\"ansible-2\"><b><font color=\"blue\"> Ansible 中級編</font></b></li>\n";
-        print "<li><input type=\"radio\" name=\"type\" value=\"serverspec-1\"><b><font color=\"blue\"> Serverspec 初級編</font></b></li>\n";
+        print "<li><input type=\"radio\" name=\"type\" value=\"ansible-1\"><b><font color=\"blue\"> Ansible 初級ハンズオン</font></b></li>\n";
+        print "<li><input type=\"radio\" name=\"type\" value=\"ansible-2\"><b><font color=\"blue\"> Ansible 中級ハンズオン</font></b></li>\n";
+        print "<li><input type=\"radio\" name=\"type\" value=\"serverspec-1\"><b><font color=\"blue\"> Serverspec 初級ハンズオン</font></b></li>\n";
+        print "<li><i><font color=\"gray\">・　Ansible（Windowsターゲット）初級ハンズオン</font></i></li>\n";
+        print "<li><i><font color=\"gray\">・　PostgreSQL 初級ハンズオン</font></i></li>\n";
+        print "<li><i><font color=\"gray\">・　Zabbix 初級ハンズオン</font></i></li>\n";
+        print "<li><i><font color=\"gray\">・　OTRS Demo ( 5.0.11 helpdesk )</font></i></li>\n";
 	print "</ol>\n";
         print "<br><br>\n";
         print "<b>以下のボタンを押してハンズオン環境を構築します。遷移したページの情報を元に実施してください。</b><p>\n";
