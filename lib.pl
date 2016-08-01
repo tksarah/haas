@@ -80,6 +80,7 @@ print <<USAGE;
 <li>Unix/Linuxオペレーション1年以上の経験、またはLPIC Level 1 同等以上の知識を保持</li>
 <li>viによるファイル編集、基本的なUnix/Linuxオペレーションが可能</li>
 </ul>
+<center><b>概要編のリクエストは＝＞<a href="http://192.168.175.198:8080/#/notebook/2BTM1UFVR" target="_blank">[ こちら ]</a></b></center>
 
 <h4>必要なもの</h4>
 <ul id="list">
@@ -90,11 +91,11 @@ print <<USAGE;
 
 <h4>注意と制限</h4>
 <ul id="list">
-<li>ハンズオン実施の工数は<u>各部の教育工数としてカウント</u>できるよう記録されます</li>
 <li>ブラウザでうまく表示されない場合、プロキシ設定を外してから実施してください</li>
 <li>ハンズオンの環境は<font color=red><b>60分</b></font>で自動的に削除されます</li>
 <li><font color=red>同じ社員が”同時”に2つ以上のハンズオンを実行できません</font></li>
 <li><font color=red>10社員</font>までが同時に本サービスを利用可能です</li>
+<li>ハンズオン実施の時間は各所属の教育工数としてつけてください。</li>
 </ul>
 
 USAGE
