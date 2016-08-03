@@ -1,4 +1,4 @@
-- at: command="curl -F 'name={{ userid }}' 'http://{{ hostaddr }}/cgi-bin/delete.cgi?' >& /dev/null" state="absent"
+- at: command="curl -F 'name={{ userid }}' 'http://{{ hostaddr }}/haas/delete.cgi?' >& /dev/null" state="absent"
 
 - include: del.yml
   with_items:
