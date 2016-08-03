@@ -5,4 +5,4 @@
     htty: "{{ htty }}"
     ttty: "{{ ttty }}"
 
-- at: command="curl -F 'name={{ userid }}' 'http://{{ hostaddr }}/cgi-bin/delete.cgi?' >& /dev/null" count="{{ count }}" units="minutes"
+- at: command="curl -F 'name={{ userid }}' 'http://{{ hostaddr }}/haas/delete.cgi?' >& /dev/null" count="{{ count }}" units="minutes"
