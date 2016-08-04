@@ -159,6 +159,7 @@ sub statistics{
 print <<STATS;
 
 <h3>総合集計</h3><br>
+サービス開始日：2016/8/1～
 <table class="simple">
 <tr><th>項目</th><th>値</th></tr>
 <tr><td>トータルハンズオン実施数</td><td id="r">$total</td></tr>
@@ -171,7 +172,10 @@ print <<STATS;
 <table>
 <p>
 
-<h3>詳細集計</h3><br>
+<h3>詳細集計</h3>
+<p>
+各ハンズオンはインチキをしない限り、数分では完了できませんのでそのような実施は除外とするための情報
+<p>
 <table class="simple">
 <tr><th>項目</th><th>サブ項目</th><th>値</th></tr>
 <tr><td rowspan="2">20分以上で終了</td><td>ハンズオン数</td><td id="r">$over20_counts{'emp'}</td></tr>
