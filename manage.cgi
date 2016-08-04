@@ -89,7 +89,7 @@ print <<FOOTER;
 <p>
 <a href="./haas/"  target="_blank">[ Top ]</a>
 <a href="./haas/log_check.cgi"  target="_blank">[ Log & Check ]</a>
-<a href="./haas/manage.cgi?"  target="_blank">[ This Month ]</a>
+<a href="./haas/manage.cgi"  target="_blank">[ This Month ]</a>
 <a href="./haas/manage.cgi?bm=1"  target="_blank">[ Last Month ]</a>
 <a href="http://192.168.175.198:8080/#/"  target="_blank">[ Notebook ]</a>
 </div>
@@ -200,6 +200,7 @@ sub statistics{
 print <<STATS;
 
 <h3>総合集計 （$month）</h3><br>
+試験運用：2016/7/19～2016/7/31 <br>
 サービス開始日：2016/8/1～
 <table class="simple">
 <tr><th>項目</th><th>値</th></tr>
