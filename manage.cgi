@@ -3,13 +3,33 @@
 require './lib.pl';
 use strict;
 use CGI;
+use DateTime;
 use BerkeleyDB;
 use vars qw( %h $k $v );
+
+# From POST
+my $form = CGI->new;
+my $bm = $form->param('bm');
 
 # Get values
 my $host = get_value('host');
 my $dbfilename = get_value('dbfilename');
 my $max_emp = get_value('max_emp');
+
+# Get Date
+my $dt = DateTime->now(time_zone => 'Asia/Tokyo');
+my $year = $dt->year;
+my $this_month = $dt->month;
+my $set_month;
+my $last_month;
+
+if($bm == 1){
+	$last_month = $this_month -1;
+	$set_month = "$year-0$last_month";
+}else{
+	$set_month = "$year-0$this_month";
+}
+
 
 # DB Initialize file
 tie %h, "BerkeleyDB::Hash",
@@ -61,13 +81,16 @@ if(keys %h == 0){
 
 untie %h;
 
+
 # out logfile
-statistics();
+statistics($set_month);
 
 print <<FOOTER;
 <p>
 <a href="./haas/"  target="_blank">[ Top ]</a>
 <a href="./haas/log_check.cgi"  target="_blank">[ Log & Check ]</a>
+<a href="./haas/manage.cgi?"  target="_blank">[ This Month ]</a>
+<a href="./haas/manage.cgi?bm=1"  target="_blank">[ Last Month ]</a>
 <a href="http://192.168.175.198:8080/#/"  target="_blank">[ Notebook ]</a>
 </div>
 
@@ -88,8 +111,10 @@ FOOTER
 exit (0);
 
 ### Log Page
+## Statistics for month
 sub statistics{
 
+        my $month = shift;
         my $logfile = get_value('logfile');
         my $total=0;
         my $rec;
@@ -101,9 +126,14 @@ sub statistics{
 	my %counts;
 	my %over20_counts = (emp => 0, time => 0);
 	my %under20_counts = (emp => 0, time => 0);;
+	my $emp_m = 0;
+	my $emp_m_o20 = 0;
+	my $emp_m_u20 = 0;
 	
         open(R,"<$logfile");
         while (<R>) {
+	if( /$month/ ){
+
                 my $id = (split/,/,$_)[0];
                 my $type = (split/,/,$_)[1];
                 my $status = (split/,/,$_)[7];
@@ -144,6 +174,7 @@ sub statistics{
 		}
 		$total++;
         }
+	}
         close(R);
 
         $ucnt = uniq_func(@ids);
@@ -151,17 +182,28 @@ sub statistics{
 
 	# /employee
 	# $round=sprintf("%.2f",$val); 3.14
-	my $emp_m = sprintf("%.1f",($counts{'stime'} + $counts{'ftime'})/$ucnt);
-	my $emp_m_o20 = sprintf("%.1f",$over20_counts{'time'}/$over20_counts{'emp'});
-	my $emp_m_u20 = sprintf("%.1f",$under20_counts{'time'}/$under20_counts{'emp'});
+	if($ucnt != 0){
+		$emp_m = sprintf("%.1f",($counts{'stime'} + $counts{'ftime'})/$ucnt);
+	}
+	if($over20_counts{'emp'} != 0){
+		$emp_m_o20 = sprintf("%.1f",$over20_counts{'time'}/$over20_counts{'emp'});
+	}
+	
+	if($under20_counts{'emp'} != 0){
+		$emp_m_u20 = sprintf("%.1f",$under20_counts{'time'}/$under20_counts{'emp'});
+	}
+
+	# ajust for hours
+	my $emp_h = sprintf("%.1f", ($counts{'stime'} + $counts{'ftime'})/60); 
 
 # OUTPUT
 print <<STATS;
 
-<h3>総合集計</h3><br>
+<h3>総合集計 （$month）</h3><br>
 サービス開始日：2016/8/1～
 <table class="simple">
 <tr><th>項目</th><th>値</th></tr>
+<tr><td>トータル施策適用工数（時）</td><td id="r"><font size="5pt"><b>$emp_h</b></font></td></tr>
 <tr><td>トータルハンズオン実施数</td><td id="r">$total</td></tr>
 <tr><td>トータルハンズオン完了数</td><td id="r">$counts{'success'}</td></tr>
 <tr><td>トータルハンズオン完了時間（分）</td><td id="r"><font color="blue">$counts{'stime'}</font></td></tr>
