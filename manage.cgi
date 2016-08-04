@@ -91,6 +91,7 @@ exit (0);
 sub statistics{
 
         my $logfile = get_value('logfile');
+        my $total=0;
         my $rec;
         my $ucnt;
         my $urec;
@@ -98,7 +99,9 @@ sub statistics{
         my @types;
 	my @id_type;
 	my %counts;
-
+	my %over20_counts = (emp => 0, time => 0);
+	my %under20_counts = (emp => 0, time => 0);;
+	
         open(R,"<$logfile");
         while (<R>) {
                 my $id = (split/,/,$_)[0];
@@ -109,6 +112,14 @@ sub statistics{
                 $rec = "$id:$type";
                 push(@ids,$id);
                 push(@id_type,$rec);
+
+		if($time >= 20){
+			$over20_counts{"emp"}++;
+			$over20_counts{"time"} = $over20_counts{"time"} + $time;
+		}else{
+			$under20_counts{"emp"}++;
+			$under20_counts{"time"} = $under20_counts{"time"} + $time;
+		}
 
 		if($status == 1){
 			$counts{"success"}++;;
@@ -131,31 +142,56 @@ sub statistics{
 		}elsif($type eq "serverspec-1" && $status == 0){
 			$counts{"serverspec-1-f"}++;
 		}
-		
-		
+		$total++;
         }
         close(R);
 
         $ucnt = uniq_func(@ids);
         $urec = uniq_func(@id_type);
 
+	# /employee
+	# $round=sprintf("%.2f",$val); 3.14
+	my $emp_m = sprintf("%.1f",($counts{'stime'} + $counts{'ftime'})/$ucnt);
+	my $emp_m_o20 = sprintf("%.1f",$over20_counts{'time'}/$over20_counts{'emp'});
+	my $emp_m_u20 = sprintf("%.1f",$under20_counts{'time'}/$under20_counts{'emp'});
 
 # OUTPUT
-print "<h3>簡易集計</h3><br>\n";
-print "<table class=\"simple\">\n";
-print "<tr><th>項目</th><th>値</th></tr>\n";
-print "<tr><td>ユニークユーザ数</td><td id=\"r\">$ucnt</td></tr>\n";
-print "<tr><td>ユニークトレーニング数</td><td id=\"r\">$urec</td></tr>\n";
-print "<tr><td>トータルトレーニング完了数</td><td id=\"r\">$counts{'success'}</td></tr>\n";
-print "<tr><td>トータルトレーニング完了時間（分）</td><td id=\"r\"><font color=\"blue\">$counts{'stime'}</font></td></tr>\n";
-print "<tr><td>トータルトレーニング未完了時間（分）</td><td id=\"r\"><font color=\"red\">$counts{'ftime'}</font></td></tr>\n";
-print "<tr><td>Ansible 初級ハンズオン数（完了）</td><td id=\"r\"><font color=\"blue\">$counts{'ansible-1-s'}</font></td></tr>\n";
-print "<tr><td>Ansible 初級ハンズオン数（未完了）</td><td id=\"r\"><font color=\"red\">$counts{'ansible-1-f'}</font></td></tr>\n";
-print "<tr><td>Ansible 中級ハンズオン数（完了）</td><td id=\"r\"><font color=\"blue\">$counts{'ansible-2-s'}</font></td></tr>\n";
-print "<tr><td>Ansible 中級ハンズオン数（未完了）</td><td id=\"r\"><font color=\"red\">$counts{'ansible-2-f'}</font></td></tr>\n";
-print "<tr><td>Serverspec 初級ハンズオン数（完了）</td><td id=\"r\"><font color=\"blue\">$counts{'serverspec-1-s'}</font></td></tr>\n";
-print "<tr><td>Serverspec 初級ハンズオン数（未完了）</td><td id=\"r\"><font color=\"red\">$counts{'serverspec-1-f'}</font></td></tr>\n";
-print "</table>\n";
+print <<STATS;
+
+<h3>総合集計</h3><br>
+<table class="simple">
+<tr><th>項目</th><th>値</th></tr>
+<tr><td>トータルハンズオン実施数</td><td id="r">$total</td></tr>
+<tr><td>トータルハンズオン完了数</td><td id="r">$counts{'success'}</td></tr>
+<tr><td>トータルハンズオン完了時間（分）</td><td id="r"><font color="blue">$counts{'stime'}</font></td></tr>
+<tr><td>トータルハンズオン未完了時間（分）</td><td id="r"><font color="red">$counts{'ftime'}</font></td></tr>
+<tr><td>ユニークユーザ数</td><td id="r">$ucnt</td></tr>
+<tr><td>ユニークハンズオン数（ID＋ハンズオンタイプ）</td><td id="r">$urec</td></tr>
+<tr><td>ハンズオン時間/人（分）</td><td id="r">$emp_m</td></tr>
+<table>
+<p>
+
+<h3>詳細集計</h3><br>
+<table class="simple">
+<tr><th>項目</th><th>サブ項目</th><th>値</th></tr>
+<tr><td rowspan="2">20分以上で終了</td><td>ハンズオン数</td><td id="r">$over20_counts{'emp'}</td></tr>
+<tr></td><td>時間/ハンズオン（分）</td><td id="r">$emp_m_o20</td></tr>
+<tr><td rowspan="2">20分以下で終了</td><td>ハンズオン数</td><td id="r">$under20_counts{'emp'}</td></tr>
+<tr></td><td>時間/ハンズオン（分）</td><td id="r">$emp_m_u20</td></tr>
+</table>
+<p>
+
+<h3>ハンズオン科目別</h3><br>
+<table class="simple">
+<tr><th>項目</th><th>値</th></tr>
+<tr><td>Ansible 初級ハンズオン数（完了）</td><td id="r"><font color="blue">$counts{'ansible-1-s'}</font></td></tr>
+<tr><td>Ansible 中級ハンズオン数（完了）</td><td id="r"><font color="blue">$counts{'ansible-2-s'}</font></td></tr>
+<tr><td>Serverspec 初級ハンズオン数（完了）</td><td id="r"><font color="blue">$counts{'serverspec-1-s'}</font></td></tr>
+<tr><td>Ansible 初級ハンズオン数（未完了）</td><td id="r"><font color="red">$counts{'ansible-1-f'}</font></td></tr>
+<tr><td>Ansible 中級ハンズオン数（未完了）</td><td id="r"><font color="red">$counts{'ansible-2-f'}</font></td></tr>
+<tr><td>Serverspec 初級ハンズオン数（未完了）</td><td id="r"><font color="red">$counts{'serverspec-1-f'}</font></td></tr>
+</table>
+STATS
 
 }
 
