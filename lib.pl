@@ -131,6 +131,13 @@ sub handsref{
 	my $hurl = "http://$hostaddr:$hport/wetty/ssh/root/";
 	my $turl = "http://$hostaddr:$tport/wetty/ssh/root/";
 	my $str = get_value($type);
+	my $note = "$type-note";
+	my $notebook = get_value($note);
+
+
+	if ($notebook eq ""){
+		$notebook = "http://$hostaddr/haas/ready.cgi";
+	}
 
 print <<START;
 
@@ -143,7 +150,8 @@ print <<START;
   <dt>WordPressへのアクセスURL</dt>
     <dd><a href="$wp" target="_blank">$wp</a></dd>
   <dt>ハンズオンテキスト</dt>
-    <dd><a href="http://$hostaddr/docs/$type.pdf" target="_blank">$str</a><font size="2pt"> （"3章"から進めてください）</font></dd>
+    <dd><a href="http://$hostaddr/docs/$type.pdf" target="_blank">- $str</a><font size="2pt"> （"3章"から進めてください）</font></dd>
+    <dd><a href="$notebook" target="_blank">- プレイブックの詳細解説付きテキスト</a><font size="2pt"></font></dd>
   <dt>終了時間</dt>
     <dd><font color="red"><b>$endtime</b></a></font></dd>
 </dl>
