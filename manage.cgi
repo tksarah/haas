@@ -132,48 +132,49 @@ sub statistics{
 	
         open(R,"<$logfile");
         while (<R>) {
-	if( /$month/ ){
 
                 my $id = (split/,/,$_)[0];
                 my $type = (split/,/,$_)[1];
+		# date hands-on has been started
+                my $date = (split/,/,$_)[2];
                 my $status = (split/,/,$_)[7];
                 my $time = (split/,/,$_)[9];
 
-                $rec = "$id:$type";
-                push(@ids,$id);
-                push(@id_type,$rec);
+		if( $date =~ /$month/ ){
+			$rec = "$id:$type";
+			push(@ids,$id);
+			push(@id_type,$rec);
 
-		if($time >= 20){
-			$over20_counts{"emp"}++;
-			$over20_counts{"time"} = $over20_counts{"time"} + $time;
-		}else{
-			$under20_counts{"emp"}++;
-			$under20_counts{"time"} = $under20_counts{"time"} + $time;
-		}
+			if($time >= 20){
+				$over20_counts{"emp"}++;
+				$over20_counts{"time"} = $over20_counts{"time"} + $time;
+			}else{
+				$under20_counts{"emp"}++;
+				$under20_counts{"time"} = $under20_counts{"time"} + $time;
+			}
 
-		if($status == 1){
-			$counts{"success"}++;;
-			$counts{"stime"} = $counts{"stime"} + $time;
-		}else{
-			$counts{"ftime"} = $counts{"ftime"} + $time;
-		}
-		if($type eq "ansible-1" && $status == 1){
-			$counts{"ansible-1-s"}++;
-		}elsif($type eq "ansible-1" && $status == 0){
-			$counts{"ansible-1-f"}++;
-		}
-		if($type eq "ansible-2" && $status == 1){
-			$counts{"ansible-2-s"}++;
-		}elsif($type eq "ansible-2" && $status == 0){
-			$counts{"ansible-2-f"}++;
-		}
-		if($type eq "serverspec-1" && $status == 1){
-			$counts{"serverspec-1-s"}++;
-		}elsif($type eq "serverspec-1" && $status == 0){
-			$counts{"serverspec-1-f"}++;
-		}
-		$total++;
-        }
+			if($status == 1){
+				$counts{"success"}++;;
+				$counts{"stime"} = $counts{"stime"} + $time;
+			}else{
+				$counts{"ftime"} = $counts{"ftime"} + $time;
+			}
+
+			if($type eq "ansible-1" && $status == 1){
+				$counts{"ansible-1-s"}++;
+			}elsif($type eq "ansible-1" && $status == 0){
+				$counts{"ansible-1-f"}++;
+			}elsif($type eq "ansible-2" && $status == 1){
+				$counts{"ansible-2-s"}++;
+			}elsif($type eq "ansible-2" && $status == 0){
+				$counts{"ansible-2-f"}++;
+			}elsif($type eq "serverspec-1" && $status == 1){
+				$counts{"serverspec-1-s"}++;
+			}elsif($type eq "serverspec-1" && $status == 0){
+				$counts{"serverspec-1-f"}++;
+			}
+			$total++;
+        	}
 	}
         close(R);
 
