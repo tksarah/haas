@@ -37,9 +37,9 @@ dep_user_list($host,$dep_name,$set_month,$logfile);
 
 print <<FOOTER;
 <p>
-<a href="./haas/"  target="_blank">[ Top ]</a>
-<a href="./haas/department.cgi"  target="_blank">[ This Month for $dep_name ]</a>
-<a href="./haas/department.cgi?bm=1&dep_name=$dep_name"  target="_blank">[ Last Month for $dep_name ]</a>
+<a href="./haas/" target="_blank">[ Top ]</a>
+<a href="./haas/department.cgi?dep_name=$dep_name">[ This Month for $dep_name ]</a>
+<a href="./haas/department.cgi?bm=1&dep_name=$dep_name">[ Last Month for $dep_name ]</a>
 </div>
 
 <div id="footer">

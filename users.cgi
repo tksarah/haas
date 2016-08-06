@@ -41,8 +41,8 @@ user_stats($host,$user,$set_month,$logfile);
 
 print <<FOOTER;
 <p>
-<a href="$back_url">[ Back ]</a>
-<a href="./haas/users.cgi?bm=1&user=$user"  target="_blank">[ Last Month for $user ]</a>
+<a href="./haas/users.cgi?user=$user">[ This Month for $user ]</a>
+<a href="./haas/users.cgi?bm=1&user=$user">[ Last Month for $user ]</a>
 </div>
 
 <div id="footer">
