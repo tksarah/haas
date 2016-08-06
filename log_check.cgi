@@ -47,9 +47,9 @@ sub out_log {
 
 	if(!$flag){
 		print "<h3>log</h3><br>\n";
-		print "<a href=\"http://$hostaddr/haas/manage.cgi\">[ Manage Top ]</a> ";
 		print "<a href=\"http://$hostaddr/haas/log_check.cgi?f=latest\">[ Latest 5 log ]</a> ";
-		print "<a href=\"http://$hostaddr/haas/log_check.cgi?f=all\">[ All ]</a>\n";
+		print "<a href=\"http://$hostaddr/haas/log_check.cgi?f=all\">[ All ]</a> ";
+		print "<a href=\"http://$hostaddr/haas/manage.cgi\">[ Manage Top ]</a>\n";
 		print "<p>\n";
 		
 	}elsif($flag eq "latest"){
@@ -69,8 +69,8 @@ sub out_log {
 		close(R);
 		print "</table>\n";
 		print "</p>\n";
-		print "<a href=\"http://$hostaddr/haas/manage.cgi\">[ Manage Top ]</a> ";
-		print "<a href=\"http://$hostaddr/haas/log_check.cgi?f=all\">[ All ]</a>\n";
+		print "<a href=\"http://$hostaddr/haas/log_check.cgi?f=all\">[ All ]</a> ";
+		print "<a href=\"http://$hostaddr/haas/manage.cgi\">[ Manage Top ]</a>\n";
 
 	}elsif($flag eq "all"){
 		print "<h3>All log</h3><br>\n";
@@ -89,8 +89,8 @@ sub out_log {
 		close(R);
 		print "</table>\n";
 		print "</p>\n";
-		print "<a href=\"http://$hostaddr/haas/manage.cgi\">[ Manage Top ]</a> ";
-		print "<a href=\"http://$hostaddr/haas/log_check.cgi?f=latest\">[ Latest 5 log ]</a>";
+		print "<a href=\"http://$hostaddr/haas/log_check.cgi?f=latest\">[ Latest 5 log ]</a> ";
+		print "<a href=\"http://$hostaddr/haas/manage.cgi\">[ Manage Top ]</a>\n";
 	}
 
 }

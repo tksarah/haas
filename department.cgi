@@ -21,7 +21,7 @@ my $this_month = $dt->month;
 my $set_month;
 my $last_month;
 
-if($bm == 1){
+if($bm eq "last"){
 	$last_month = $this_month -1;
 	$set_month = "$year-0$last_month";
 }else{
@@ -39,7 +39,7 @@ print <<FOOTER;
 <p>
 <a href="./haas/" target="_blank">[ Top ]</a>
 <a href="./haas/department.cgi?dep_name=$dep_name">[ This Month for $dep_name ]</a>
-<a href="./haas/department.cgi?bm=1&dep_name=$dep_name">[ Last Month for $dep_name ]</a>
+<a href="./haas/department.cgi?bm=last&dep_name=$dep_name">[ Last Month for $dep_name ]</a>
 </div>
 
 <div id="footer">

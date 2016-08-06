@@ -24,7 +24,7 @@ my $this_month = $dt->month;
 my $set_month;
 my $last_month;
 
-if($bm == 1){
+if($bm eq "last"){
 	$last_month = $this_month -1;
 	$set_month = "$year-0$last_month";
 }else{
@@ -92,7 +92,7 @@ print <<FOOTER;
 <hr>
 <a href="./haas/log_check.cgi"  target="_blank">[ Log & Check ]</a>
 <a href="./haas/manage.cgi"  target="_blank">[ This Month ]</a>
-<a href="./haas/manage.cgi?bm=1"  target="_blank">[ Last Month ]</a>
+<a href="./haas/manage.cgi?bm=last"  target="_blank">[ Last Month ]</a>
 <a href="http://192.168.175.198:8080/#/"  target="_blank">[ Notebook ]</a>
 </div>
 

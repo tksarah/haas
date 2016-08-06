@@ -26,7 +26,7 @@ my $this_month = $dt->month;
 my $set_month;
 my $last_month;
 
-if($bm == 1){
+if($bm eq "last"){
 	$last_month = $this_month -1;
 	$set_month = "$year-0$last_month";
 }else{
@@ -42,7 +42,7 @@ user_stats($host,$user,$set_month,$logfile);
 print <<FOOTER;
 <p>
 <a href="./haas/users.cgi?user=$user">[ This Month for $user ]</a>
-<a href="./haas/users.cgi?bm=1&user=$user">[ Last Month for $user ]</a>
+<a href="./haas/users.cgi?bm=last&user=$user">[ Last Month for $user ]</a>
 </div>
 
 <div id="footer">
