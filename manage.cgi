@@ -5,6 +5,7 @@ use strict;
 use CGI;
 use DateTime;
 use BerkeleyDB;
+use File::Basename;
 use vars qw( %h $k $v );
 
 # From POST
@@ -82,12 +83,13 @@ if(keys %h == 0){
 untie %h;
 
 
-# out logfile
 statistics($set_month);
+
+department_select();
 
 print <<FOOTER;
 <p>
-<a href="./haas/"  target="_blank">[ Top ]</a>
+<hr>
 <a href="./haas/log_check.cgi"  target="_blank">[ Log & Check ]</a>
 <a href="./haas/manage.cgi"  target="_blank">[ This Month ]</a>
 <a href="./haas/manage.cgi?bm=1"  target="_blank">[ Last Month ]</a>
@@ -239,6 +241,8 @@ print <<STATS;
 <tr><td>Ansible 中級ハンズオン数（未完了）</td><td id="r"><font color="red">$counts{'ansible-2-f'}</font></td></tr>
 <tr><td>Serverspec 初級ハンズオン数（未完了）</td><td id="r"><font color="red">$counts{'serverspec-1-f'}</font></td></tr>
 </table>
+<p>
+
 STATS
 
 }
@@ -249,4 +253,23 @@ sub uniq_func{
 
         @hash{@src} = ();
         return keys %hash;
+}
+
+sub department_select{
+	my @dep_list = `ls ./data/*.list`;
+
+	print "<h3>部署毎の情報</h3><br>\n";
+	print "<form action=\"./haas/department.cgi\" method=\"post\">\n";
+	print "<select name=\"dep_name\">\n";
+
+	foreach (@dep_list){
+		my $filename = basename($_,'.list');
+		chomp($filename);
+		print "<option value=\"$filename\">$filename</option>\n";
+	}
+
+	print "</select>\n";
+	print "<input id=\"button\" type=\"submit\" value=\"Check\">\n";
+	print "</form>\n";
+
 }
