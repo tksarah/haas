@@ -3,7 +3,7 @@
 
 ## Install
 
-* Install git, screen, at, wget 
+* Install git, screen, at, wget , ntp
 * Install Ansible( 2.1< ) , Docker( 1.11< )
 * Perl
   * perl-BerkeleyDB perl-CGI httpd perl-DateTime-Format-Strptime perl-DateTime
@@ -12,6 +12,7 @@
 
 * Disable SELinux
 * Set Timezone Asia/Tokyo
+* Set NTP Server
 * useradd -m apache
 * uermod -G docker apache
 * visudo
@@ -44,3 +45,12 @@ AddHandler cgi-script .cgi
 
 * set.conf
 * host_vars/localhost
+
+### set user data (Option)
+
+* ./data/XXX.list
+```
+<id>,<name>
+<id>,<name>
+<id>,<name>
+```
