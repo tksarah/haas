@@ -77,11 +77,20 @@ sub dep_user_list{
 	# Create Hash from a department list
         open(R,"<./data/$name.list");
         while (<R>) {
-                my $dep_id = (split/,/,$_)[0];
-                my $username = (split/,/,$_)[1];
-		chomp($username);
-		
-		$dep{$dep_id} = "$username";
+		if( /,/ ){
+       			$_ =~ s/\s+//g;
+                	my $dep_id = (split/,/,$_)[0];
+       			my $username = (split/,/,$_)[1];
+			chomp($username);
+			if($username eq ""){
+				$dep{$dep_id} = "$dep_id";
+			}else{
+				$dep{$dep_id} = "$username";
+			}
+		}else{
+			chomp($_);
+			$dep{$_} = "$_";
+		}
 	}
 	close(R);
 	my @userlist = keys %dep;
