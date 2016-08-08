@@ -18,20 +18,6 @@ header("$host");
 
 out_log($host,$flag);
 
-# out at
-my $atl_out = `sudo at -l`;
-my $atq_out = `sudo atq`;
-print "<h3>at list</h3>";
-print "<h4>at -l</h4>";
-print "<pre style=\"padding-left: 20px\">$atl_out</pre>";
-print "<h4>atq</h4>";
-print "<pre style=\"padding-left: 20px\">$atq_out</pre>";
-
-# out docker
-my $docker_out = `docker ps -a`;
-print "<h3>container list</h3>";
-print "<pre style=\"padding-left: 20px\">$docker_out</pre>";
-
 footer();
 
 exit (0);
@@ -51,6 +37,20 @@ sub out_log {
 		print "<a href=\"http://$hostaddr/haas/log_check.cgi?f=all\">[ All ]</a> ";
 		print "<a href=\"http://$hostaddr/haas/manage.cgi\">[ Manage Top ]</a>\n";
 		print "<p>\n";
+
+		# out at
+		my $atl_out = `sudo at -l`;
+		my $atq_out = `sudo atq`;
+		print "<h3>at list</h3>";
+		print "<h4>at -l</h4>";
+		print "<pre style=\"padding-left: 20px\">$atl_out</pre>";
+		print "<h4>atq</h4>";
+		print "<pre style=\"padding-left: 20px\">$atq_out</pre>";
+
+		# out docker
+		my $docker_out = `docker ps -a`;
+		print "<h3>container list</h3>";
+		print "<pre style=\"padding-left: 20px\">$docker_out</pre>";
 		
 	}elsif($flag eq "latest"){
 		print "<h3>Latest 5 log</h3><br>\n";
