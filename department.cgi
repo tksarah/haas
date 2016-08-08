@@ -93,9 +93,8 @@ sub dep_user_list{
 		}
 	}
 	close(R);
-	my @userlist = keys %dep;
 
-	foreach my $user ( @userlist ){
+	foreach my $user ( sort keys %dep ){
         	my $total=0;
 	        my $total_m=0;
 		my $total_h=0;
