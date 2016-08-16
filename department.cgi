@@ -37,9 +37,9 @@ dep_user_list($host,$dep_name,$set_month,$logfile);
 
 print <<FOOTER;
 <p>
-<a href="./haas/" target="_blank">[ Top ]</a>
 <a href="./haas/department.cgi?dep_name=$dep_name">[ This Month for $dep_name ]</a>
 <a href="./haas/department.cgi?bm=last&dep_name=$dep_name">[ Last Month for $dep_name ]</a>
+<a href="./haas/manage.cgi">[ Manage Top ]</a>
 </div>
 
 <div id="footer">
@@ -68,9 +68,10 @@ sub dep_user_list{
         my $logfile = shift;
 	my %dep;
 	my %counts;
+	my $zero=0;
 	
 
-	print "<h3>$dep_name 総合集計 （$month）</h3><br>\n";
+	print "<h3>$dep_name 集計 （$month）</h3><br>\n";
 	print "<table class=\"simple\">\n";
 	print "<tr><th>ユーザ</th><th>ハンズオン合計回数</th><th>ハンズオン合計実行時間</th></tr>\n";
 
@@ -118,10 +119,20 @@ sub dep_user_list{
 		$total_h = sprintf("%.1f", $total_m/60); 
 
 		# OUTPUT
-		print "<tr><td><a href=\"http://$hostaddr/haas/users.cgi?user=$user\">$dep{$user}</a></td><td id=\"r\">$total</td><td id=\"r\">$total_h</td><tr>\n";
+		if($total != 0){
+			print "<tr><td><a href=\"http://$hostaddr/haas/users.cgi?user=$user\">$dep{$user}</a></td>";
+			print "<td id=\"r\">$total</td>";
+			print "<td id=\"r\">$total_h</td><tr>\n";
+		}
+		$zero += $total;
 	}
 
+	if($zero == 0){
+		print "<tr><td colspan=\"3\">該当なし</td></tr>\n";
+	}
 	print "<table>\n";
+	print "<br>\n";
+	print "* <font color=\"red\">0回</font>の人は除く\n";
 	print "<p>\n";
 }
 
