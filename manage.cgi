@@ -87,6 +87,9 @@ statistics($set_month);
 
 department_select();
 
+print "<h3>アーカイブス</h3><br>";
+print "<a href=\"./haas/archives.cgi\">[ Archives ]</a>\n";
+
 print <<FOOTER;
 <p>
 <hr>
@@ -258,7 +261,7 @@ sub uniq_func{
 sub department_select{
 	my @dep_list = `ls ./data/*.list`;
 
-	print "<h3>部署毎の情報</h3><br>\n";
+	print "<h3>部署毎の情報 （今月・先月）</h3><br>\n";
 	print "<form action=\"./haas/department.cgi\" method=\"post\">\n";
 	print "<select name=\"dep_name\">\n";
 
@@ -271,5 +274,6 @@ sub department_select{
 	print "</select>\n";
 	print "<input id=\"button\" type=\"submit\" value=\"Check\">\n";
 	print "</form>\n";
+	print "<p>\n";
 
 }

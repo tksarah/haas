@@ -48,9 +48,15 @@ AddHandler cgi-script .cgi
 
 ### set user data (Option)
 
-* ./data/XXX.list
+* List files ./data/XXX.list
 ```
 <id>,<name>
 <id>,<name>
 <id>,<name>
 ```
+
+### Archive momo
+
+* Archive directory : ./data/archives
+* Archive files : ./data/archives/<YYYY>-<MM>-<Dep>.log
+* Create archive file : ./bin/run_out.pl 07 2016
