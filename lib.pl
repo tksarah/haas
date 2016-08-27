@@ -64,9 +64,13 @@ sub usage{
 
 print <<USAGE;
 こちらは、社員が自らのタイミングでセルフスタディできるようにしたハンズオンサービスです。現在は、AnsibleやServerspecの基礎を学べます。<p>
-<p><font color="red">良く読んでから実施してください。</font>
 
-<h3>利用方法</h3>
+<div onclick="obj=document.getElementById('usage').style; obj.display=(obj.display=='none')?'block':'none';">
+<a style="cursor:pointer;"><h3>▼ 利用方法</h3></a>
+</div>
+<p>
+<font color="red">こちらを良く読んでから実施してください。</font>
+<div id="usage" style="display:none;clear:both;">
 <ol id="list">
 <li><b>社員番号を入力</b>します</li>
 <li><b>ハンズオンの種類を選択</b>します</li>
@@ -97,6 +101,7 @@ print <<USAGE;
 <li><font color=red>10社員</font>までが同時に本サービスを利用可能です</li>
 <li>ハンズオン実施の時間は各所属の教育工数としてつけてください。</li>
 </ul>
+</div>
 
 USAGE
 
@@ -391,6 +396,20 @@ sub uniq_func{
 
 	@hash{@src} = ();
 	return keys %hash;
+}
+
+
+sub dep_list{
+        my @tmp = `ls ./data/*.list`;
+        my @dep_list;
+	my $filename;
+
+        foreach (@tmp){
+                $filename = basename($_,'.list');
+                chomp($filename);
+		push(@dep_list,$filename);
+        }
+	return @dep_list;
 }
 
 1;

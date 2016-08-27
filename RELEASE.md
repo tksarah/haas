@@ -3,3 +3,4 @@
 * 2016-08-08 Add Monitoring page for Deparment
 * 2016-08-19 Add Handson document by Zeppelin Notebook
 * 2016-08-26 Add Archives page log
+* 2016-08-27 Edit Top page 

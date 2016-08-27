@@ -94,8 +94,8 @@ print <<FOOTER;
 <p>
 <hr>
 <a href="./haas/log_check.cgi"  target="_blank">[ Log & Check ]</a>
-<a href="./haas/manage.cgi"  target="_blank">[ This Month ]</a>
-<a href="./haas/manage.cgi?bm=last"  target="_blank">[ Last Month ]</a>
+<a href="./haas/manage.cgi">[ This Month ]</a>
+<a href="./haas/manage.cgi?bm=last">[ Last Month ]</a>
 <a href="http://192.168.175.198:8080/#/"  target="_blank">[ Notebook ]</a>
 </div>
 
@@ -205,9 +205,14 @@ sub statistics{
 # OUTPUT
 print <<STATS;
 
-<h3>総合集計 （$month）</h3><br>
+
+<div onclick="obj=document.getElementById('sogo').style; obj.display=(obj.display=='none')?'block':'none';">
+<a style="cursor:pointer;"><h3>▼ 総合集計（$month）</h3></a>
+</div>
+<br>
 試験運用：2016/7/19～2016/7/31 <br>
 サービス開始日：2016/8/1～
+<div id="sogo" style="display:none;clear:both;">
 <table class="simple">
 <tr><th>項目</th><th>値</th></tr>
 <tr><td>トータル施策適用工数（時）</td><td id="r"><font size="5pt"><b>$emp_h</b></font></td></tr>
@@ -218,13 +223,17 @@ print <<STATS;
 <tr><td>ユニークユーザ数</td><td id="r">$ucnt</td></tr>
 <tr><td>ユニークハンズオン数（ID＋ハンズオンタイプ）</td><td id="r">$urec</td></tr>
 <tr><td>ハンズオン時間/人（分）</td><td id="r">$emp_m</td></tr>
-<table>
+</table>
+</div>
 <p>
 
-<h3>詳細集計</h3>
+<div onclick="obj=document.getElementById('detail').style; obj.display=(obj.display=='none')?'block':'none';">
+<a style="cursor:pointer;"><h3>▼ 詳細集計（$month）</h3></a>
+</div>
 <p>
 各ハンズオンはインチキをしない限り、数分では完了できませんのでそのような実施は除外とするための情報
 <p>
+<div id="detail" style="display:none;clear:both;">
 <table class="simple">
 <tr><th>項目</th><th>サブ項目</th><th>値</th></tr>
 <tr><td rowspan="2">20分以上で終了</td><td>ハンズオン数</td><td id="r">$over20_counts{'emp'}</td></tr>
@@ -232,9 +241,14 @@ print <<STATS;
 <tr><td rowspan="2">20分以下で終了</td><td>ハンズオン数</td><td id="r">$under20_counts{'emp'}</td></tr>
 <tr></td><td>時間/ハンズオン（分）</td><td id="r">$emp_m_u20</td></tr>
 </table>
+</div>
 <p>
 
-<h3>ハンズオン科目別</h3><br>
+<div onclick="obj=document.getElementById('handsons').style; obj.display=(obj.display=='none')?'block':'none';">
+<a style="cursor:pointer;"><h3>▼ ハンズオン科目別（$month）</h3></a>
+</div>
+<br>
+<div id="handsons" style="display:none;clear:both;">
 <table class="simple">
 <tr><th>項目</th><th>値</th></tr>
 <tr><td>Ansible 初級ハンズオン数（完了）</td><td id="r"><font color="blue">$counts{'ansible-1-s'}</font></td></tr>
@@ -244,6 +258,7 @@ print <<STATS;
 <tr><td>Ansible 中級ハンズオン数（未完了）</td><td id="r"><font color="red">$counts{'ansible-2-f'}</font></td></tr>
 <tr><td>Serverspec 初級ハンズオン数（未完了）</td><td id="r"><font color="red">$counts{'serverspec-1-f'}</font></td></tr>
 </table>
+</div>
 <p>
 
 STATS
@@ -259,16 +274,14 @@ sub uniq_func{
 }
 
 sub department_select{
-	my @dep_list = `ls ./data/*.list`;
+	my @select_list = &dep_list();
 
 	print "<h3>部署毎の情報 （今月・先月）</h3><br>\n";
 	print "<form action=\"./haas/department.cgi\" method=\"post\">\n";
 	print "<select name=\"dep_name\">\n";
 
-	foreach (@dep_list){
-		my $filename = basename($_,'.list');
-		chomp($filename);
-		print "<option value=\"$filename\">$filename</option>\n";
+	foreach (@select_list){
+		print "<option value=\"$_\">$_</option>\n";
 	}
 
 	print "</select>\n";
