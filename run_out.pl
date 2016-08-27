@@ -1,9 +1,10 @@
 #!/usr/bin/perl
 
-require '../lib.pl';
+require './lib.pl';
 use strict;
 use CGI;
 use DateTime;
+use File::Basename;
 
 
 # Get Date
@@ -12,11 +13,11 @@ my $now_month = $dt->month;
 my $year;
 my $month;
 my $name;
-my @dep = ("A","B","C");
+my @dep = &dep_list();
 my %dep_hash;
 # Set logfiles
-my $logfile = "../data/haas.log";
-my $datadir = "../data";
+my $logfile = "./data/haas.log";
+my $datadir = "./data";
 my $archivedir = "$datadir/archives/";
 
 # From arg
@@ -32,7 +33,7 @@ if($ARGV[1] =~ /\d{4}/){
 }
 
 foreach $name (@dep){
-	my $listfile = "../data/$name.list";
+	my $listfile = "$datadir/$name.list";
 	my $ym = "$year-$month";
 	if( -f "$archivedir/$year-$month-$name.log"){
 		print "$year-$month-$name.log exists.\n";
@@ -61,10 +62,12 @@ foreach $name (@dep){
 			print "No count.\n";
 		}else{
 			print "Created.\n";
+			system("cat $archivedir/$year-$month-$name.log >> $archivedir/$year-$month-ALL.log");
 		}
 	}
 
 }
+
 
 exit(0);
 
