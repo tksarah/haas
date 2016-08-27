@@ -1,0 +1,11 @@
+- name: Bootup Windows Target Host on OpenStack
+  hosts: ops
+  gather_facts: no
+  roles:
+    - ansible-win-target
+
+- name: Run Container Ansible Host on localhost
+  hosts: localhost
+  gather_facts: no
+  roles:
+    - ansible-win-host

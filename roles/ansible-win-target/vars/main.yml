@@ -1,0 +1,12 @@
+### Lab
+url: "http://192.168.175.244:5000/v2.0/"
+myuser: "demo"
+mypass: "demo"
+tenant: "demo"
+secg_all: "all-allow"
+# Windows Server 2012R2SE Snap
+image_win: "3dcd3d7b-154f-4d4c-9f30-3527c1c861c1"
+# demo-net
+net_id: "1c7a800e-626c-4b05-b8f2-0e5478ca8541"
+# m1.small = 2 , m1.medium = 3 m1.winsrv = 7
+flavor_win: "7"

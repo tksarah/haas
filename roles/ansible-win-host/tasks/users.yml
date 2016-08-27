@@ -1,0 +1,27 @@
+- block:
+    - name: boot ansible host container
+      docker_container:
+        name: "{{ user }}_win_host"
+        image: "tksarah/lesson_ansible_winhost"
+        detach: true
+        state: started
+        volumes: 
+          - "/var/www/cgi-bin/roles/ansible-win-host/files/samples:/mnt:ro"
+
+- block:
+    - name: Run containers for web console
+      docker_container:
+        name: "{{ user }}_wetty"
+        image: "tksarah/lesson_wetty"
+        detach: true
+        state: started
+        ports:
+          - "{{ htty }}:{{ htty }}"
+        links:
+          - "{{ user }}_win_host:ansible_host"
+        env:
+          HTTY: "{{ htty }}"
+        tty: true
+
+  when: web_console
+

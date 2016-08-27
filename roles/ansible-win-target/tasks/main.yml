@@ -1,0 +1,5 @@
+- include: win.yml
+  vars:
+    user: "{{ userid }}"
+
+#- at: command="curl -F 'name={{ userid }}' 'http://{{ hostaddr }}/haas/delete.cgi?' >& /dev/null" count="{{ count }}" units="minutes"

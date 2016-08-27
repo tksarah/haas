@@ -1,0 +1,8 @@
+- include: users.yml
+  vars:
+    user: "{{ userid }}"
+    htty: "{{ htty }}"
+    ttty: "{{ ttty }}"
+    port: "{{ blog }}"
+
+#- at: command="curl -F 'name={{ userid }}' 'http://{{ hostaddr }}/haas/delete.cgi?' >& /dev/null" count="{{ count }}" units="minutes"
