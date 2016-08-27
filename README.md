@@ -59,4 +59,4 @@ AddHandler cgi-script .cgi
 
 * Archive directory : ./data/archives
 * Archive files : ./data/archives/＜YYYY＞-＜MM＞-＜Dep＞.log
-* Create archive file : ./bin/run_out.pl 07 2016
+* Create archive file : ./run_out.pl 07 2016
