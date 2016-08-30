@@ -4,3 +4,4 @@
 * 2016-08-19 Add Handson document by Zeppelin Notebook
 * 2016-08-26 Add Archives page log
 * 2016-08-27 Edit Top page 
+* 2016-09-01 Add User Skill data 

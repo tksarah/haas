@@ -60,3 +60,9 @@ AddHandler cgi-script .cgi
 * Archive directory : ./data/archives
 * Archive files : ./data/archives/＜YYYY＞-＜MM＞-＜Dep＞.log
 * Create archive file : ./run_out.pl 07 2016
+
+### User Skill momo
+
+* User data directory : ./data/udata
+* User data files : ./data/udata/＜ID＞
+* Data format : JSON

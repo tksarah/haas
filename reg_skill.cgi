@@ -73,7 +73,9 @@ close(W);
 ### OUTPUT HTML ###
 header("$host");
 
-print "$json_data\n";
+#print "$json_data\n";
+print "登録されました。<p>\n";
+print "<a href=\"http://$host/haas/\">[ Back ]</a>";
 
 footer();
 
