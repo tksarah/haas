@@ -11,7 +11,7 @@ my $user = $form->param('name');
 
 # Get values
 my $host = get_value('host');
-my $datadir = "../testdata";
+my $datadir = get_value('udatadir');
 my $userdata = "$datadir/$user";
 
 

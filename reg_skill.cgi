@@ -26,7 +26,7 @@ my $other_c = $form->param('Other_Cloud');
 
 # Get values
 my $host = get_value('host');
-my $datadir = "../testdata";
+my $datadir = get_value('udatadir');
 my $userdata = "$datadir/$user";
 
 my $data = {
