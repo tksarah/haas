@@ -7,6 +7,7 @@
 * Install Ansible( 2.1< ) , Docker( 1.11< )
 * Perl
   * perl-BerkeleyDB perl-CGI httpd perl-DateTime-Format-Strptime perl-DateTime
+  * perl-JSON perl-Data-Dumper
 
 ## Configuration
 
