@@ -24,6 +24,11 @@ my $playbookfile = "$playhome/$playbook";
 my $dbfilename = get_value('dbfilename');
 my @list;
 
+my $back_url = $ENV{'HTTP_REFERER'};
+if(!$back_url){
+        $back_url = "http://$host/haas/";
+}
+
 # DB Initialize file
 tie %h, "BerkeleyDB::Hash",
         -Filename => $dbfilename,
@@ -33,13 +38,13 @@ tie %h, "BerkeleyDB::Hash",
 #$id =~ s/[\s]+//g;
 # Check name,type exists/name duplicated
 if( $id eq "" || $id !~ /^[\w]+$/ ){
-	error_page(1,$host);
+	error_page(1,$back_url);
         exit(0);
 }elsif($type eq ""){
-	error_page(2,$host);
+	error_page(2,$back_url);
         exit(0);
 }elsif($h{$id}){
-	error_page(3,$host);
+	error_page(3,$back_url);
         exit(0);
 }
 

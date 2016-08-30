@@ -14,9 +14,14 @@ my $host = get_value('host');
 my $datadir = "../testdata";
 my $userdata = "$datadir/$user";
 
+my $back_url = $ENV{'HTTP_REFERER'};
+if(!$back_url){
+        $back_url = "http://$host/haas/";
+}
+
 # Check name
 if($user eq "000000" || $user eq "" ||  $user !~ /^[\w]+$/ ){
-        error_page(1,$host);
+        error_page(1,$back_url);
         exit(0);
 }
 

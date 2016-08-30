@@ -292,9 +292,8 @@ sub logging{
 sub error_page{
 	
 	my $flag = shift;
-	my $host = shift;
+	my $back_url = shift;
 	my $msg;
-	my $url = "http://$host/haas/";
 
 # Login Fail
 if($flag == '1'){
@@ -325,7 +324,7 @@ Content-type: text/html
 HEAD
 
 print "$msg";
-print "<a href=\"$url\">[ Back ]</a>";
+print "<a href=\"$back_url\">[ Back ]</a>";
 
 print <<FOOTER;
 </body>
