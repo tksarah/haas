@@ -96,6 +96,7 @@ print <<FOOTER;
 <a href="./haas/log_check.cgi"  target="_blank">[ Log & Check ]</a>
 <a href="./haas/manage.cgi">[ This Month ]</a>
 <a href="./haas/manage.cgi?bm=last">[ Last Month ]</a>
+<a href="./haas/skills.cgi">[ Skill ]</a>
 <a href="http://192.168.175.198:8080/#/"  target="_blank">[ Notebook ]</a>
 </div>
 

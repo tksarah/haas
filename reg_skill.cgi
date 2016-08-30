@@ -3,8 +3,6 @@
 require './lib.pl';
 use strict;
 use CGI;
-use DateTime;
-use File::Basename;
 use JSON;
 
 # From POST
@@ -77,26 +75,7 @@ header("$host");
 
 print "$json_data\n";
 
-print <<FOOTER;
-<p>
-<hr>
-<a href="./haas/manage.cgi">[ Manage Top ]</a>
-<p>
-</div>
-
-<div id="footer">
-  <em>
-  <font size="2" color="#508090">
-  COPYRIGHT(C) 2016 「Hands on as a Service」<BR>
-  ALL RIGHTS RESERVED<BR>
-  Author:TK<BR>
-  </FONT>
-  </em>
-</div>
-
-</body>
-</html>
-FOOTER
+footer();
 
 exit (0);
 

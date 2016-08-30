@@ -39,25 +39,7 @@ header("$host");
 
 user_stats($host,$user,$set_month,$logfile);
 
-print <<FOOTER;
-<p>
-<a href="./haas/users.cgi?user=$user">[ This Month for $user ]</a>
-<a href="./haas/users.cgi?bm=last&user=$user">[ Last Month for $user ]</a>
-</div>
-
-<div id="footer">
-  <em>
-  <font size="2" color="#508090">
-  COPYRIGHT(C) 2016 「Hands on as a Service」<BR>
-  ALL RIGHTS RESERVED<BR>
-  Author:TK<BR>
-  </FONT>
-  </em>
-</div>
-
-</body>
-</html>
-FOOTER
+footer();
 
 exit (0);
 
