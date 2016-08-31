@@ -47,6 +47,14 @@ my @other_level = (
 	"自力でこのツールのコードを書ける。"
 );
 
+my @cloud_level = (
+	"聞いたことがない。",
+	"名前だけ聞いたことがある。",
+	"GUIやポータルでの当該のクラウド/コンテナを操作したことがある。",
+	"CUIで手動で当該のクラウド/コンテナを操作したことがある。（コードは書かない）",
+	"APIやAutomation/Testツールを使って当該クラウド/コンテナの操作ができる。（コードを書く）"
+);
+
 ### OUTPUT HTML ###
 header("$host");
 
@@ -69,7 +77,7 @@ sub input_func{
 
 	print <<HTML_1;
 
-	<h3>スキルレベルを登録 （$userid）</h3><p>
+	<h3>本部施策コードの熟練度を登録 （$userid）</h3><p>
         <form action="./haas/reg_skill.cgi" method="post">
 	<input type="hidden" name="name" value="$userid">
 HTML_1
@@ -77,7 +85,7 @@ HTML_1
 	print "<h4 id=\"archive\">Shift</h4>\n";
 	print "<p>\n";
 	print "<table>\n";
-	print "<tr><th>レベル</th><th>熟練度指標</th></tr>\n";
+	print "<tr><th>レベル</th><th>熟練度チェック指標</th></tr>\n";
 	for ($i=1;$i<10;$i++){
 		if($shift == $i){
 			print "<tr><td><input type=\"radio\" name=\"Shift\" value=\"$i\" checked>$i</td><td>$shift_level[$i-1]</td></tr>\n";
@@ -89,11 +97,11 @@ HTML_1
 	print "<p>\n";
 
 	print "<div onclick=\"obj=document.getElementById('skill_detail').style; obj.display=(obj.display=='none')?'block':'none';\">\n";
-	print "<a style=\"cursor:pointer;\"><h3>以下はオプションで記録ください。</h3></a>\n";
+	print "<a style=\"cursor:pointer;\"><h3>個別にチェックしてください。（オプション）</h3></a>\n";
 	print "</div><p>\n";
 	print "<div id=\"skill_detail\" style=\"display:none;clear:both;\">\n";
 	
-	print "<ol>\n";
+	print "<ol id=\"readme\">\n";
 	foreach (@other_level){
 		print "<li>$_</li>\n";
 	}
@@ -132,12 +140,17 @@ HTML_1
 
 	print "</dl>\n";
 	print "<h4 id=\"archive\">Cloud</h4>\n";
+	print "<ol id=\"readme\">\n";
+	foreach (@cloud_level){
+		print "<li>$_</li>\n";
+	}
+	print "</ol>\n";
 	print "<dl>\n";
 	foreach my $k (sort keys $cloud){
 		my $item = $items->{skill}->[0]->{Cloud}->[0]->{$k};
 		print "<dt><b>$k</b></dt>\n";
 		print "<dd>\n";
-		for ($i=1;$i<7;$i++){
+		for ($i=1;$i<6;$i++){
 			if($item == $i){
 				print "<input type=\"radio\" name=\"$k\" value=\"$i\" checked>$i\n";
 			}else{

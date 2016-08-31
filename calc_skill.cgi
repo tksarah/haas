@@ -18,14 +18,33 @@ my $userdata = "$datadir/$user";
 ### OUTPUT HTML ###
 header("$host");
 
-my $items = parse_json($userdata);
-output_html($user,$items);
+
+if($user ne ""){
+	my $items = parse_json($userdata);
+	user_html($user,$items);
+}else{
+	output_html();
+}
 
 footer();
 
 exit (0);
 
 sub output_html{
+	
+	print <<HTML_1;
+
+	<h3>スキルマップ</h3>
+	<p>
+	- <a href="./haas/skills.cgi" target="_blank">[ スキル登録/修正 ]</a><br>
+	- <a href="./haas/skills.cgi" target="_blank">[ Shift スキルマップ ]</a><br>
+	
+
+HTML_1
+
+}
+
+sub user_html{
 	my $user = shift;
 	my $items = shift;
 	my $shift = $items->{skill}->[0]->{Shift};
