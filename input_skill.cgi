@@ -20,13 +20,32 @@ if(!$back_url){
 }
 
 # Check name
-if($user eq "000000" || $user eq "" ||  $user !~ /^[\w]+$/ ){
+if($user eq "000000" || $user eq "" ||  $user !~ /^\w{6}$/ ){
         error_page(1,$back_url);
         exit(0);
 }
 
 # Format Initialize
 $userdata = "$datadir/000000" if (! -f $userdata);
+my @shift_level = (
+	"聞いたことがない。",
+	"名前だけ聞いたことがある。",
+	"資料やガイドを見ことがある。",
+	"1度でも利用したことがある。（検証や、個別利用等可）",
+	"案件へ利用したことがある。（部分利用も可）",
+	"Shift用のコードを見て、バグを指摘したことがある。",
+	"Shift用のコードを自ら修正したことがある。",
+	"Shift用のコードを書いたことがある。",
+	"Shiftの開発・メンテナーである。"
+);
+my @other_level = (
+	"聞いたことがない。",
+	"名前だけ聞いたことがある。",
+	"社内研修、イベントを受けたがある。",
+	"利用したことがある。（検証や、個別利用等可）",
+	"自力でこのツールのコードを修正できる。",
+	"自力でこのツールのコードを書ける。"
+);
 
 ### OUTPUT HTML ###
 header("$host");
@@ -57,21 +76,36 @@ HTML_1
 
 	print "<h4 id=\"archive\">Shift</h4>\n";
 	print "<p>\n";
-	for ($i=1;$i<6;$i++){
+	print "<table>\n";
+	print "<tr><th>レベル</th><th>熟練度指標</th></tr>\n";
+	for ($i=1;$i<10;$i++){
 		if($shift == $i){
-			print "<input type=\"radio\" name=\"Shift\" value=\"$i\" checked>$i\n";
+			print "<tr><td><input type=\"radio\" name=\"Shift\" value=\"$i\" checked>$i</td><td>$shift_level[$i-1]</td></tr>\n";
 		}else{
-			print "<input type=\"radio\" name=\"Shift\" value=\"$i\">$i\n";
+			print "<tr><td><input type=\"radio\" name=\"Shift\" value=\"$i\">$i</td><td>$shift_level[$i-1]</td></tr>\n";
 		}
 	}
+	print "</table>\n";
+	print "<p>\n";
 
+	print "<div onclick=\"obj=document.getElementById('skill_detail').style; obj.display=(obj.display=='none')?'block':'none';\">\n";
+	print "<a style=\"cursor:pointer;\"><h3>以下はオプションで記録ください。</h3></a>\n";
+	print "</div><p>\n";
+	print "<div id=\"skill_detail\" style=\"display:none;clear:both;\">\n";
+	
+	print "<ol>\n";
+	foreach (@other_level){
+		print "<li>$_</li>\n";
+	}
+	print "</ol>\n";
+	
 	print "<h4 id=\"archive\">Automation</h4>\n";
 	print "<dl>\n";
 	foreach my $k (sort keys $auto){
 		my $item = $items->{skill}->[0]->{Automation}->[0]->{$k};
 		print "<dt><b>$k</b></dt>\n";
 		print "<dd>\n";
-		for ($i=1;$i<6;$i++){
+		for ($i=1;$i<7;$i++){
 			if($item == $i){
 				print "<input type=\"radio\" name=\"$k\" value=\"$i\" checked>$i\n";
 			}else{
@@ -87,7 +121,7 @@ HTML_1
 		my $item = $items->{skill}->[0]->{Test}->[0]->{$k};
 		print "<dt><b>$k</b></dt>\n";
 		print "<dd>\n";
-		for ($i=1;$i<6;$i++){
+		for ($i=1;$i<7;$i++){
 			if($item == $i){
 				print "<input type=\"radio\" name=\"$k\" value=\"$i\" checked>$i\n";
 			}else{
@@ -103,7 +137,7 @@ HTML_1
 		my $item = $items->{skill}->[0]->{Cloud}->[0]->{$k};
 		print "<dt><b>$k</b></dt>\n";
 		print "<dd>\n";
-		for ($i=1;$i<6;$i++){
+		for ($i=1;$i<7;$i++){
 			if($item == $i){
 				print "<input type=\"radio\" name=\"$k\" value=\"$i\" checked>$i\n";
 			}else{
@@ -114,6 +148,7 @@ HTML_1
 
 	print <<HTML_2;
 	</dl>
+	</div>
 
 	<input type="submit" value="Registration">
 	</form>

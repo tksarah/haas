@@ -28,7 +28,7 @@ sub output_html{
         <form action="./haas/input_skill.cgi" method="post">
         <h4 id="archive">社員番号を入力（例：123456）</h4>
         <p>
-        <input type="text" name="name" size="10">
+        <input type="text" name="name" size="6">
         <input type="submit" value="Registration">
         </form>
 
