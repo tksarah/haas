@@ -7,7 +7,9 @@ use JSON;
 
 # From POST
 my $form = CGI->new;
-my $user = $form->param('name');
+my $user = $form->param('userid');
+my $username = $form->param('username');
+my $depname = $form->param('depname');
 
 my $shift = $form->param('Shift');
 my $ansible = $form->param('Ansible');
@@ -57,7 +59,9 @@ my $data = {
                                              'Puppet' => "$puppet"
                                            }
                                          ],
-                         'Shift' => "$shift"
+                         'Shift' => "$shift",
+                         'Username' => "$username",
+                         'Depname' => "$depname"
                        }
                      ]
         };

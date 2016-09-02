@@ -3,6 +3,7 @@
 require './lib.pl';
 use strict;
 use CGI;
+use File::Basename;
 use JSON;
 
 # From POST
@@ -24,6 +25,8 @@ if($user eq "000000" || $user eq "" ||  $user !~ /^\w{6}$/ ){
         error_page(1,$back_url);
         exit(0);
 }
+
+
 
 # Format Initialize
 $userdata = "$datadir/000000" if (! -f $userdata);
@@ -55,11 +58,13 @@ my @cloud_level = (
 	"APIやAutomation/Testツールを使って当該クラウド/コンテナの操作ができる。（コードを書く）"
 );
 
+my @user_meta = check_user($user);
+
 ### OUTPUT HTML ###
 header("$host");
 
 my $items = parse_json($userdata);
-input_func($user,$items);
+input_func($user,$items,@user_meta);
 
 footer();
 
@@ -69,6 +74,8 @@ sub input_func{
 
 	my $userid = shift;
 	my $items = shift;
+	my @user_meta = @_;
+
         my $shift = $items->{skill}->[0]->{Shift};
 	my $auto = $items->{skill}->[0]->{Automation}->[0];
 	my $test = $items->{skill}->[0]->{Test}->[0];
@@ -77,9 +84,11 @@ sub input_func{
 
 	print <<HTML_1;
 
-	<h3>本部施策コードの熟練度を登録 （$userid）</h3><p>
+	<h3>本部施策コードの熟練度を登録 （$user_meta[0] / $userid / $user_meta[1]）</h3><p>
         <form action="./haas/reg_skill.cgi" method="post">
-	<input type="hidden" name="name" value="$userid">
+	<input type="hidden" name="userid" value="$userid">
+	<input type="hidden" name="username" value="$user_meta[0]">
+	<input type="hidden" name="depname" value="$user_meta[1]">
 HTML_1
 
 	print "<h4 id=\"archive\">Shift</h4>\n";
@@ -181,4 +190,37 @@ sub parse_json{
         $ref_hash = JSON->new()->decode($json_data);
 
         return $ref_hash;
+}
+
+sub check_user{
+
+	my $user = shift;
+	my $depname;
+	my $uid;
+	my $uname;
+	my $pass = 1;
+	my @listfiles = `ls /var/www/cgi-bin/data/*.list`;
+	LOOP: foreach my $depfile (@listfiles) {
+		chomp($depfile);
+		$depname = basename($depfile,'.list');
+		open(R,"<$depfile");
+		while (<R>) {
+			$uid = (split/,/,$_)[0];
+			$uname = (split/,/,$_)[1];
+			if( $uid =~ /$user/ ){
+				$pass = 0;
+				last LOOP;
+			}
+		}
+		close(R);
+	}
+	if($pass){
+		error_page(4,$back_url,"その番号は無効な社員番号です。");
+		exit(1);
+	}
+	my @ret=("$uname","$depname");
+
+	return(@ret);
+
+
 }

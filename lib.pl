@@ -293,6 +293,7 @@ sub error_page{
 	
 	my $flag = shift;
 	my $back_url = shift;
+	my $input_msg = shift;
 	my $msg;
 
 # Login Fail
@@ -302,6 +303,8 @@ if($flag == '1'){
 	$msg="<b>\"ハンズオンタイプ\"</b>を選択してください。<p>\n";
 }elsif($flag == '3'){
 	$msg="<b>既にその社員番号は使われています。</b><p>\n";
+}elsif($flag == '4'){
+	$msg="<b>$input_msg</b><p>\n";
 }
 
 
