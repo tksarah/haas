@@ -1,23 +1,29 @@
-re './lib.pl';
+#!/usr/bin/perl
+
+require './lib.pl';
 use strict;
 use CGI;
 use JSON;
 
 # From POST
 my $form = CGI->new;
-my $user = $form->param('name');
+my $user = $form->param('userid');
 
 # Get values
 my $host = get_value('host');
 my $datadir = get_value('udatadir');
 my $userdata = "$datadir/$user";
 
-
 ### OUTPUT HTML ###
 header("$host");
 
-my $items = parse_json($userdata);
-output_html($user,$items);
+# Check ID
+if($user eq "000000" || $user !~ /^\w{6}$/){
+	input4html();
+}else{
+	my $items = parse_json($userdata);
+	output_html($user,$items);
+}
 
 footer();
 
@@ -27,6 +33,8 @@ sub output_html{
 	my $user = shift;
 	my $items = shift;
 	my $shift = $items->{skill}->[0]->{Shift};
+	my $username = $items->{skill}->[0]->{Username};
+	my $depname = $items->{skill}->[0]->{Depname};
 	my $ansible = $items->{skill}->[0]->{Automation}->[0]->{Ansible};
 	my $chef = $items->{skill}->[0]->{Automation}->[0]->{Chef};
 	my $puppet = $items->{skill}->[0]->{Automation}->[0]->{Puppet};
@@ -42,7 +50,7 @@ sub output_html{
 	my $other_cloud = $items->{skill}->[0]->{Cloud}->[0]->{Other_Cloud};
 
 print <<HTML_USER_OUT;
-<h3>$user</h3><br>
+<h3>$username / $depname</h3><br>
 <table class="simple">
 <tr><th>項目</th><th>熟練度</th></tr>
 <tr><td><b>Shift</b></td><td id="r">$shift</td></tr>
@@ -75,4 +83,22 @@ sub parse_json{
         $ref_hash = JSON->new()->decode($json_data);
 
         return $ref_hash;
+}
+
+output_html();
+
+footer();
+
+exit (0);
+
+sub input4html{
+        print <<HTML_OUT;
+        <form action="./haas/user_skill.cgi" method="post">
+        <h4 id="archive">社員番号を入力（例：123456）</h4>
+        <p>
+        <input type="text" name="userid" size="6">
+        <input type="submit" value="Registration">
+        </form>
+
+HTML_OUT
 }

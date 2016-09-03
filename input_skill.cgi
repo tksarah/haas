@@ -8,7 +8,7 @@ use JSON;
 
 # From POST
 my $form = CGI->new;
-my $user = $form->param('name');
+my $user = $form->param('userid');
 
 # Get values
 my $host = get_value('host');
@@ -20,7 +20,7 @@ if(!$back_url){
         $back_url = "http://$host/haas/";
 }
 
-# Check name
+# Check ID
 if($user eq "000000" || $user eq "" ||  $user !~ /^\w{6}$/ ){
         error_page(1,$back_url);
         exit(0);
@@ -33,7 +33,7 @@ $userdata = "$datadir/000000" if (! -f $userdata);
 my @shift_level = (
 	"聞いたことがない。",
 	"名前だけ聞いたことがある。",
-	"資料やガイドを見ことがある。",
+	"資料やガイドを見ことがある、社内研修を受けたことがある。",
 	"1度でも利用したことがある。（検証や、個別利用等可）",
 	"案件へ利用したことがある。（部分利用も可）",
 	"Shift用のコードを見て、バグを指摘したことがある。",

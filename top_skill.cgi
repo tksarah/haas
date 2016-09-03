@@ -34,10 +34,11 @@ sub output_html{
 	
 	print <<HTML_1;
 
-	<h3>スキルマップ</h3>
+	<h3>スキル熟練度</h3>
 	<p>
 	- <a href="./haas/skills.cgi" target="_blank">[ スキル登録/修正 ]</a><br>
-	- <a href="./haas/skills.cgi" target="_blank">[ Shift スキルマップ ]</a><br>
+	- <a href="./haas/result_skill.cgi" target="_blank">[ 全体・部 チェック ]</a><br>
+	- <a href="./haas/user_skill.cgi" target="_blank">[ 個人 チェック ]</a><br>
 	
 
 HTML_1
