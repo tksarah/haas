@@ -26,15 +26,15 @@ my @user_meta = check_user($user);
 
 # Initialize question
 my @shift_level = (
-	"聞いたことがない。",
-	"名前だけ聞いたことがある。",
-	"資料やガイドを見ことがある、社内研修を受けたことがある。",
-	"1度でも利用したことがある。（検証や、個別利用等可）",
-	"案件へ利用したことがある。（部分利用も可）",
-	"Shift用のコードを見て、バグを指摘したことがある。",
-	"Shift用のコードを自ら修正したことがある。",
-	"Shift用のコードを書いたことがある。",
-	"Shiftの開発・メンテナーである。"
+	"インフラをコード化するツール/ソフトを聞いたことがない。",
+	"インフラをコード化するツール/ソフトを1つでも聞いたことがある、名前は知ってる。",
+	"インフラをコード化するツール/ソフトの資料やガイドを見ことがある or 社内・社外研修・勉強会を受けたことがある。",
+	"インフラをコード化するツール/ソフトを1度でも利用したことがある。（検証や、個別利用等可）",
+	"Shift用のコードを案件へ利用したことがある。（部分的利用も可）",
+	"Shift用のコードの中で、パラメータを修正して利用できる。",
+	"Shift用のコードを自ら修正・カスタマイズできる or したことがある。",
+	"Shift用のコード or 個別に Ansible や Serverspec などインフラをコード化できる。",
+	"Shiftのデベロッパー or メンテナーである。"
 );
 my @option_level = (
 	"聞いたことがない。",
@@ -94,9 +94,9 @@ HTML_1
 	print "<tr><th>レベル</th><th>熟練度チェック指標</th></tr>\n";
 	for ($i=1;$i<10;$i++){
 		if($shift == $i){
-			print "<tr><td><input type=\"radio\" name=\"Shift\" value=\"$i\" checked>$i</td><td>$shift_level[$i-1]</td></tr>\n";
+			print "<tr><td><input type=\"radio\" name=\"Shift\" value=\"$i\" checked>$i</td><td id=\"shift\">$shift_level[$i-1]</td></tr>\n";
 		}else{
-			print "<tr><td><input type=\"radio\" name=\"Shift\" value=\"$i\">$i</td><td>$shift_level[$i-1]</td></tr>\n";
+			print "<tr><td><input type=\"radio\" name=\"Shift\" value=\"$i\">$i</td><td id=\"shift\">$shift_level[$i-1]</td></tr>\n";
 		}
 	}
 	print "</table>\n";

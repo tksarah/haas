@@ -28,6 +28,13 @@ td{
  background-color: #dbd9f9;
 }
 
+td#shift{
+ padding: 6px;
+ font-size: 10.8pt;
+ background-color: #dbd9f9;
+ border: 1px solid #b9b9b9;
+}
+
 .simple{
  width: 100%;
  border-collapse: collapse;
@@ -55,6 +62,13 @@ border: 1px solid #b9b9b9;
 text-align: right;
 }
 
+.simple td#naka{
+padding: 6px;
+background-color: #fff;
+border: 1px solid #b9b9b9;
+text-align: center;
+}
+
 div#top {
  margin: 5px;
  font-size:10pt;
@@ -66,6 +80,19 @@ div#top {
  padding-bottom : 1px ;
  padding-right : 5px ;
  padding-left : 5px ;
+}
+
+div#desc {
+ margin: 5px 0px 0px 0px;
+ font-size:12pt;
+ border: 1px solid ;
+ border-color: #000000;
+ background-color: #dbe9ff;
+ line-height: 20px ;
+ padding-top : 5px ;
+ padding-bottom : 5px ;
+ padding-right : 10px ;
+ padding-left : 10px ;
 }
 
 div#comment {
