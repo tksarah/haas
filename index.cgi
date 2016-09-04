@@ -1,8 +1,7 @@
 #!/usr/bin/perl
 
-require './lib.pl';
-use strict ;
-use CGI;
+require 'lib.pl';
+use strict;
 use BerkeleyDB;
 use vars qw( %h $k $v );
 
@@ -28,6 +27,7 @@ userlist(%h);
 
 # Output Registration Form
 if (keys %h < 10){ input_form(); }
+
 untie %h;
 
 footer();

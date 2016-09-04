@@ -1,8 +1,7 @@
 #!/usr/bin/perl
 
-require './lib.pl';
-use strict ;
-use CGI;
+require 'lib.pl';
+use strict;
 
 # From POST
 my $form = CGI->new;
@@ -12,11 +11,16 @@ my $flag = $form->param('f');
 my $host = get_value('host');
 my $logfile = get_value('logfile');
 
-
 ### OUTPUT HTML ###
 header("$host");
 
 out_log($host,$flag);
+
+print <<LINKS;
+<p>
+<hr>
+<a href="./haas/manage.cgi">[ Manage Top ]</a>
+LINKS
 
 footer();
 
@@ -35,7 +39,6 @@ sub out_log {
 		print "<h3>log</h3><br>\n";
 		print "<a href=\"http://$hostaddr/haas/log_check.cgi?f=latest\">[ Latest 5 log ]</a> ";
 		print "<a href=\"http://$hostaddr/haas/log_check.cgi?f=all\">[ All ]</a> ";
-		print "<a href=\"http://$hostaddr/haas/manage.cgi\">[ Manage Top ]</a>\n";
 		print "<p>\n";
 
 		# out at
@@ -70,7 +73,6 @@ sub out_log {
 		print "</table>\n";
 		print "</p>\n";
 		print "<a href=\"http://$hostaddr/haas/log_check.cgi?f=all\">[ All ]</a> ";
-		print "<a href=\"http://$hostaddr/haas/manage.cgi\">[ Manage Top ]</a>\n";
 
 	}elsif($flag eq "all"){
 		print "<h3>All log</h3><br>\n";
@@ -90,7 +92,6 @@ sub out_log {
 		print "</table>\n";
 		print "</p>\n";
 		print "<a href=\"http://$hostaddr/haas/log_check.cgi?f=latest\">[ Latest 5 log ]</a> ";
-		print "<a href=\"http://$hostaddr/haas/manage.cgi\">[ Manage Top ]</a>\n";
 	}
 
 }

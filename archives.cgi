@@ -1,10 +1,7 @@
 #!/usr/bin/perl
 
-require './lib.pl';
+require 'lib.pl';
 use strict;
-use CGI;
-use DateTime;
-use File::Basename;
 
 # From POST
 my $form = CGI->new;
@@ -25,42 +22,27 @@ header("$host");
 
 print "<font color=\"red\">IDを間違えて実施している場合はカウントされません。</font>\n";
 
-# out logfile
 if($dep_name eq "all"){
-	statistics("$year-$month",$all_logfile);
+	statistics_archive("$year-$month",$all_logfile);
 }elsif($dep_name ne "" & $year ne "" & $month ne ""){
-	dep_user_list($host,$dep_name,$year,$month,$logfile,$listfile);
+	dep_user_list_archive($host,$dep_name,$year,$month,$logfile,$listfile);
 }else{
-	select_func();
+	select_func_archive();
 }
 
-print <<FOOTER;
+print <<LINKS;
 <p>
 <hr>
 <a href="./haas/archives.cgi">[ Archvies Top ]</a>
 <a href="./haas/manage.cgi">[ Manage Top ]</a>
 <p>
-</div>
+LINKS
 
-<div id="footer">
-  <em>
-  <font size="2" color="#508090">
-  COPYRIGHT(C) 2016 「Hands on as a Service」<BR>
-  ALL RIGHTS RESERVED<BR>
-  Author:TK<BR>
-  </FONT>
-  </em>
-</div>
-
-</body>
-</html>
-FOOTER
+footer();
 
 exit (0);
 
-### Log Page
-## Statistics for month
-sub dep_user_list{
+sub dep_user_list_archive{
 
 	my $hostaddr = shift;
         my $name = shift;
@@ -78,7 +60,7 @@ sub dep_user_list{
 	print "<tr><th>ユーザ</th><th>ハンズオン合計回数</th><th>ハンズオン合計実行時間</th></tr>\n";
 
 	# Create Hash from a department list
-	%dep = &create_hash($listfile);
+	%dep = create_hash($listfile);
 
 	foreach my $user ( sort keys %dep ){
         	my $total=0;
@@ -122,7 +104,7 @@ sub dep_user_list{
 }
 
 
-sub select_func{
+sub select_func_archive{
 	my @select_list = &dep_list();
 
 	print <<HTML1;
@@ -154,35 +136,7 @@ HTML1
 HTML_2
 }
 
-sub create_hash{
-        my $file = shift;
-        my $dep_id;
-        my $username;
-        my %hash;
-
-        open(R,"<$file");
-        while (<R>) {
-                if( /,/ ){
-                        $_ =~ s/\s+//g;
-                        $dep_id = (split/,/,$_)[0];
-                        $username = (split/,/,$_)[1];
-                        chomp($username);
-                        if($username eq ""){
-                                $hash{$dep_id} = "$dep_id";
-                        }else{
-                                $hash{$dep_id} = "$username";
-                        }
-                }else{
-                        chomp($_);
-                        $hash{$_} = "$_";
-                }
-        }
-        return %hash;
-}
-
-### Log Page
-## Statistics for month
-sub statistics{
+sub statistics_archive{
 
         my $month = shift;
         my $logfile = shift;
@@ -270,48 +224,47 @@ sub statistics{
 	# OUTPUT
 	print <<STATS;
 
-<h3>$month</h3>
-<h4 id="archive">総合</h4>
-<br>
-<table class="simple">
-<tr><th>項目</th><th>値</th></tr>
-<tr><td>トータル施策適用工数（時）</td><td id="r"><font size="5pt"><b>$emp_h</b></font></td></tr>
-<tr><td>トータルハンズオン実施数</td><td id="r">$total</td></tr>
-<tr><td>トータルハンズオン完了数</td><td id="r">$counts{'success'}</td></tr>
-<tr><td>トータルハンズオン完了時間（分）</td><td id="r"><font color="blue">$counts{'stime'}</font></td></tr>
-<tr><td>トータルハンズオン未完了時間（分）</td><td id="r"><font color="red">$counts{'ftime'}</font></td></tr>
-<tr><td>ユニークユーザ数</td><td id="r">$ucnt</td></tr>
-<tr><td>ユニークハンズオン数（ID＋ハンズオンタイプ）</td><td id="r">$urec</td></tr>
-<tr><td>ハンズオン時間/人（分）</td><td id="r">$emp_m</td></tr>
-</table>
-<p>
+	<h3>$month</h3>
+	<h4 id="archive">総合</h4>
+	<br>
+	<table class="simple">
+	<tr><th>項目</th><th>値</th></tr>
+	<tr><td>トータル施策適用工数（時）</td><td id="r"><font size="5pt"><b>$emp_h</b></font></td></tr>
+	<tr><td>トータルハンズオン実施数</td><td id="r">$total</td></tr>
+	<tr><td>トータルハンズオン完了数</td><td id="r">$counts{'success'}</td></tr>
+	<tr><td>トータルハンズオン完了時間（分）</td><td id="r"><font color="blue">$counts{'stime'}</font></td></tr>
+	<tr><td>トータルハンズオン未完了時間（分）</td><td id="r"><font color="red">$counts{'ftime'}</font></td></tr>
+	<tr><td>ユニークユーザ数</td><td id="r">$ucnt</td></tr>
+	<tr><td>ユニークハンズオン数（ID＋ハンズオンタイプ）</td><td id="r">$urec</td></tr>
+	<tr><td>ハンズオン時間/人（分）</td><td id="r">$emp_m</td></tr>
+	</table>
+	<p>
 
-<h4 id="archive">詳細</h4>
-<p>
-各ハンズオンはインチキをしない限り、数分では完了できませんのでそのような実施は除外とするための情報
-<p>
-<table class="simple">
-<tr><th>項目</th><th>サブ項目</th><th>値</th></tr>
-<tr><td rowspan="2">20分以上で終了</td><td>ハンズオン数</td><td id="r">$over20_counts{'emp'}</td></tr>
-<tr></td><td>時間/ハンズオン（分）</td><td id="r">$emp_m_o20</td></tr>
-<tr><td rowspan="2">20分以下で終了</td><td>ハンズオン数</td><td id="r">$under20_counts{'emp'}</td></tr>
-<tr></td><td>時間/ハンズオン（分）</td><td id="r">$emp_m_u20</td></tr>
-</table>
-<p>
+	<h4 id="archive">詳細</h4>
+	<p>
+	各ハンズオンはインチキをしない限り、数分では完了できませんのでそのような実施は除外とするための情報
+	<p>
+	<table class="simple">
+	<tr><th>項目</th><th>サブ項目</th><th>値</th></tr>
+	<tr><td rowspan="2">20分以上で終了</td><td>ハンズオン数</td><td id="r">$over20_counts{'emp'}</td></tr>
+	<tr></td><td>時間/ハンズオン（分）</td><td id="r">$emp_m_o20</td></tr>
+	<tr><td rowspan="2">20分以下で終了</td><td>ハンズオン数</td><td id="r">$under20_counts{'emp'}</td></tr>
+	<tr></td><td>時間/ハンズオン（分）</td><td id="r">$emp_m_u20</td></tr>
+	</table>
+	<p>
 
-<h4 id="archive">ハンズオン科目別</h4>
-<br>
-<table class="simple">
-<tr><th>項目</th><th>値</th></tr>
-<tr><td>Ansible 初級ハンズオン数（完了）</td><td id="r"><font color="blue">$counts{'ansible-1-s'}</font></td></tr>
-<tr><td>Ansible 中級ハンズオン数（完了）</td><td id="r"><font color="blue">$counts{'ansible-2-s'}</font></td></tr>
-<tr><td>Serverspec 初級ハンズオン数（完了）</td><td id="r"><font color="blue">$counts{'serverspec-1-s'}</font></td></tr>
-<tr><td>Ansible 初級ハンズオン数（未完了）</td><td id="r"><font color="red">$counts{'ansible-1-f'}</font></td></tr>
-<tr><td>Ansible 中級ハンズオン数（未完了）</td><td id="r"><font color="red">$counts{'ansible-2-f'}</font></td></tr>
-<tr><td>Serverspec 初級ハンズオン数（未完了）</td><td id="r"><font color="red">$counts{'serverspec-1-f'}</font></td></tr>
-</table>
-<p>
-
+	<h4 id="archive">ハンズオン科目別</h4>
+	<br>
+	<table class="simple">
+	<tr><th>項目</th><th>値</th></tr>
+	<tr><td>Ansible 初級ハンズオン数（完了）</td><td id="r"><font color="blue">$counts{'ansible-1-s'}</font></td></tr>
+	<tr><td>Ansible 中級ハンズオン数（完了）</td><td id="r"><font color="blue">$counts{'ansible-2-s'}</font></td></tr>
+	<tr><td>Serverspec 初級ハンズオン数（完了）</td><td id="r"><font color="blue">$counts{'serverspec-1-s'}</font></td></tr>
+	<tr><td>Ansible 初級ハンズオン数（未完了）</td><td id="r"><font color="red">$counts{'ansible-1-f'}</font></td></tr>
+	<tr><td>Ansible 中級ハンズオン数（未完了）</td><td id="r"><font color="red">$counts{'ansible-2-f'}</font></td></tr>
+	<tr><td>Serverspec 初級ハンズオン数（未完了）</td><td id="r"><font color="red">$counts{'serverspec-1-f'}</font></td></tr>
+	</table>
+	<p>
 STATS
 
 }

@@ -1,10 +1,7 @@
 #!/usr/bin/perl
 
-require './lib.pl';
+require 'lib.pl';
 use strict;
-use CGI;
-use File::Basename;
-use JSON;
 
 # From POST
 my $form = CGI->new;
@@ -25,11 +22,9 @@ if($user eq "000000" || $user eq "" ||  $user !~ /^\w{6}$/ ){
         error_page(1,$back_url);
         exit(0);
 }
+my @user_meta = check_user($user);
 
-
-
-# Format Initialize
-$userdata = "$datadir/000000" if (! -f $userdata);
+# Initialize question
 my @shift_level = (
 	"聞いたことがない。",
 	"名前だけ聞いたことがある。",
@@ -41,7 +36,7 @@ my @shift_level = (
 	"Shift用のコードを書いたことがある。",
 	"Shiftの開発・メンテナーである。"
 );
-my @other_level = (
+my @option_level = (
 	"聞いたことがない。",
 	"名前だけ聞いたことがある。",
 	"社内研修、イベントを受けたがある。",
@@ -55,10 +50,12 @@ my @cloud_level = (
 	"名前だけ聞いたことがある。",
 	"GUIやポータルでの当該のクラウド/コンテナを操作したことがある。",
 	"CUIで手動で当該のクラウド/コンテナを操作したことがある。（コードは書かない）",
+	"他の人が作ったテンプレートやコードをクラウド/コンテナの操作に流用したことがある。（コードは書かない）",
 	"APIやAutomation/Testツールを使って当該クラウド/コンテナの操作ができる。（コードを書く）"
 );
 
-my @user_meta = check_user($user);
+# Initialize user data
+$userdata = "$datadir/000000" if (! -f $userdata);
 
 ### OUTPUT HTML ###
 header("$host");
@@ -106,12 +103,12 @@ HTML_1
 	print "<p>\n";
 
 	print "<div onclick=\"obj=document.getElementById('skill_detail').style; obj.display=(obj.display=='none')?'block':'none';\">\n";
-	print "<a style=\"cursor:pointer;\"><h3>個別にチェックしてください。（オプション）</h3></a>\n";
+	print "<a style=\"cursor:pointer;\"><h3>▼ 個別にチェックしてください。（オプション）</h3></a>\n";
 	print "</div><p>\n";
 	print "<div id=\"skill_detail\" style=\"display:none;clear:both;\">\n";
 	
 	print "<ol id=\"readme\">\n";
-	foreach (@other_level){
+	foreach (@option_level){
 		print "<li>$_</li>\n";
 	}
 	print "</ol>\n";
@@ -159,7 +156,7 @@ HTML_1
 		my $item = $items->{skill}->[0]->{Cloud}->[0]->{$k};
 		print "<dt><b>$k</b></dt>\n";
 		print "<dd>\n";
-		for ($i=1;$i<6;$i++){
+		for ($i=1;$i<7;$i++){
 			if($item == $i){
 				print "<input type=\"radio\" name=\"$k\" value=\"$i\" checked>$i\n";
 			}else{
@@ -175,21 +172,6 @@ HTML_1
 	<input type="submit" value="Registration">
 	</form>
 HTML_2
-}
-
-
-sub parse_json{
-
-        my $filepath = shift;
-        my $json_data;
-        my $ref_hash;
-
-        open(R,"<$filepath");
-        $json_data = <R>;
-        close(R);
-        $ref_hash = JSON->new()->decode($json_data);
-
-        return $ref_hash;
 }
 
 sub check_user{
@@ -221,6 +203,4 @@ sub check_user{
 	my @ret=("$uname","$depname");
 
 	return(@ret);
-
-
 }

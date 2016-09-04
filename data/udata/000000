@@ -1,1 +1,1 @@
-{"skill":[{"Shift":"1","Automation":[{"Ansible":"1","Puppet":"1","Chef":"1","SaltStack":"1","Itamae":"1" }],"Test":[{"Serverspec":"1","Infrataster":"1"}],"Cloud":[{"AWS":"1","Azure":"1","SoftLayer":"1","Other_Cloud":"1","Docker":"1","OpenStack":"1"}]}]}
+{"skill":[{"Shift":"1","Automation":[{"Ansible":"1","Puppet":"1","Chef":"1","SaltStack":"1","Itamae":"1" }],"Test":[{"Serverspec":"1","Infrataster":"1"}],"Cloud":[{"AWS":"1","Azure":"1","SoftLayer":"1","Docker":"1","OpenStack":"1"}]}]}

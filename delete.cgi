@@ -1,10 +1,7 @@
 #!/usr/bin/perl
 
-require './lib.pl';
-use strict ;
-use CGI;
-use DateTime;
-use DateTime::Format::Strptime;
+require 'lib.pl';
+use strict;
 use BerkeleyDB;
 use vars qw( %h $k $v );
 
@@ -48,12 +45,15 @@ delete $h{$id};
 
 # Destroy id
 destroy($id,$inventoryfile,$playbookfile);
+
 untie %h;
 
 ### OUTPUT HTML ###
 header("$host");
+
 print "お疲れ様でした。<br>\n";
 print "<a href=\"./haas/input_skill.cgi?userid=$id\">[ こちら ]</a>からスキル登録をしましょう。\n";
+
 footer();
 
 exit (0);

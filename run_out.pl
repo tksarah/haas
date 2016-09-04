@@ -1,11 +1,7 @@
 #!/usr/bin/perl
 
-require './lib.pl';
+require 'lib.pl';
 use strict;
-use CGI;
-use DateTime;
-use File::Basename;
-
 
 # Get Date
 my $dt = DateTime->now(time_zone => 'Asia/Tokyo');
@@ -15,6 +11,7 @@ my $month;
 my $name;
 my @dep = &dep_list();
 my %dep_hash;
+
 # Set logfiles
 my $logfile = "./data/haas.log";
 my $datadir = "./data";
@@ -40,7 +37,7 @@ foreach $name (@dep){
 	}else{
 		print "$year-$month-$name ... ";
 		# Create Hash from a department list
-		%dep_hash = &create_hash($listfile);
+		%dep_hash = create_hash($listfile);
 
 		foreach my $user ( sort keys %dep_hash ){
 		        open(R,"<$logfile");
@@ -68,31 +65,4 @@ foreach $name (@dep){
 
 }
 
-
 exit(0);
-
-sub create_hash{
-	my $file = shift;
-	my $dep_id;
-	my $username;
-	my %hash;
-
-	open(R,"<$file");
-	while (<R>) {
-		if( /,/ ){
-       			$_ =~ s/\s+//g;
-               		$dep_id = (split/,/,$_)[0];
-       			$username = (split/,/,$_)[1];
-			chomp($username);
-			if($username eq ""){
-				$hash{$dep_id} = "$dep_id";
-			}else{
-				$hash{$dep_id} = "$username";
-			}
-		}else{
-			chomp($_);
-			$hash{$_} = "$_";
-		}
-	}
-	return %hash;
-}

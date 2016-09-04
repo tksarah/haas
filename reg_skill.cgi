@@ -1,9 +1,7 @@
 #!/usr/bin/perl
 
-require './lib.pl';
+require 'lib.pl';
 use strict;
-use CGI;
-use JSON;
 
 # From POST
 my $form = CGI->new;
@@ -24,7 +22,6 @@ my $azure = $form->param('Azure');
 my $softlayer = $form->param('SoftLayer');
 my $docker = $form->param('Docker');
 my $openstack = $form->param('OpenStack');
-my $other_c = $form->param('Other_Cloud');
 
 # Get values
 my $host = get_value('host');
@@ -36,7 +33,6 @@ my $data = {
                        {
                          'Cloud' => [
                                       {
-                                        'Other_Cloud' => "$other_c",
                                         'Azure' => "$azure",
                                         'SoftLayer' => "$softlayer",
                                         'AWS' => "$aws",
@@ -69,6 +65,7 @@ my $data = {
 my $json = JSON->new();
 my $json_data = $json->encode($data);
 
+# Write user data
 open(W,">$userdata");
 print W $json_data;
 close(W);
@@ -77,11 +74,10 @@ close(W);
 ### OUTPUT HTML ###
 header("$host");
 
-#print "$json_data\n";
 print "登録されました。<p>\n";
-print "<a href=\"http://$host/haas/\">[ Back ]</a>";
+print "<a href=\"http://$host/haas/user_skill.cgi?userid=$user\">[ ここから ] </a>確認できます。<p>";
+print "<a href=\"http://$host/haas/\">[ Back Home ]</a>";
 
 footer();
 
 exit (0);
-

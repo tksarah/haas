@@ -1,11 +1,8 @@
 #!/usr/bin/perl
 
-require './lib.pl';
+require 'lib.pl';
 use strict;
-use CGI;
-use DateTime;
 use BerkeleyDB;
-use File::Basename;
 use vars qw( %h $k $v );
 
 # From POST
@@ -90,29 +87,16 @@ department_select();
 print "<h3>アーカイブス</h3><br>";
 print "<a href=\"./haas/archives.cgi\">[ Archives ]</a>\n";
 
-print <<FOOTER;
+print <<LINKS;
 <p>
 <hr>
-<a href="./haas/log_check.cgi"  target="_blank">[ Log & Check ]</a>
 <a href="./haas/manage.cgi">[ This Month ]</a>
 <a href="./haas/manage.cgi?bm=last">[ Last Month ]</a>
+<a href="./haas/log_check.cgi"  target="_blank">[ Status Check ]</a>
 <a href="./haas/top_skill.cgi">[ Skill ]</a>
-<a href="http://192.168.175.198:8080/#/"  target="_blank">[ Notebook ]</a>
-</div>
+LINKS
 
-<div id="footer">
-  <em>
-  <font size="2" color="#508090">
-  COPYRIGHT(C) 2016 「Hands on as a Service」<BR>
-  ALL RIGHTS RESERVED<BR>
-  Author:TK<BR>
-  </FONT>
-  </em>
-</div>
-
-</body>
-</html>
-FOOTER
+footer();
 
 exit (0);
 
@@ -206,7 +190,6 @@ sub statistics{
 # OUTPUT
 print <<STATS;
 
-
 <div onclick="obj=document.getElementById('sogo').style; obj.display=(obj.display=='none')?'block':'none';">
 <a style="cursor:pointer;"><h3>▼ 総合集計（$month）</h3></a>
 </div>
@@ -266,16 +249,8 @@ STATS
 
 }
 
-sub uniq_func{
-        my @src = @_;
-        my %hash;
-
-        @hash{@src} = ();
-        return keys %hash;
-}
-
 sub department_select{
-	my @select_list = &dep_list();
+	my @select_list = dep_list();
 
 	print "<h3>部署毎の情報 （今月・先月）</h3><br>\n";
 	print "<form action=\"./haas/department.cgi\" method=\"post\">\n";

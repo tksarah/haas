@@ -1,12 +1,9 @@
 #!/usr/bin/perl
 
-require './lib.pl';
-use strict ;
-use CGI;
-use DateTime;
+require 'lib.pl';
+use strict;
 use BerkeleyDB;
 use vars qw( %h $k $v );
-
 
 # From POST
 my $form = CGI->new;
@@ -35,7 +32,6 @@ tie %h, "BerkeleyDB::Hash",
         -Flags    => DB_CREATE
     or die "Cannot open file $dbfilename: $! $BerkeleyDB::Error\n";
 
-#$id =~ s/[\s]+//g;
 # Check name,type exists/name duplicated
 if( $id eq "" || $id !~ /^[\w]+$/ ){
 	error_page(1,$back_url);
@@ -85,19 +81,20 @@ untie %h;
 
 ### OUTPUT HTML ###
 header("$host");
+
 print "ハンズオン環境を作成しました。<p>\n";
 print "以下の情報を元にハンズオンを始めてください。なお、この環境は<font color=\"red\"><b>６０分後に自動的に削除</b></font>されますのでそれまでに実施してください。\n";
 
 handsref($host,$type,$blog,$htty,$ttty,$dte,$id);
 
-print "<br><br><br>完了したら以下の「 終了 」ボタンを押してください。実施が記録され、環境がクリアされます。<br>";
-print "<form action=\"./haas/delete.cgi\" method=\"post\"><input type=\"hidden\" name=\"name\" value=\"$id\"><input id=\"button\" type=\"submit\" value=\"終了\"></form>\n";
-print "<br><br>\n";
+print "完了したら以下の「 終了 」ボタンを押してください。実施が記録され、環境がクリアされます。<br>";
+print "<form action=\"./haas/delete.cgi\" method=\"post\">\n";
+print "<input type=\"hidden\" name=\"name\" value=\"$id\"><input id=\"button\" type=\"submit\" value=\"終了\">\n";
+print "</form><br><br>\n";
 print "このページの情報（ご自身のハンズオン環境の情報）はTopページの<b>現在の利用状況</b>テーブルから自身の社員番号をクリックすることでも確認できます。";
 print "<a href=\"http://$host/haas/\"><b>[ Top ]</b></a>\n";
 
 howto();
 footer();
-
 
 exit (0);

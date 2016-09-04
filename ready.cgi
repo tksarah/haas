@@ -1,8 +1,7 @@
 #!/usr/bin/perl
 
-require './lib.pl';
-use strict ;
-use CGI;
+require 'lib.pl';
+use strict;
 
 # Get values
 my $host = get_value('host');

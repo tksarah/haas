@@ -1,9 +1,7 @@
 #!/usr/bin/perl
 
-require './lib.pl';
+require 'lib.pl';
 use strict;
-use CGI;
-use DateTime;
 
 # From POST
 my $form = CGI->new;
@@ -35,26 +33,16 @@ header("$host");
 # out logfile
 dep_user_list($host,$dep_name,$set_month,$logfile);
 
-print <<FOOTER;
+print <<LINKS;
 <p>
+<hr>
 <a href="./haas/department.cgi?dep_name=$dep_name">[ This Month for $dep_name ]</a>
 <a href="./haas/department.cgi?bm=last&dep_name=$dep_name">[ Last Month for $dep_name ]</a>
 <a href="./haas/manage.cgi">[ Manage Top ]</a>
-</div>
+<p>
+LINKS
 
-<div id="footer">
-  <em>
-  <font size="2" color="#508090">
-  COPYRIGHT(C) 2016 「Hands on as a Service」<BR>
-  ALL RIGHTS RESERVED<BR>
-  Author:TK<BR>
-  </FONT>
-  </em>
-</div>
-
-</body>
-</html>
-FOOTER
+footer();
 
 exit (0);
 

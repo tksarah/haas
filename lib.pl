@@ -1,5 +1,10 @@
 use lib qw(./lib);
+use CGI;
 use IO::Socket;
+use DateTime;
+use DateTime::Format::Strptime;
+use File::Basename;
+use JSON;
 
 ### HEADER Output
 sub header{
@@ -13,112 +18,107 @@ Cache-Control: post-check=0, pre-check=0
 Expires: Thu, 01 Dec 1994 16:00:00 GMT
 
 
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="html://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
- <head>
-  <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8"/>
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="0">
-  <title>Handson as a Service</title>
-  <base href="http://$hostaddr/"/>
-  <link rel="stylesheet" type="text/css" href="default.css"/>
- </head>
+	<?xml version="1.0" encoding="UTF-8"?>
+	<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+	<html xmlns="html://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
+	 <head>
+	  <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8"/>
+	  <meta http-equiv="Pragma" content="no-cache">
+	  <meta http-equiv="Expires" content="0">
+	  <title>Handson as a Service</title>
+	  <base href="http://$hostaddr/"/>
+	  <link rel="stylesheet" type="text/css" href="default.css"/>
+	 </head>
 
-<body>
+	<body>
 
-<div id="header">
-  <h2><a href="http://$hostaddr/haas/">Handson as a Service</a></h2>
-</div>
+	<div id="header">
+	  <h2><a href="http://$hostaddr/haas/">Handson as a Service</a></h2>
+	</div>
 
-<div id="content">
+	<div id="content">
 HEADER
-
 }
 
 ### FOOTER Output
 sub footer{
 
 print <<FOOTER;
-</div>
+	</div>
 
-<div id="footer">
-  <em>
-  <font size="2" color="#508090">
-  COPYRIGHT(C) 2016 「Hands on as a Service」 version 1.0<BR>
-  ALL RIGHTS RESERVED<BR>
-  Author:<a href="./haas/manage.cgi"  target="_blank"><font color="#508090">TK</font></a><BR>
-  </FONT>
-  </em>
-</div>
+	<div id="footer">
+	  <em>
+	  <font size="2" color="#508090">
+	  COPYRIGHT(C) 2016 「Hands on as a Service」 version 1.0<BR>
+	  ALL RIGHTS RESERVED<BR>
+	  Author:<a href="./haas/manage.cgi"  target="_blank"><font color="#508090">TK</font></a><BR>
+	  </FONT>
+	  </em>
+	</div>
 
-</body>
-</html>
+	</body>
+	</html>
 FOOTER
-
 }
-
 
 ### Usage Output
 sub usage{
 
 print <<USAGE;
-こちらは、社員が自らのタイミングでセルフスタディできるようにしたハンズオンサービスです。現在は、AnsibleやServerspecの基礎を学べます。<p>
+	こちらは、社員が自らのタイミングでセルフスタディできるようにしたハンズオンサービスです。現在は、AnsibleやServerspecの基礎を学べます。<p>
 
-<div onclick="obj=document.getElementById('usage').style; obj.display=(obj.display=='none')?'block':'none';">
-<a style="cursor:pointer;"><h3>▼ 利用方法</h3></a>
-</div>
-<p>
-<font color="red">こちらを良く読んでから実施してください。</font>
-<div id="usage" style="display:none;clear:both;">
-<ol id="list">
-<li><b>社員番号を入力</b>します</li>
-<li><b>ハンズオンの種類を選択</b>します</li>
-<li>「ハンズオンビルド」ボタンを押すと、ハンズオンの環境が作られます</li>
-<li>ハンズオンの環境の情報を元にブラウザでアクセスし実施します</li>
-</ol>
+	<div onclick="obj=document.getElementById('usage').style; obj.display=(obj.display=='none')?'block':'none';">
+	<a style="cursor:pointer;"><h3>▼ 利用方法</h3></a>
+	</div>
+	<p>
+	<font color="red">こちらを良く読んでから実施してください。</font>
+	<div id="usage" style="display:none;clear:both;">
+	<ol id="list">
+	<li><b>社員番号を入力</b>します</li>
+	<li><b>ハンズオンの種類を選択</b>します</li>
+	<li>「ハンズオンビルド」ボタンを押すと、ハンズオンの環境が作られます</li>
+	<li>ハンズオンの環境の情報を元にブラウザでアクセスし実施します</li>
+	</ol>
 
-<h4>前提および、保持スキル</h4>
-<ul id="list">
-<li>社内で開催している<b>”Ansible or Serverspec の概要編”</b>を受講済み、または同等の知識を保持</li>
-<li>Unix/Linuxオペレーション1年以上の経験、またはLPIC Level 1 同等以上の知識を保持</li>
-<li>viによるファイル編集、基本的なUnix/Linuxオペレーションが可能</li>
-</ul>
-<center><b>概要編のリクエストは＝＞<a href="http://192.168.175.198:8080/#/notebook/2BTM1UFVR" target="_blank">[ こちら ]</a></b></center>
+	<h4>前提および、保持スキル</h4>
+	<ul id="list">
+	<li>社内で開催している<b>”Ansible or Serverspec の概要編”</b>を受講済み、または同等の知識を保持</li>
+	<li>Unix/Linuxオペレーション1年以上の経験、またはLPIC Level 1 同等以上の知識を保持</li>
+	<li>viによるファイル編集、基本的なUnix/Linuxオペレーションが可能</li>
+	</ul>
+	<center><b>概要編のリクエストは＝＞<a href="http://192.168.175.198:8080/#/notebook/2BTM1UFVR" target="_blank">[ こちら ]</a></b></center>
 
-<h4>必要なもの</h4>
-<ul id="list">
-<li>社内のLANにつながっているPC</li>
-<li>ブラウザ（Internet Explorer or Chrome で動作確認済み）</li>
-</ul>
+	<h4>必要なもの</h4>
+	<ul id="list">
+	<li>社内のLANにつながっているPC</li>
+	<li>ブラウザ（Internet Explorer or Chrome で動作確認済み）</li>
+	</ul>
 
 
-<h4>注意と制限</h4>
-<ul id="list">
-<li>ブラウザでうまく表示されない場合、プロキシ設定を外してから実施してください</li>
-<li>ハンズオンの環境は<font color=red><b>60分</b></font>で自動的に削除されます</li>
-<li><font color=red>同じ社員が”同時”に2つ以上のハンズオンを実行できません</font></li>
-<li><font color=red>10社員</font>までが同時に本サービスを利用可能です</li>
-<li>ハンズオン実施の時間は各所属の教育工数としてつけてください。</li>
-</ul>
-</div>
-
+	<h4>注意と制限</h4>
+	<ul id="list">
+	<li>ブラウザでうまく表示されない場合、プロキシ設定を外してから実施してください</li>
+	<li>ハンズオンの環境は<font color=red><b>60分</b></font>で自動的に削除されます</li>
+	<li><font color=red>同じ社員が”同時”に2つ以上のハンズオンを実行できません</font></li>
+	<li><font color=red>10社員</font>までが同時に本サービスを利用可能です</li>
+	<li>ハンズオン実施の時間は各所属の教育工数としてつけてください。</li>
+	</ul>
+	</div>
 USAGE
-
 }
 
 ### Howto&Help
 sub howto{
 
 print <<HOWTO;
-<p>
-<h3>ハンズオンコンソール のTips</h3>
-<ul id="list">
-  <li>ラウザのページ単位が1つのSSHセッション</li>
-  <li><b>Copy & Paste</b>は、Ctrl+C , Ctrl+V で可能</li>
-  <li><font color="red">コンソールが出てこない（ブラウザが黒いまま）の時</font>、ブラウザの「更新」を試みる</li>
-  <li><font color="red">コンソールが乱れた時</font>、ブラウザの「更新」か、新たにページを開いてみる</li>
-</ul>
+	<p>
+	<h3>ハンズオンコンソール のTips</h3>
+	<ul id="list">
+	<li>ラウザのページ単位が1つのSSHセッション</li>
+	<li><b>Copy & Paste</b>は、Ctrl+C , Ctrl+V で可能</li>
+	<li><font color="red">コンソールが出てこない（ブラウザが黒いまま）の時</font>、ブラウザの「更新」を試みる</li>
+	<li><font color="red">コンソールが乱れた時</font>、ブラウザの「更新」か、新たにページを開いてみる</li>
+	</ul>
 HOWTO
 }
 
@@ -145,25 +145,21 @@ sub handsref{
 	}
 
 print <<START;
-
-<h3>$nameさんのハンズオン情報</h3>
-<dl id="globalnav">
-  <dt>ハンズオンコンソール Ansible/Serverspec Host 側</dt>
-    <dd><a href="$hurl" target="_blank">$hurl</a></dd>
-  <dt>ハンズオンコンソール Ansible/Serverspec Target 側</dt>
-    <dd><a href="$turl" target="_blank">$turl</a></dd>
-  <dt>WordPressへのアクセスURL</dt>
-    <dd><a href="$wp" target="_blank">$wp</a></dd>
-  <dt>ハンズオンテキスト</dt>
-    <dd><a href="http://$hostaddr/docs/$type.pdf" target="_blank">- $str</a><font size="2pt"> （"3章"から進めてください）</font></dd>
-    <dd><a href="$notebook" target="_blank">- プレイブックの詳細解説付きテキスト</a><font size="2pt"></font></dd>
-  <dt>終了時間</dt>
-    <dd><font color="red"><b>$endtime</b></a></font></dd>
-</dl>
-
-<p>
-
-
+	<h3>$nameさんのハンズオン情報</h3>
+	<p>
+	<dt>ハンズオンコンソール Ansible/Serverspec Host 側</dt>
+	<dd><a href="$hurl" target="_blank">$hurl</a></dd>
+	<dt>ハンズオンコンソール Ansible/Serverspec Target 側</dt>
+	<dd><a href="$turl" target="_blank">$turl</a></dd>
+	<dt>WordPressへのアクセスURL</dt>
+	<dd><a href="$wp" target="_blank">$wp</a></dd>
+	<dt>ハンズオンテキスト</dt>
+	<dd><a href="http://$hostaddr/docs/$type.pdf" target="_blank">- $str</a><font size="2pt"> （"3章"から進めてください）</font></dd>
+	<dd><a href="$notebook" target="_blank">- プレイブックの詳細解説付きテキスト</a><font size="2pt"></font></dd>
+	<dt>終了時間</dt>
+	<dd><font color="red"><b>$endtime</b></a></font></dd>
+	</dl>
+	<p>
 START
 }
 
@@ -180,8 +176,6 @@ sub create{
 	
 	# Run Playbook
 	system("ansible-playbook -i $inventory -e \"lesson=$type userid=$id port=$bport htty=$htty ttty=$ttty\" $playbook >& /dev/null &");
-
-
 }
 
 ### Destroy
@@ -193,7 +187,6 @@ sub destroy{
 	my $type = "destroy";
 	
 	system("ansible-playbook -i $inventory -e \"lesson=$type userid=$id\" $playbook >& /dev/null &");
-
 }
 
 ### Start Input
@@ -218,7 +211,6 @@ sub input_form{
         print "<li><i><font color=\"gray\">・　Ansible（Windowsターゲット）初級ハンズオン</font></i></li>\n";
         print "<li><i><font color=\"gray\">・　PostgreSQL 初級ハンズオン</font></i></li>\n";
         print "<li><i><font color=\"gray\">・　Zabbix 初級ハンズオン</font></i></li>\n";
-        print "<li><i><font color=\"gray\">・　OTRS Demo ( 5.0.11 helpdesk )</font></i></li>\n";
 	print "</ol>\n";
         print "<br><br>\n";
         print "<b>以下のボタンを押してハンズオン環境を構築します。遷移したページの情報を元に実施してください。</b><p>\n";
@@ -235,40 +227,40 @@ sub userlist{
 	my $max_emp = get_value('max_emp');
 	my @list;
 
-print "<h3>現在の利用状況</h3><br>";
+	print "<h3>現在の利用状況</h3><br>";
 
-if(keys %data == 0){
-	print "利用者がいません。<p>\n";
-}elsif(keys %data == $max_emp){
-	print "現在<font color=\"red\">フル稼働</font>です。空きがでるまで少し時間をおいてください。\n";
-	print "<table>\n";
-	print "<tr><th>User name</th><th>Lesson</th><th>Start time</th><th>End time</th></tr>\n";
+	if(keys %data == 0){
+		print "利用者がいません。<p>\n";
+	}elsif(keys %data == $max_emp){
+		print "現在<font color=\"red\">フル稼働</font>です。空きがでるまで少し時間をおいてください。\n";
+		print "<table>\n";
+		print "<tr><th>User name</th><th>Lesson</th><th>Start time</th><th>End time</th></tr>\n";
 
-	while (($k, $v) = each %data) {
-		@list = split(/,/,$v);
-		print "<tr>";
-		print "<td><a href=\"./haas/myhandson.cgi?name=$k\">$k</a></td>";
-		print "<td>$list[0]</td>";
-		print "<td>$list[1]</td>";
-		print "<td>$list[2]</td>";
-		print "</tr>\n";
+		while (($k, $v) = each %data) {
+			@list = split(/,/,$v);
+			print "<tr>";
+			print "<td><a href=\"./haas/myhandson.cgi?name=$k\">$k</a></td>";
+			print "<td>$list[0]</td>";
+			print "<td>$list[1]</td>";
+			print "<td>$list[2]</td>";
+			print "</tr>\n";
 		}
-	print "</table>\n";
-}else{
-	print "<table>\n";
-	print "<tr><th>User name</th><th>Lesson</th><th>Start time</th><th>End time</th></tr>\n";
+		print "</table>\n";
+	}else{
+		print "<table>\n";
+		print "<tr><th>User name</th><th>Lesson</th><th>Start time</th><th>End time</th></tr>\n";
 
-	while (($k, $v) = each %data) {
-		@list = split(/,/,$v);
-		print "<tr>";
-		print "<td><a href=\"./haas/myhandson.cgi?name=$k\">$k</a></td>";
-		print "<td>$list[0]</td>";
-		print "<td>$list[1]</td>";
-		print "<td>$list[2]</td>";
-		print "</tr>\n";
+		while (($k, $v) = each %data) {
+			@list = split(/,/,$v);
+			print "<tr>";
+			print "<td><a href=\"./haas/myhandson.cgi?name=$k\">$k</a></td>";
+			print "<td>$list[0]</td>";
+			print "<td>$list[1]</td>";
+			print "<td>$list[2]</td>";
+			print "</tr>\n";
 		}
-	print "</table>\n";
-	print "</p>\n";
+		print "</table>\n";
+		print "</p>\n";
 	}		
 }
 
@@ -296,45 +288,32 @@ sub error_page{
 	my $input_msg = shift;
 	my $msg;
 
-# Login Fail
-if($flag == '1'){
-	$msg="<b>\"社員番号\"</b>を入力してください。<p>\n";
-}elsif($flag == '2'){
-	$msg="<b>\"ハンズオンタイプ\"</b>を選択してください。<p>\n";
-}elsif($flag == '3'){
-	$msg="<b>既にその社員番号は使われています。</b><p>\n";
-}elsif($flag == '4'){
-	$msg="<b>$input_msg</b><p>\n";
-}
+	# Login Fail
+	if($flag == '1'){
+		$msg="<b>\"社員番号\"</b>を入力してください。<p>\n";
+	}elsif($flag == '2'){
+		$msg="<b>\"ハンズオンタイプ\"</b>を選択してください。<p>\n";
+	}elsif($flag == '3'){
+		$msg="<b>既にその社員番号は使われています。</b><p>\n";
+	}elsif($flag == '4'){
+		$msg="<b>$input_msg</b><p>\n";
+	}
 
-
-print <<HEAD;
-Content-type: text/html
-
-
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="html://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
- <head>
-  <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8"/>
-  <title>Error Page</title>
- </head>
-
-<body>
-
-<center>
-<font color="red"><b>Error:</b></font><br>
-HEAD
-
-print "$msg";
-print "<a href=\"$back_url\">[ Back ]</a>";
-
-print <<FOOTER;
-</body>
-</html>
-FOOTER
-
-
+	# Out Page
+	print "Content-type: text/html\n\n";
+	print "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+	print "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n";
+	print "<html xmlns=\"html://www.w3.org/1999/xhtml\" xml:lang=\"ja\" lang=\"ja\">\n";
+	print "<head>\n";
+	print "<meta http-equiv=\"Content-Type\" content=\"application/xhtml+xml; charset=UTF-8\"/>\n";
+	print "<title>Error Page</title>\n";
+	print "</head>\n";
+	print "<body>\n";
+	print "<center>\n";
+	print "<font color=\"red\"><b>Error:</b></font><br>\n";
+	print "$msg";
+	print "<a href=\"$back_url\">[ Back ]</a>\n";
+	print "</body></html>\n";
 }
 
 
@@ -343,7 +322,6 @@ FOOTER
 sub get_value{
 
         my $inkey = shift;
-
         my ($key,$value);
         my %conf;
 
@@ -365,7 +343,6 @@ sub check_http{
 
         my $ip = shift;
         my $port = shift;
-
         $remote = IO::Socket::INET->new( Proto => "tcp",
         PeerAddr => "$ip",
         PeerPort => "$port"
@@ -414,6 +391,45 @@ sub dep_list{
 	return @dep_list;
 }
 
-1;
+sub create_hash{
+        my $file = shift;
+        my $dep_id;
+        my $username;
+        my %hash;
 
+        open(R,"<$file");
+        while (<R>) {
+                if( /,/ ){
+                        $_ =~ s/\s+//g;
+                        $dep_id = (split/,/,$_)[0];
+                        $username = (split/,/,$_)[1];
+                        chomp($username);
+                        if($username eq ""){
+                                $hash{$dep_id} = "$dep_id";
+                        }else{
+                                $hash{$dep_id} = "$username";
+                        }
+                }else{
+                        chomp($_);
+                        $hash{$_} = "$_";
+                }
+        }
+        return %hash;
+}
+
+sub parse_json{
+
+        my $filepath = shift;
+        my $json_data;
+        my $ref_hash;
+
+        open(R,"<$filepath");
+        $json_data = <R>;
+        close(R);
+        $ref_hash = JSON->new()->decode($json_data);
+
+        return $ref_hash;
+}
+
+1;
 
