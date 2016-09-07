@@ -30,11 +30,11 @@ my @shift_level = (
 	"インフラをコード化するツール/ソフトを1つでも聞いたことがある、名前は知ってる。",
 	"インフラをコード化するツール/ソフトの資料やガイドを見ことがある or 社内・社外研修・勉強会を受けたことがある。",
 	"インフラをコード化するツール/ソフトを1度でも利用したことがある。（検証や、個別利用等可）",
-	"Shift用のコードを案件へ利用したことがある。（部分的利用も可）",
-	"Shift用のコードの中で、パラメータを修正して利用できる。",
-	"Shift用のコードを自ら修正・カスタマイズできる or したことがある。",
-	"Shift用のコード or 個別に Ansible や Serverspec などインフラをコード化できる。",
-	"Shiftのデベロッパー or メンテナーである。"
+	"Shift 用のコードを案件へ利用したことがある。（部分的利用も可）",
+	"Shift 用のコードの中で、パラメータを修正して利用できる。",
+	"Shift 用のコードを自ら修正・カスタマイズできる or したことがある。",
+	"Shift 用のコード or 個別に Ansible や Serverspec などインフラをコード化できる。",
+	"Shift のデベロッパー or メンテナーである。"
 );
 my @option_level = (
 	"聞いたことがない。",
@@ -81,7 +81,10 @@ sub input_func{
 
 	print <<HTML_1;
 
-	<h3>本部施策コードの熟練度を登録 （$user_meta[0] / $userid / $user_meta[1]）</h3><p>
+	<h3>コード化技術の熟練度を登録 （$user_meta[0] / $userid / $user_meta[1]）</h3><p>
+	<dl><dt><b><u>本熟練度を確認する目的</u></b></dt>
+	<dd>コード化技術者育成の一環として技術者の全般的な Infrastructure as Code の知識（Level 1～4）から、コード化技術レベルを含めた施策コードライブラリ・フレームワークの活用具合（Level 5～9）を確認するため</dd></dl>
+	<p>
         <form action="./haas/reg_skill.cgi" method="post">
 	<input type="hidden" name="userid" value="$userid">
 	<input type="hidden" name="username" value="$user_meta[0]">
@@ -90,6 +93,7 @@ HTML_1
 
 	print "<h4 id=\"archive\">Shift</h4>\n";
 	print "<p>\n";
+	print "（＊）Shift とは・・・ITC本部施策で提供する<b>コードライブラリおよびフレームワーク</b>のコードネーム\n";
 	print "<table>\n";
 	print "<tr><th>レベル</th><th>熟練度チェック指標</th></tr>\n";
 	for ($i=1;$i<10;$i++){
