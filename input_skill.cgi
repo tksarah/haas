@@ -93,7 +93,8 @@ HTML_1
 
 	print "<h4 id=\"archive\">Shift</h4>\n";
 	print "<p>\n";
-	print "（＊）Shift とは・・・ITC本部施策で提供する<b>コードライブラリおよびフレームワーク</b>のコードネーム\n";
+	print "<dl><dt><b>（＊）Shift とは</b></dt>\n";
+	print "<dd>ITC本部施策で2015年末ころから提供されている、インフラ自動化の<b>コードライブラリおよびフレームワーク</b>のコードネーム。旧来OSS室で提供していた<b> ISHIGAKI Template </b>も取り込まれる予定ですので、既に <b> ISHIGAKI Template </b>でご経験がある方は同義ととっていただいてかまいません。</dd></dl>\n";
 	print "<table>\n";
 	print "<tr><th>レベル</th><th>熟練度チェック指標</th></tr>\n";
 	for ($i=1;$i<10;$i++){

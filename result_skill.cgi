@@ -23,11 +23,11 @@ my @shift_level = (
         "インフラをコード化するツール/ソフトを1つでも聞いたことがある、名前は知ってる。",
         "インフラをコード化するツール/ソフトの資料やガイドを見ことがある or 社内・社外研修・勉強会を受けたことがある。",
         "インフラをコード化するツール/ソフトを1度でも利用したことがある。（検証や、個別利用等可）",
-        "Shift用のコードを案件へ利用したことがある。（部分的利用も可）",
-        "Shift用のコードの中で、パラメータを修正して利用できる。",
-        "Shift用のコードを自ら修正・カスタマイズできる or したことがある。",
-        "Shift用のコード or 個別に Ansible や Serverspec などインフラをコード化できる。",
-        "Shiftのデベロッパー or メンテナーである。"
+        "Shift 用のコードを案件へ利用したことがある。（部分的利用も可）",
+        "Shift 用のコードの中で、パラメータを修正して利用できる。",
+        "Shift 用のコードを自ら修正・カスタマイズできる or したことがある。",
+        "Shift 用のコード or 個別に Ansible や Serverspec などインフラをコード化できる。",
+        "Shift のデベロッパー or メンテナーである。"
 );
 
 ### OUTPUT HTML ###
@@ -78,7 +78,7 @@ foreach my $ufile (@files) {
 	print "<tr><td>インフラコード技術未経験</td><td id=\"naka\"> 1～3 </td><td id=\"r\">$t_low_cnt</td></tr>\n";
 	print "</table>\n";
 	print "<p>\n";
-	print "<div id=\"desc\">Level\n";
+	print "<div id=\"desc\"><b>レベル</b>\n";
 	print "<div id=\"comment\">\n";
 
         for (my $i=1;$i<10;$i++){
