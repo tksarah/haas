@@ -7,6 +7,7 @@ use strict;
 my $host = get_value('host');
 my $datadir = get_value('udatadir');
 
+my $total=0;
 my $low_cnt;
 my $mid_cnt;
 my $high_cnt;
@@ -49,6 +50,7 @@ foreach my $ufile (@files) {
 		$hash{"$depname.low_cnt"}++;
 	}
 		
+	$total++ if($ufile !~ /000000/);
 }
 
 	print "<h3>Shift</h3>\n";
@@ -60,7 +62,7 @@ foreach my $ufile (@files) {
 	print "<table class=\"simple\">\n";
 	print "<tr><th>部署</th><th>レベル</th><th>カウント</th></tr>\n";
 	foreach (@deplist){
-		print "<tr><td rowspan=\"3\">$_</td><td><b>インフラをコード化できる</b></td><td id=\"r\"><b>$hash{\"$_.high_cnt\"}</b></td></tr>\n";
+		print "<tr><td rowspan=\"3\"><a href=\"./haas/result_dep_skill.cgi?dep=$_\">▼ $_</a></td><td><b>インフラをコード化できる</b></td><td id=\"r\"><b>$hash{\"$_.high_cnt\"}</b></td></tr>\n";
 		$t_high_cnt += $hash{"$_.high_cnt"};
 		print "<tr><td>インフラコードを利用できる</td><td id=\"r\">$hash{\"$_.mid_cnt\"}</td></tr>\n";
 		$t_mid_cnt += $hash{"$_.mid_cnt"};
@@ -70,7 +72,7 @@ foreach my $ufile (@files) {
 	print "</table><p>\n";
 	print "</div><p>\n";;
 
-	print "<h4 id=\"archive\">レベル毎 集計</h4><br>\n";
+	print "<h4 id=\"archive\">レベル毎 集計（Total $total）</h4><br>\n";
 	print "<table class=\"simple\">\n";
 	print "<tr><th>熟練度</th><th>レベル</th><th>合計カウント</th></tr>\n";
 	print "<tr><td><b>インフラをコード化できる</b></td><td id=\"naka\"> <b>7～9</b> </td></b></td><td id=\"r\"><b>$t_high_cnt</b></td></tr>\n";
@@ -78,9 +80,9 @@ foreach my $ufile (@files) {
 	print "<tr><td>インフラコード技術未経験</td><td id=\"naka\"> 1～3 </td><td id=\"r\">$t_low_cnt</td></tr>\n";
 	print "</table>\n";
 	print "<p>\n";
+
 	print "<div id=\"desc\"><b>レベル</b>\n";
 	print "<div id=\"comment\">\n";
-
         for (my $i=1;$i<10;$i++){
 		print "$i.　$shift_level[$i-1]<br>\n";
 	}
