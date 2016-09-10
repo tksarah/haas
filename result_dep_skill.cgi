@@ -4,7 +4,6 @@ require 'lib.pl';
 use strict;
 use feature ':5.10';
 
-
 # Get values
 my $host = get_value('host');
 my $datadir = get_value('udatadir');
@@ -17,7 +16,7 @@ my $depfile = "./data/$input_dep.list";
 my @files = `ls $datadir/*`;
 my @shifts=(0,0,0,0,0,0,0,0,0);
 my $total=0;
-my %hash;
+my $items;
 
 # Initialize question
 my @shift_level = (
@@ -32,15 +31,11 @@ my @shift_level = (
         "Shift のデベロッパー or メンテナーである。"
 );
 
-### OUTPUT HTML ###
-header("$host");
-
 foreach my $ufile (@files) {
-	my $items = parse_json($ufile);
+	$items = parse_json($ufile);
 
 	my $depname = $items->{skill}->[0]->{Depname};
 	my $shift = $items->{skill}->[0]->{Shift};
-	my $ansible = $items->{skill}->[0]->{Automation}->[0]->{Ansible};
 
 	if ( $depname eq "$input_dep" ) {
 	  given ($shift) {
@@ -58,32 +53,61 @@ foreach my $ufile (@files) {
 	}
 }
 
-	print "<h3>$input_dep（$total）</h3>\n";
-	print "<p>\n";
-	print "<table class=\"simple\">\n";
-	print "<tr><th>レベル</th><th>カウント</th></tr>\n";
-	for (my $i=0;$i<9;$i++){
-		my $level=$i+1;
-		print "<tr><td id=\"naka\">$level</td><td id=\"r\">$shifts[$i] ";
-		for (my $x=1;$x<=$shifts[$i];$x++) { print "*"; }
-		print "</td></tr>\n";
-	}
-	print "</table><p>\n";
+### OUTPUT HTML ###
+header("$host");
 
-        print "<div id=\"desc\"><b>レベル</b>\n";
-        print "<div id=\"comment\">\n";
-        for (my $i=1;$i<10;$i++){
-                print "$i.　$shift_level[$i-1]<br>\n";
-        }
-        print "</div>\n";
-        print "</div>\n";
+print "<h3>$input_dep（$total）</h3>\n";
+print "<p>\n";
+print "<table class=\"simple\">\n";
+print "<tr><th>レベル</th><th>カウント</th></tr>\n";
+for (my $i=0;$i<9;$i++){
+	my $level=$i+1;
+	print "<tr><td id=\"naka\">$level</td><td id=\"r\"><b>$shifts[$i]</b> ";
+	for (my $x=1;$x<=$shifts[$i];$x++) { print "*"; }
+	print "</td></tr>\n";
+}
+print "</table><p>\n";
 
-        print "<p>\n";
-        print "<hr>\n";
-        print "<a href=\"./haas/top_skill.cgi\">[ Skill Top ]</a>\n";
-        print "<a href=\"./haas/manage.cgi\">[ Manage Top ]</a>\n";
+print "<div id=\"desc\"><b>レベル</b>\n";
+print "<div id=\"comment\">\n";
+for (my $i=1;$i<10;$i++){
+	print "$i.　$shift_level[$i-1]<br>\n";
+}
+print "</div>\n";
+print "</div>\n";
+print "<p>\n";
 
+print "オプションの集計はこちらから。\n";
+my $auto = $items->{skill}->[0]->{Automation}->[0];
+my $test = $items->{skill}->[0]->{Test}->[0];
+my $cloud = $items->{skill}->[0]->{Cloud}->[0];
 
+print "<div onclick=\"obj=document.getElementById('auto').style; obj.display=(obj.display=='none')?'block':'none';\">\n";
+print "<a style=\"cursor:pointer;\"><h3>▼ Automation</h3></a>\n";
+print "</div><p>\n";
+print "<div id=\"auto\" style=\"display:none;clear:both;\">\n";
+output_option_calc($auto,$input_dep,$datadir);
+print "</div><p>\n";
+
+print "<div onclick=\"obj=document.getElementById('test').style; obj.display=(obj.display=='none')?'block':'none';\">\n";
+print "<a style=\"cursor:pointer;\"><h3>▼ Test</h3></a>\n";
+print "</div><p>\n";
+print "<div id=\"test\" style=\"display:none;clear:both;\">\n";
+output_option_calc($test,$input_dep,$datadir);
+print "</div><p>\n";
+
+print "<div onclick=\"obj=document.getElementById('cloud').style; obj.display=(obj.display=='none')?'block':'none';\">\n";
+print "<a style=\"cursor:pointer;\"><h3>▼ Cloud</h3></a>\n";
+print "</div><p>\n";
+print "<div id=\"cloud\" style=\"display:none;clear:both;\">\n";
+output_option_calc($cloud,$input_dep,$datadir);
+print "</div><p>\n";
+
+print "<p>\n";
+print "<hr>\n";
+print "<a href=\"./haas/top_skill.cgi\">[ Skill Top ]</a>\n";
+print "<a href=\"./haas/manage.cgi\">[ Manage Top ]</a>\n";
 footer();
 
 exit (0);
+

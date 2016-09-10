@@ -5,6 +5,7 @@ use DateTime;
 use DateTime::Format::Strptime;
 use File::Basename;
 use JSON;
+use feature ':5.10';
 
 ### HEADER Output
 sub header{
@@ -318,7 +319,6 @@ sub error_page{
 
 
 # Get table name
-# Ex: get_value('utable');
 sub get_value{
 
         my $inkey = shift;
@@ -429,6 +429,67 @@ sub parse_json{
         $ref_hash = JSON->new()->decode($json_data);
 
         return $ref_hash;
+}
+
+# parameter: product , dep , user-datadir
+sub calc_data{
+
+	my $product = shift;
+	my $depname = shift;
+	my $udata = shift;
+	my $depfile = "./data/$depname.list";
+	my @files = `ls $udata/*`;
+	my @values;
+	my $category;
+
+	foreach my $ufile (@files) {
+	  if($ufile !~ /000000/){
+		my $items = parse_json($ufile);
+
+	        my $get_depname = $items->{skill}->[0]->{Depname};
+
+		if ( $product =~ /Ansible|Chef|Itamae|Puppet|SaltStack/ ) { $category = "Automation"; }
+		elsif ( $product =~ /Infrataster|Serverspec/ ) { $category = "Test"; }
+		elsif ( $product =~ /AWS|Azure|SoftLayer|Docker|OpenStack/ ) { $category = "Cloud"; }
+		
+		my $get_value = $items->{skill}->[0]->{$category}->[0]->{$product};
+
+		if ( $depname eq "$get_depname" || $depname eq "" ) {
+             	  given ($get_value) {
+	             when ("1") { $values[0]++ }
+                     when ("2") { $values[1]++ }
+	             when ("3") { $values[2]++ }
+         	     when ("4") { $values[3]++ }
+	             when ("5") { $values[4]++ }
+         	     when ("6") { $values[5]++ }
+          	  }
+		}
+	  }
+	}
+	return (@values);
+}
+
+sub output_option_calc{
+        my $cate = shift;
+        my $depname = shift;
+        my $datadir = shift;
+
+        foreach my $k (sort keys $cate){
+                my $cate_item = $cate->{$k};
+                my @res_values = calc_data($k,$depname,$datadir);
+
+                print "<h4 id=\"archive\">$k</h4>\n";
+                print "<p>\n";
+                print "<table class=\"simple\">\n";
+                print "<tr><th>レベル</th><th>カウント</th></tr>\n";
+                for (my $i=0;$i<6;$i++){
+                        my $level=$i+1;
+                        print "<tr><td id=\"naka\">$level</td><td id=\"r\"><b>$res_values[$i]</b> ";
+                        for (my $x=1;$x<=$res_values[$i];$x++) { print "*"; }
+                        print "</td></tr>\n";
+                }
+                print "</table><p>\n";
+        }
 }
 
 1;
