@@ -117,6 +117,7 @@ sub select_func_archive{
 	<dt><b>月</b></dt>
 	  <dd><input type="radio" name="month" value="07" checked>7</dd>
 	  <dd><input type="radio" name="month" value="08" checked>8</dd>
+	  <dd><input type="radio" name="month" value="09" checked>9</dd>
 	<dt><b>部署</b></dt>
 	  <dd><input type="radio" name="dep_name" value="all" checked>ALL
 HTML1
