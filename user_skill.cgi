@@ -61,7 +61,7 @@ print <<HTML_USER_OUT;
 	<h3>$username / $depname</h3><br>
 	<table class="simple">
 	<tr><th>項目</th><th>熟練度</th></tr>
-	<tr><td><b>Shift</b></td><td id="r">$shift</td></tr>
+	<tr><td><b>SHIFT</b></td><td id="r">$shift</td></tr>
 	<tr><td>Ansible</td><td id="r">$ansible</td></tr>
 	<tr><td>Chef</td><td id="r">$chef</td></tr>
 	<tr><td>Puppet</td><td id="r">$puppet</td></tr>

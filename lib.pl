@@ -87,7 +87,6 @@ print <<USAGE;
 	<li>Unix/Linuxオペレーション1年以上の経験、またはLPIC Level 1 同等以上の知識を保持</li>
 	<li>viによるファイル編集、基本的なUnix/Linuxオペレーションが可能</li>
 	</ul>
-	<center><b>概要編のリクエストは＝＞<a href="http://192.168.175.198:8080/#/notebook/2BTM1UFVR" target="_blank">[ こちら ]</a></b></center>
 
 	<h4>必要なもの</h4>
 	<ul id="list">
@@ -137,13 +136,6 @@ sub handsref{
 	my $hurl = "http://$hostaddr:$hport/wetty/ssh/root/";
 	my $turl = "http://$hostaddr:$tport/wetty/ssh/root/";
 	my $str = get_value($type);
-	my $note = "$type-note";
-	my $notebook = get_value($note);
-
-
-	if ($notebook eq ""){
-		$notebook = "http://$hostaddr/haas/ready.cgi";
-	}
 
 print <<START;
 	<h3>$nameさんのハンズオン情報</h3>
@@ -156,7 +148,6 @@ print <<START;
 	<dd><a href="$wp" target="_blank">$wp</a></dd>
 	<dt>ハンズオンテキスト</dt>
 	<dd><a href="http://$hostaddr/docs/$type.pdf" target="_blank">- $str</a><font size="2pt"> （"3章"から進めてください）</font></dd>
-	<dd><a href="$notebook" target="_blank">- プレイブックの詳細解説付きテキスト</a><font size="2pt"></font></dd>
 	<dt>終了時間</dt>
 	<dd><font color="red"><b>$endtime</b></a></font></dd>
 	</dl>
@@ -209,9 +200,7 @@ sub input_form{
         print "<li><input type=\"radio\" name=\"type\" value=\"ansible-1\"><b><font color=\"blue\"> Ansible 初級ハンズオン</font></b></li>\n";
         print "<li><input type=\"radio\" name=\"type\" value=\"ansible-2\"><b><font color=\"blue\"> Ansible 中級ハンズオン</font></b></li>\n";
         print "<li><input type=\"radio\" name=\"type\" value=\"serverspec-1\"><b><font color=\"blue\"> Serverspec 初級ハンズオン</font></b></li>\n";
-        print "<li><i><font color=\"gray\">・　Ansible（Windowsターゲット）初級ハンズオン</font></i></li>\n";
-        print "<li><i><font color=\"gray\">・　PostgreSQL 初級ハンズオン</font></i></li>\n";
-        print "<li><i><font color=\"gray\">・　Zabbix 初級ハンズオン</font></i></li>\n";
+        print "<li><i><font color=\"gray\">Ansible（Windowsターゲット）初級ハンズオン</font></i></li>\n";
 	print "</ol>\n";
         print "<br><br>\n";
         print "<b>以下のボタンを押してハンズオン環境を構築します。遷移したページの情報を元に実施してください。</b><p>\n";

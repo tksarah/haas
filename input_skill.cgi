@@ -30,11 +30,11 @@ my @shift_level = (
 	"インフラをコード化するツール/ソフトを1つでも聞いたことがある、名前は知ってる。",
 	"インフラをコード化するツール/ソフトの資料やガイドを見ことがある or 社内・社外研修・勉強会を受けたことがある。",
 	"インフラをコード化するツール/ソフトを1度でも利用したことがある。（検証や、個別利用等可）",
-	"Shift 用のコードを案件へ利用したことがある。（部分的利用も可）",
-	"Shift 用のコードの中で、パラメータを修正して利用できる。",
-	"Shift 用のコードを自ら修正・カスタマイズできる or したことがある。",
-	"Shift 用のコード or 個別に Ansible や Serverspec などインフラをコード化できる。",
-	"Shift のデベロッパー or メンテナーである。"
+	"SHIFT 用のコードを案件へ利用したことがある。（部分的利用も可）",
+	"SHIFT 用のコードの中で、パラメータを修正して利用できる。",
+	"SHIFT 用のコードを自ら修正・カスタマイズできる or したことがある。",
+	"SHIFT 用のコード or 個別に Ansible や Serverspec などインフラをコード化できる。",
+	"SHIFT のデベロッパー or メンテナーである。"
 );
 my @option_level = (
 	"聞いたことがない。・・・本部スキルマップの<b>『スキルレベル 0』</b>に該当",
@@ -91,9 +91,9 @@ sub input_func{
 	<input type="hidden" name="depname" value="$user_meta[1]">
 HTML_1
 
-	print "<h4 id=\"archive\">Shift</h4>\n";
+	print "<h4 id=\"archive\">SHIFT</h4>\n";
 	print "<p>\n";
-	print "<dl><dt><b>（＊）Shift とは</b></dt>\n";
+	print "<dl><dt><b>（＊）SHIFT とは</b></dt>\n";
 	print "<dd>本部施策で2015年末ころから提供されている、インフラ自動化の<b>コードライブラリおよびフレームワーク</b>のコードネーム。旧来OSS室で提供していた<b> ISHIGAKI Template </b>も取り込まれる予定ですので、既に <b> ISHIGAKI Template </b>でご経験がある方は同義ととっていただいてかまいません。</dd></dl>\n";
 	print "<table>\n";
 	print "<tr><th>レベル</th><th>熟練度チェック指標</th></tr>\n";
