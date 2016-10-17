@@ -205,6 +205,7 @@ sub check_user{
 		error_page(4,$back_url,"その番号は無効な社員番号です。");
 		exit(1);
 	}
+	chomp($uname);
 	my @ret=("$uname","$depname");
 
 	return(@ret);
