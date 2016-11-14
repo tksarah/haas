@@ -22,7 +22,8 @@ my $set_month;
 
 $this_month =~ s/(^\d$)/$year-0$1/;
 if($bm eq "last"){
-        $set_month = "$year-"."$this_month -1";
+	my $last_month = $this_month - 1;
+        $set_month = "$year-". "$last_month";
 }else{
         $set_month = "$year-$this_month";
 }
