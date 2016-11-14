@@ -19,7 +19,6 @@ my $dt = DateTime->now(time_zone => 'Asia/Tokyo');
 my $year = $dt->year;
 my $this_month = $dt->month;
 my $set_month;
-my $last_month;
 
 $this_month =~ s/(^\d$)/$year-0$1/;
 if($bm eq "last"){

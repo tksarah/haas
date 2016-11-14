@@ -17,13 +17,12 @@ my $dt = DateTime->now(time_zone => 'Asia/Tokyo');
 my $year = $dt->year;
 my $this_month = $dt->month;
 my $set_month;
-my $last_month;
 
+$this_month =~ s/(^\d$)/$year-0$1/;
 if($bm eq "last"){
-	$last_month = $this_month -1;
-	$set_month = "$year-0$last_month";
+        $set_month = "$year-"."$this_month -1";
 }else{
-	$set_month = "$year-0$this_month";
+        $set_month = "$year-$this_month";
 }
 
 
