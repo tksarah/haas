@@ -68,12 +68,11 @@ sub usage{
 print <<USAGE;
 	こちらは、社員が自らのタイミングでセルフスタディできるようにしたハンズオンサービスです。現在は、AnsibleやServerspecの基礎を学べます。<p>
 
-	<div onclick="obj=document.getElementById('usage').style; obj.display=(obj.display=='none')?'block':'none';">
-	<a style="cursor:pointer;"><h3>▼ 利用方法</h3></a>
-	</div>
+	<h3>お知らせ</h3><p>
+	<b>2017年1月4日</b>・・・部署異動の反映
+	<h3>利用方法</h3>
 	<p>
 	<font color="red">こちらを良く読んでから実施してください。</font>
-	<div id="usage" style="display:none;clear:both;">
 	<ol id="list">
 	<li><b>社員番号を入力</b>します</li>
 	<li><b>ハンズオンの種類を選択</b>します</li>
@@ -103,7 +102,6 @@ print <<USAGE;
 	<li><font color=red>10社員</font>までが同時に本サービスを利用可能です</li>
 	<li>ハンズオン実施の時間は各所属の教育工数としてつけてください。</li>
 	</ul>
-	</div>
 USAGE
 }
 
@@ -140,6 +138,7 @@ sub handsref{
 print <<START;
 	<h3>$nameさんのハンズオン情報</h3>
 	<p>
+        <dl>
 	<dt>ハンズオンコンソール Ansible/Serverspec Host 側</dt>
 	<dd><a href="$hurl" target="_blank">$hurl</a></dd>
 	<dt>ハンズオンコンソール Ansible/Serverspec Target 側</dt>
@@ -191,7 +190,7 @@ sub input_form{
 	print "<li><b>Serverspec 初級ハンズオン</b>・・・テストを始める準備から簡単なテストコードを使ったハンズオン</li>\n";
 	print "</ul>\n";
         print "<form action=\"./haas/create.cgi\" method=\"post\"><p>";
-        print "<h4>社員番号を入力してください。（例：123456）</h4>\n";
+        print "<h4>社員番号（下6桁）を入力してください。（例：123456）</h4>\n";
 	print "<ol style=\"list-style:none;\">\n";
         print "<li><input type=\"text\" name=\"name\" size=\"10\"</li>\n";
 	print "</ol>\n";
