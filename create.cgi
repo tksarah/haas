@@ -7,6 +7,7 @@ use vars qw( %h $k $v );
 
 # From POST
 my $form = CGI->new;
+my $guest = $form->param('guest');
 my $id = $form->param('name');
 my $type = $form->param('type');
 
@@ -31,17 +32,29 @@ tie %h, "BerkeleyDB::Hash",
         -Filename => $dbfilename,
         -Flags    => DB_CREATE
     or die "Cannot open file $dbfilename: $! $BerkeleyDB::Error\n";
+my $num = keys %h;
 
-# Check name,type exists/name duplicated
-if( $id eq "" || $id !~ /^[\w]+$/ ){
-	error_page(1,$back_url);
-        exit(0);
-}elsif($type eq ""){
+# when id is 1 check name skipped
+if($guest == 1 && $id eq "" ){ 
+	$id = "guest_$num";
+}else{
+	# Check name,type exists/name duplicated
+	my $state = user_check($id);
+	if( $state eq "" ){
+		error_page(1,$back_url);
+		exit(0);
+	}
+	# Lower 6 digits
+	$id = substr($id,-6,6);
+	if($h{$id}){
+		error_page(3,$back_url);
+		exit(0);
+	}
+}
+# Check hands-on type
+if($type eq ""){
 	error_page(2,$back_url);
-        exit(0);
-}elsif($h{$id}){
-	error_page(3,$back_url);
-        exit(0);
+	exit(0);
 }
 
 # Get time
@@ -50,7 +63,6 @@ my $dte = $dts->clone;
 $dte->add(minutes => $limit);
 
 # Create ports
-my $num = keys %h;
 my $blog = 8081 + $num;
 my $htty = 3000 + $num + 1;
 my $ttty = $htty + 10;

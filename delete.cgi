@@ -52,7 +52,6 @@ untie %h;
 header("$host");
 
 print "お疲れ様でした。<br>\n";
-print "<a href=\"./haas/input_skill.cgi?userid=$id\">[ こちら ]</a>からスキル登録をしましょう。\n";
 
 footer();
 
