@@ -18,15 +18,7 @@ my $max_emp = get_value('max_emp');
 my $dt = DateTime->now(time_zone => 'Asia/Tokyo');
 my $year = $dt->year;
 my $this_month = $dt->month;
-my $set_month;
-
 $this_month =~ s/(^\d$)/$year-0$1/;
-if($bm eq "last"){
-	my $last_month = $this_month - 1;
-        $set_month = "$year-". "$last_month";
-}else{
-        $set_month = "$year-$this_month";
-}
 
 # DB Initialize file
 tie %h, "BerkeleyDB::Hash",
@@ -79,9 +71,9 @@ if(keys %h == 0){
 untie %h;
 
 
-statistics($set_month);
+statistics($this_month);
 
-department_select();
+department_select($this_month);
 
 print "<h3>アーカイブス</h3><br>";
 print "<a href=\"./haas/archives.cgi\">[ Archives ]</a>\n";
@@ -89,8 +81,6 @@ print "<a href=\"./haas/archives.cgi\">[ Archives ]</a>\n";
 print <<LINKS;
 <p>
 <hr>
-<a href="./haas/manage.cgi">[ This Month ]</a>
-<a href="./haas/manage.cgi?bm=last">[ Last Month ]</a>
 <a href="./haas/log_check.cgi"  target="_blank">[ Status Check ]</a>
 <a href="./haas/top_skill.cgi">[ Skill ]</a>
 LINKS
@@ -249,9 +239,10 @@ STATS
 }
 
 sub department_select{
+	my $month = shift;
 	my @select_list = dep_list();
 
-	print "<h3>部署毎の情報 （今月・先月）</h3><br>\n";
+	print "<h3>部署毎の情報（$month）</h3><br>\n";
 	print "<form action=\"./haas/department.cgi\" method=\"post\">\n";
 	print "<select name=\"dep_name\">\n";
 

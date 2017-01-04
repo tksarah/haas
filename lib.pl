@@ -26,7 +26,7 @@ Expires: Thu, 01 Dec 1994 16:00:00 GMT
 	  <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8"/>
 	  <meta http-equiv="Pragma" content="no-cache">
 	  <meta http-equiv="Expires" content="0">
-	  <title>Handson as a Service</title>
+	  <title>Hands-on as a Service</title>
 	  <base href="http://$hostaddr/"/>
 	  <link rel="stylesheet" type="text/css" href="default.css"/>
 	 </head>
@@ -34,7 +34,7 @@ Expires: Thu, 01 Dec 1994 16:00:00 GMT
 	<body>
 
 	<div id="header">
-	  <h2><a href="http://$hostaddr/haas/">Handson as a Service</a></h2>
+	  <h2><a href="http://$hostaddr/haas/">Hands-on as a Service</a></h2>
 	</div>
 
 	<div id="content">
@@ -50,7 +50,7 @@ print <<FOOTER;
 	<div id="footer">
 	  <em>
 	  <font size="2" color="#508090">
-	  COPYRIGHT(C) 2016 「Hands on as a Service」 version 1.0<BR>
+	  COPYRIGHT(C) 2016 「Hands-on as a Service」 version 2.0<BR>
 	  ALL RIGHTS RESERVED<BR>
 	  Author:<a href="./haas/manage.cgi"  target="_blank"><font color="#508090">TK</font></a><BR>
 	  </FONT>
@@ -122,7 +122,7 @@ print <<HOWTO;
 HOWTO
 }
 
-### Handson Ref Output
+### Hands-on Ref Output
 sub handsref{
 
 	my $hostaddr = shift;
@@ -216,6 +216,7 @@ sub userlist{
 	my $v;
 	my $max_emp = get_value('max_emp');
 	my @list;
+	my $name;
 
 	print "<h3>現在の利用状況</h3><br>";
 

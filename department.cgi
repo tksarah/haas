@@ -16,28 +16,17 @@ my $logfile = get_value('logfile');
 my $dt = DateTime->now(time_zone => 'Asia/Tokyo');
 my $year = $dt->year;
 my $this_month = $dt->month;
-my $set_month;
-
 $this_month =~ s/(^\d$)/$year-0$1/;
-if($bm eq "last"){
-	my $last_month = $this_month - 1;
-        $set_month = "$year-"."$last_month";
-}else{
-        $set_month = "$year-$this_month";
-}
-
 
 ### OUTPUT HTML ###
 header("$host");
 
 # out logfile
-dep_user_list($host,$dep_name,$set_month,$logfile);
+dep_user_list($host,$dep_name,$this_month,$logfile);
 
 print <<LINKS;
 <p>
 <hr>
-<a href="./haas/department.cgi?dep_name=$dep_name">[ This Month for $dep_name ]</a>
-<a href="./haas/department.cgi?bm=last&dep_name=$dep_name">[ Last Month for $dep_name ]</a>
 <a href="./haas/manage.cgi">[ Manage Top ]</a>
 <p>
 LINKS
